@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YYReader</string>
+    <string name="book_shelf_bottom_title">书架</string>
+    <string name="book_shelf_toolbar_title">我的书架</string>
+</resources>

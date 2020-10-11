@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_zl"
+        android:title="整理书架"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_import"
+        android:title="本地导入"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_download"
+        android:title="下载Txt"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_nightMode"
+        android:title="夜间模式"
+        app:showAsAction="never"/>
+
+</menu>
