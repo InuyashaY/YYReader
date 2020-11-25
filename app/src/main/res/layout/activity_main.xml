@@ -4,36 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
+
+
+
+    <yzl.swu.yyreader.common.YToolBar
+        android:id="@+id/mToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorSkyBlue"
+        app:centerTitle="@string/book_shelf_toolbar_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rightIcon="@drawable/add" />
 
     <fragment
         android:id="@+id/main_fragment"
-        android:name="yzl.swu.yyreader.fragment.BookShelfFragment"
+        android:name="yzl.swu.yyreader.fragment.BookStoreFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/mBottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mToolBar"></fragment>
+        app:layout_constraintTop_toBottomOf="@+id/mToolBar"
+        tools:layout="@layout/book_store_fragment" />
 
-    <yzl.swu.yyreader.YToolBar
-        android:id="@+id/mToolBar"
-        android:layout_width="match_parent"
-        app:rightIcon="@drawable/add"
-        app:centerTitle="@string/book_shelf_toolbar_title"
-        android:background="@color/colorSkyBlue"
-        android:layout_height="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/mBottomBar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-
-
-
-    </com.ashokvarma.bottomnavigation.BottomNavigationBar>
 </androidx.constraintlayout.widget.ConstraintLayout>

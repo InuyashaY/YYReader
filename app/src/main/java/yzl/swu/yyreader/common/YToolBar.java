@@ -1,4 +1,4 @@
-package yzl.swu.yyreader;
+package yzl.swu.yyreader.common;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+
+import yzl.swu.yyreader.R;
 
 public class YToolBar extends Toolbar {
     //右侧图标
@@ -41,7 +43,7 @@ public class YToolBar extends Toolbar {
         initViews();
 
         if (attrs != null){
-            TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.YToolBar);
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.YToolBar);
             TextView textView = view.findViewById(R.id.centerTitle);
             imageButton = view.findViewById(R.id.rightIcon);
             view.setBackgroundColor(typedArray.getColor(R.styleable.YToolBar_android_background, Color.BLACK));
@@ -64,7 +66,6 @@ public class YToolBar extends Toolbar {
         }
     }
 
-
     public ImageButton getImageButton() {
         return imageButton;
     }
@@ -80,4 +81,5 @@ public class YToolBar extends Toolbar {
     public void setCenterTitle(TextView centerTitle) {
         this.centerTitle = centerTitle;
     }
+
 }

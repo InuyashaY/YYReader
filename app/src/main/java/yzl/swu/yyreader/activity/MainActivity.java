@@ -1,30 +1,35 @@
-package yzl.swu.yyreader;
+package yzl.swu.yyreader.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageButton;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
+import yzl.swu.yyreader.R;
+import yzl.swu.yyreader.common.YToolBar;
 import yzl.swu.yyreader.fragment.BookShelfFragment;
 import yzl.swu.yyreader.fragment.BookStoreFragment;
 import yzl.swu.yyreader.fragment.SelfFragment;
 
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
+public class MainActivity extends FragmentActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     //底部栏
     private BottomNavigationBar bottomNavigationBar;
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 Log.v("yzll","++++++");
             }
         });
+
+        isStoragePermissionGranted();
     }
 
     @Override
@@ -101,4 +108,33 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .initialise();
     }
 
+
+    public boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            final Context context = getApplicationContext();
+            int readPermissionCheck = ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermissionCheck = ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (readPermissionCheck == PackageManager.PERMISSION_GRANTED
+                    && writePermissionCheck == PackageManager.PERMISSION_GRANTED) {
+                Log.v("juno", "Permission is granted");
+                return true;
+            } else {
+                Log.v("juno", "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("juno", "Permission is granted");
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }
