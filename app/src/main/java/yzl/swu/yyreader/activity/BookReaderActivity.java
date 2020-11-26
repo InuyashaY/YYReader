@@ -14,12 +14,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.utils.FileManager;
-//import yzl.swu.yyreader.views.YReadView;
+import yzl.swu.yyreader.views.YPageView;
 
 public class BookReaderActivity extends AppCompatActivity {
-    //YReadView yReadView;
+    @BindView(R.id.mPageView)
+    YPageView yReadView;
 
     public static void show(Context context){
         Intent intent = new Intent(context,BookReaderActivity.class);
@@ -30,7 +33,7 @@ public class BookReaderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_reader);
-        //yReadView = findViewById(R.id.mReadView);
+        ButterKnife.bind(this);
         FileManager.getInstance().listTxtFiles();
         try {
             File bookFile = FileManager.getInstance().getFileByFilePath("斗罗大陆.txt");
@@ -42,6 +45,7 @@ public class BookReaderActivity extends AppCompatActivity {
                 if ((contenet=br.readLine()) != null) ttt+=contenet;
                 lines--;
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();

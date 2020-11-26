@@ -2,4 +2,10 @@
     <string name="app_name">YYReader</string>
     <string name="book_shelf_bottom_title">书架</string>
     <string name="book_shelf_toolbar_title">我的书架</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bottom_shelf">我的书架</string>
+    <string name="bottom_store">书城</string>
+    <string name="bottom_self">我的</string>
+
 </resources>

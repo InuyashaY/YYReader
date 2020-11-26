@@ -7,7 +7,4 @@ public class TxtPageModel {
     public String title;
     public int titleLines;
     public List<String> lines;
-
-
-
 }
