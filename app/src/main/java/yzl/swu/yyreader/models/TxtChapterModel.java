@@ -2,13 +2,16 @@ package yzl.swu.yyreader.models;
 
 public class TxtChapterModel {
     //章节名
-    String title;
+    public String title;
     //章节链接
     String link;
     //章节的起始和结束位置
-    public int start;
-    public int end;
+    public long start;
+    public long end;
 
+    public TxtChapterModel() {
+
+    }
     public TxtChapterModel(String title) {
         this.title = title;
     }
@@ -30,7 +33,7 @@ public class TxtChapterModel {
         this.link = link;
     }
 
-    public int getStart() {
+    public long getStart() {
         return start;
     }
 
@@ -38,7 +41,7 @@ public class TxtChapterModel {
         this.start = start;
     }
 
-    public int getEnd() {
+    public long getEnd() {
         return end;
     }
 

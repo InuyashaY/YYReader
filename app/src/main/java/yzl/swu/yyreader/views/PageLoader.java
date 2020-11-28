@@ -22,7 +22,7 @@ public abstract class PageLoader {
     //加载的书籍
     BookModel bookModel;
     // 当前书籍章节列表
-    protected List<TxtChapterModel> mChapterList;
+    public List<TxtChapterModel> mChapterList;
     // 当前显示的页
     private TxtPageModel mCurPage;
     // 上一章的页面列表缓存
@@ -31,6 +31,10 @@ public abstract class PageLoader {
     private List<TxtPageModel> mCurPageList;
     // 下一章的页面列表缓存
     private List<TxtPageModel> mNextPageList;
+    //当前章节位置
+    int curChapterIndex = 0;
+    //当前页面位置
+    int curPageIndex = 0;
 
     //行间距
     private int mTextInterval;
@@ -55,14 +59,22 @@ public abstract class PageLoader {
         this.pageView = pageView;
         this.bookModel = bookModel;
 
-        initData();
+
         initPaint();
         initDimens();
-
+        initData();
     }
 
     private void initData(){
-
+        try {
+            loadChapters();
+            if (curChapterIndex > 0) mPrePageList = loadPageList(curChapterIndex-1);
+            mCurPageList = loadPageList(curChapterIndex);
+            if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
+            mCurPage = mCurPageList.get(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initDimens(){
@@ -95,10 +107,9 @@ public abstract class PageLoader {
 
     //加载某章内容
     public List<TxtPageModel> loadPageList(int chapterIndex) throws IOException {
-        TxtChapterModel chapterModel = new TxtChapterModel("第一章");
+        TxtChapterModel chapterModel = mChapterList.get(chapterIndex);
         BufferedReader br = getChapterReader(chapterModel);
         List<TxtPageModel> pageList = loadPages(chapterModel,br);
-
 
         return pageList;
     }
@@ -182,8 +193,6 @@ public abstract class PageLoader {
                     showTitle = false;
                 }
 
-                if (pageLists.size() > 30)
-                    break;
             }
             //处理尾页
             if (lines.size() != 0) {
@@ -201,10 +210,6 @@ public abstract class PageLoader {
         }catch (IOException e){
             e.printStackTrace();
         }finally {
-
-            /**TTTTTTTTTTTTTTTTesst*/
-            mCurPageList = pageLists;
-            mCurPage = mCurPageList.get(0);
             try {
                 br.close();
             }catch (IOException e){
@@ -275,8 +280,28 @@ public abstract class PageLoader {
         }
     }
 
+    //下一页
+    public void nextPage() throws IOException {
+
+        if (curPageIndex >= 0 && curPageIndex < mCurPageList.size()-1){
+            curPageIndex++;
+        }else{
+            curChapterIndex++;
+            mPrePageList = mCurPageList;
+            mCurPageList = mNextPageList;
+            if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
+            curPageIndex = 0;
+        }
+        mCurPage = mCurPageList.get(curPageIndex);
+        pageView.invalidate();
+    }
+
+
+
 
     public abstract BufferedReader getChapterReader(TxtChapterModel chapterModel) throws FileNotFoundException, IOException;
+
+    public abstract void loadChapters() throws IOException;
 
     private float dp2px(float dp){
         return pageView.getContext().getResources().getDisplayMetrics().density*dp;

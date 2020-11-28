@@ -7,5 +7,14 @@
     <string name="bottom_shelf">我的书架</string>
     <string name="bottom_store">书城</string>
     <string name="bottom_self">我的</string>
+    
+    <!--阅读界面设置菜单-->
+    <string name="read_setting_category">目录</string>
+    <string name="read_setting_night">夜间</string>
+    <string name="read_setting_setting">设置</string>
+    <string name="read_setting_brightness">亮度</string>
+    <string name="read_top_error">报错</string>
+    <string name="read_top_change">换源</string>
+    <string name="read_top_refresh">刷新</string>
 
 </resources>

@@ -21,9 +21,6 @@ public class YPageView extends View {
     int bgColor = 0xFFCEC29C;
     //内容加载器
     PageLoader pageLoader;
-    //显示文字
-    String drawText;
-    boolean drawNew = false;
 
 
     public YPageView(Context context) {
@@ -54,7 +51,7 @@ public class YPageView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(bgColor);
-        if (drawNew) getPageLoader().drawPage(canvas);
+        getPageLoader().drawPage(canvas);
     }
 
 
@@ -72,8 +69,7 @@ public class YPageView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             try {
-                getPageLoader().loadPageList(0);
-                drawNew = true;
+                getPageLoader().nextPage();
                 invalidate();
             } catch (IOException e) {
                 e.printStackTrace();
