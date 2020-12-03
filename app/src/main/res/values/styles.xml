@@ -16,7 +16,7 @@
         <item name="android:textColor">@color/readMenuTextColor</item>
         <item name="android:textSize">@dimen/read_menu_text_size</item>
     </style>
-
+    <!--阅读界面   底部菜单按钮-->
     <style name="customReadActivityBottomMenu.Button">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -24,13 +24,34 @@
         <item name="android:gravity">center_horizontal|bottom</item>
         <item name="android:textSize">@dimen/read_menu_text_size</item>
     </style>
-
+    <!--阅读界面   顶部栏按钮-->
     <style name="customReadActivityTopBarButton">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/readMenuTextColor</item>
         <item name="android:textSize">@dimen/read_top_text_size</item>
+    </style>
+    <!--阅读界面   阅读设置按钮-->
+    <style name="readSettingBtnTextStyle">
+        <item name="android:textColor">@color/readMenuTextColor</item>
+        <item name="android:textSize">@dimen/read_setting_btn_text_size</item>
+    </style>
+
+    <!--阅读界面    设置对话框-->
+    <style name="ReadSettingDialog" parent="android:Theme.Dialog">
+        <!-- 背景颜色及透明程度 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 是否半透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 是否没有标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否背景模糊 -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!-- 设置背景模糊的透明度-->
+        <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
 </resources>

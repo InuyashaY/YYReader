@@ -28,6 +28,9 @@ android {
     dataBinding{
         enabled = true
     }
+    viewBinding{
+        enabled = true
+    }
 }
 
 dependencies {
@@ -44,8 +47,5 @@ dependencies {
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     //noinspection GradleCompatible
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    //butterkinfe
-    implementation 'com.jakewharton:butterknife:10.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
-    //kapt 'com.jakewharton:butterknife-compiler:10.2.1' //主要这句
+
 }

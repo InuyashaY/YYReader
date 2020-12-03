@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class FileManager {
     private static String LOG_Info = "FileManager";
@@ -23,7 +24,7 @@ public class FileManager {
     }
 
     public void test(Context context){
-
+        Stack stack = new Stack();
         String a = Environment.getDataDirectory().toString();
         String b = context.getFilesDir().getAbsolutePath();
         String c = context.getCacheDir().getAbsolutePath();

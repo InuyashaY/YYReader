@@ -18,9 +18,9 @@ import yzl.swu.yyreader.models.BookModel;
 public class YPageView extends View {
     /** 属性*/
     //背景颜色
-    int bgColor = 0xFFCEC29C;
+    private int bgColor = 0xFFCEC29C;
     //内容加载器
-    PageLoader pageLoader;
+    PageLoader mPageLoader;
 
 
     public YPageView(Context context) {
@@ -57,24 +57,35 @@ public class YPageView extends View {
 
     /*******************************Setter and Getter***************************************/
     public PageLoader getPageLoader() {
-        if (pageLoader == null){
+        if (mPageLoader == null){
             BookModel bookModel = new BookModel("斗罗大陆",0,"");
-            pageLoader = new LocalPageLoader(this,bookModel);
+            mPageLoader = new LocalPageLoader(this,bookModel);
         }
-        return pageLoader;
+        return mPageLoader;
     }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
-            try {
-                getPageLoader().nextPage();
-                invalidate();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        super.onTouchEvent(event);
+//        if (event.getAction() == MotionEvent.ACTION_DOWN){
+//            try {
+//                getmPageLoader().nextPage();
+//                invalidate();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return false;
+//    }
+
+
+    public int getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(int bgColor) {
+        this.bgColor = bgColor;
+        invalidate();
     }
 }

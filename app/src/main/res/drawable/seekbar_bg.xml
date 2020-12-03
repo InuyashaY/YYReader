@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape>
             <size android:height="1dp" />
 
             <gradient
-                android:endColor="@android:color/darker_gray"
-                android:startColor="@android:color/darker_gray" />
+                android:endColor="@color/seekBarBgColor"
+                android:startColor="@color/seekBarBgColor" />
         </shape>
     </item>
     <item android:id="@android:id/progress">
@@ -15,9 +15,9 @@
                 <size android:height="3dp" />
 
                 <gradient
-                    android:endColor="@color/read_theme_yellow"
-                    android:startColor="@color/read_theme_yellow" />
+                    android:endColor="@color/seekBarForgroundColor"
+                    android:startColor="@color/seekBarForgroundColor" />
             </shape>
         </clip>
     </item>
-</selector>
+</layer-list>

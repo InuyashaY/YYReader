@@ -7,4 +7,16 @@
     <dimen name="read_top_text_size">14sp</dimen>
     <dimen name="read_category_text_size">16sp</dimen>
     <dimen name="read_category_item_margin">15dp</dimen>
+    <!--阅读界面 按钮-->
+    <dimen name="read_setting_btn_height">34dp</dimen>
+    <dimen name="read_setting_btn_radius">17dp</dimen>
+    <dimen name="read_setting_btn_text_size">12dp</dimen>
+
+
+    <!--进度条-->
+    <dimen name="normal_pointer_radius">7dp</dimen>
+    <dimen name="normal_pointer_size">14dp</dimen>
+    <dimen name="pressed_pointer_radius">10dp</dimen>
+    <dimen name="pressed_pointer_size">20dp</dimen>
+
 </resources>

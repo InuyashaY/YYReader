@@ -7,185 +7,184 @@
     android:layout_height="match_parent"
     android:id="@+id/read_drawer"
     tools:context=".activity.BookReaderActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--顶部栏-->
+    <yzl.swu.yyreader.views.YPageView
+        android:id="@+id/mPageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.BookReaderActivity">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <yzl.swu.yyreader.views.YPageView
-            android:id="@+id/mPageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/read_top_appBar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        tools:visibility="visible">
 
-
-        <!--顶部栏-->
-        <com.google.android.material.appbar.AppBarLayout
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            tools:visibility="visible">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                app:navigationIcon="@drawable/back"
-                android:background="@color/readMenuBgColor"
-                >
-
-                <RelativeLayout
-                    android:layout_width="160dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/readMenuBgColor">
-
-                    <TextView
-                        android:id="@+id/read_tv_refresh"
-                        style="@style/customReadActivityTopBarButton"
-                        android:layout_toLeftOf="@+id/read_tv_change"
-                        android:text="@string/read_top_refresh" />
-                    <TextView
-                        android:id="@+id/read_tv_change"
-                        style="@style/customReadActivityTopBarButton"
-                        android:layout_toLeftOf="@+id/read_tv_error"
-                        android:text="@string/read_top_change" />
-                    <TextView
-                        android:id="@+id/read_tv_error"
-                        style="@style/customReadActivityTopBarButton"
-                        android:layout_alignParentRight="true"
-                        android:text="@string/read_top_error" />
-
-
-                </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-        <!--底部页面-->
-        <LinearLayout
-            android:id="@+id/read_ll_bottom_menu"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/readToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back"
             android:background="@color/readMenuBgColor"
-            android:clickable="true"
-            android:orientation="vertical"
-            android:visibility="visible"
-            tools:visibility="visible">
+            >
 
-            <!--页面进度栏-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:background="@color/readMenuBgColor">
 
                 <TextView
-                    android:id="@+id/read_bv_pre_chapter"
-                    style="@style/customReadActivityBottomMenu"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="上一章" />
-
-                <SeekBar
-                    android:id="@+id/read_sb_chapter_progress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:maxHeight="3dp"
-                    android:minHeight="3dp"
-                    android:progressDrawable="@drawable/seekbar_bg"
-                    android:thumb="@drawable/seekbar_pointer"
-                    android:thumbOffset="10dp" />
-
+                    android:id="@+id/read_tv_refresh"
+                    style="@style/customReadActivityTopBarButton"
+                    android:layout_toLeftOf="@+id/read_tv_change"
+                    android:text="@string/read_top_refresh" />
                 <TextView
-                    android:id="@+id/read_bv_next_chapter"
-                    style="@style/customReadActivityBottomMenu"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="下一章" />
-            </LinearLayout>
-
-            <!--菜单栏-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp">
-
+                    android:id="@+id/read_tv_change"
+                    style="@style/customReadActivityTopBarButton"
+                    android:layout_toLeftOf="@+id/read_tv_error"
+                    android:text="@string/read_top_change" />
                 <TextView
-                    android:id="@+id/read_bv_category"
-                    style="@style/customReadActivityBottomMenu.Button"
-                    android:drawableTop="@drawable/category"
-                    android:text="@string/read_setting_category" />
-
-                <TextView
-                    android:id="@+id/read_bv_brightness"
-                    style="@style/customReadActivityBottomMenu.Button"
-                    android:drawableTop="@drawable/brightness"
-                    android:text="@string/read_setting_brightness" />
-
-                <TextView
-                    android:id="@+id/read_bv_night_mode"
-                    style="@style/customReadActivityBottomMenu.Button"
-                    android:drawableTop="@drawable/night"
-                    android:text="@string/read_setting_night" />
-
-                <TextView
-                    android:id="@+id/read_bv_setting"
-                    style="@style/customReadActivityBottomMenu.Button"
-                    android:drawableTop="@drawable/setting"
-                    android:includeFontPadding="true"
-                    android:text="@string/read_setting_setting" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:id="@+id/read_tv_error"
+                    style="@style/customReadActivityTopBarButton"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/read_top_error" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-
-    <!--侧滑栏-->
+    <!--底部页面-->
     <LinearLayout
-        android:layout_width="320dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/readMenuCategoryBgColor"
+        android:id="@+id/read_bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/readMenuBgColor"
         android:clickable="true"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp">
+        android:visibility="visible"
+        tools:visibility="visible">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="15dp"
-            android:text="目录"
-            android:textColor="@color/readMenuTextColor"
-            android:textSize="20sp" />
-
-        <RelativeLayout
+        <!--页面进度栏-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/read_rv_category"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/read_bv_pre_chapter"
+                style="@style/customReadActivityBottomMenu"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"/>
-        </RelativeLayout>
+                android:gravity="center"
+                android:text="上一章" />
+
+            <SeekBar
+                android:id="@+id/read_sb_chapter_progress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:maxHeight="3dp"
+                android:minHeight="3dp"
+                android:progressDrawable="@drawable/seekbar_bg"
+                android:thumb="@drawable/seekbar_pointer_selector"
+                android:thumbOffset="10dp" />
+
+            <TextView
+                android:id="@+id/read_bv_next_chapter"
+                style="@style/customReadActivityBottomMenu"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="下一章" />
+        </LinearLayout>
+
+        <!--菜单栏-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:id="@+id/read_bv_category"
+                style="@style/customReadActivityBottomMenu.Button"
+                android:drawableTop="@drawable/ic_category"
+                android:text="@string/read_setting_category" />
+
+            <TextView
+                android:id="@+id/read_bv_brightness"
+                style="@style/customReadActivityBottomMenu.Button"
+                android:drawableTop="@drawable/ic_brightness"
+                android:text="@string/read_setting_brightness" />
+
+            <TextView
+                android:id="@+id/read_bv_night_mode"
+                style="@style/customReadActivityBottomMenu.Button"
+                android:drawableTop="@drawable/ic_night"
+                android:text="@string/read_setting_night" />
+
+            <TextView
+                android:id="@+id/read_bv_setting"
+                style="@style/customReadActivityBottomMenu.Button"
+                android:drawableTop="@drawable/ic_setting"
+                android:includeFontPadding="true"
+                android:text="@string/read_setting_setting" />
+        </LinearLayout>
     </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--侧滑栏-->
+<LinearLayout
+    android:layout_width="320dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/readMenuCategoryBgColor"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="15dp"
+        android:text="目录"
+        android:textColor="@color/readMenuTextColor"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/read_rv_category"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
+    </RelativeLayout>
+</LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

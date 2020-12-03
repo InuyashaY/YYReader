@@ -23,38 +23,22 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.common.YToolBar;
+import yzl.swu.yyreader.databinding.ActivityMainBinding;
 
 
-
-public class MainActivity extends FragmentActivity{
-    //底部栏
-    @BindView(R.id.mBottomBar)
-    protected BottomNavigationView bottomNavigationView;
-    //顶部栏
-    @BindView(R.id.mToolBar)
-    protected YToolBar toolbar;
+public class MainActivity extends BaseActivity<ActivityMainBinding>{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
         initBottomBar();
-        //设置监听者为this
-        //bottomNavigationBar.setTabSelectedListener(this);
-        //设置菜单
-        //setSupportActionBar(toolbar);
-        toolbar.getImageButton().setOnClickListener(new View.OnClickListener() {
+
+
+//        this.setSupportActionBar(toolbar);
+        viewBinding.mToolBar.getImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.v("yzll","++++++");
@@ -86,13 +70,15 @@ public class MainActivity extends FragmentActivity{
         FragmentManager fragmentManager = getSupportFragmentManager();
         NavHostFragment navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.main_fragment);
         NavController navController = navHostFragment.getNavController();
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        NavigationUI.setupWithNavController(viewBinding.mBottomBar, navController);
     }
 
 
 
 
+    //获取存储权限
     public boolean isStoragePermissionGranted() {
+
         if (Build.VERSION.SDK_INT >= 23) {
             final Context context = getApplicationContext();
             int readPermissionCheck = ContextCompat.checkSelfPermission(context,

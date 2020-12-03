@@ -6,11 +6,25 @@
     <color name="colorSkyBlue">#00BFFF</color>
     <color name="read_theme_yellow">#e6dbbf</color>
     <color name="light_gray">#888888</color>
+    <color name="colorWhite">#ffffff</color>
 
 
-
+    <!--readSetting-->
     <color name="readMenuBgColor">#3C3F41</color>
     <color name="readMenuTextColor">#CBCBCB</color>
     <color name="readMenuCategoryBgColor">#F5DEB3</color>
     <color name="read">#191919</color>
+    <color name="readSettingBtnNormalBorderColor">#dddddd</color>
+    <color name="readSettingBtnSelectedBorderColor">#FF5722</color>
+    <!--seekBar-->
+    <color name="seekBarBgColor">#777777</color>
+    <color name="seekBarForgroundColor">#eeeeee</color>
+    <color name="seekBarPointerNormalColor">#eeeeee</color>
+    <color name="seekBarPointerPressedColor">#FFC107</color>
+    <!--readBGColor-->
+    <color name="readBgColor1">#e6dbbf</color>
+    <color name="readBgColor2">#2196F3</color>
+    <color name="readBgColor3">#009688</color>
+    <color name="readBgColor4">#8BC34A</color>
+    <color name="readBgColor5">#292621</color>
 </resources>

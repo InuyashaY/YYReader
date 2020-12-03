@@ -17,7 +17,6 @@
         android:name="yzl.swu.yyreader.fragment.BookStoreFragment"
         android:label="book_shelf_fragment"
         tools:layout="@layout/book_store_fragment" >
-
     </fragment>
 
 
