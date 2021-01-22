@@ -11,7 +11,7 @@
     <yzl.swu.yyreader.common.YToolBar
         android:id="@+id/mToolBar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/toolbar_height"
         android:background="@color/colorSkyBlue"
         app:centerTitle="@string/book_shelf_toolbar_title"
         app:layout_constraintStart_toStartOf="parent"

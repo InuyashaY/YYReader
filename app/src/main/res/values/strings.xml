@@ -7,7 +7,7 @@
     <string name="bottom_shelf">我的书架</string>
     <string name="bottom_store">书城</string>
     <string name="bottom_self">我的</string>
-    
+
     <!--阅读界面设置菜单-->
     <string name="read_setting_category">目录</string>
     <string name="read_setting_night">夜间</string>
@@ -16,5 +16,11 @@
     <string name="read_top_error">报错</string>
     <string name="read_top_change">换源</string>
     <string name="read_top_refresh">刷新</string>
+
+    <!--主界面-更多设置-->
+    <string name="more_setting1">整理书架</string>
+    <string name="more_setting2">本地导入</string>
+    <string name="more_setting3">Txt下载</string>
+    <string name="more_setting_cancel">取消</string>
 
 </resources>

@@ -5,5 +5,9 @@ public class Constants {
         SIMULATION, COVER, SLIDE, NONE, SCROLL
     }
 
+    //阅读界面 默认字体大小
     public static int DEFAULT_TEXT_SIZE = 18;
+
+    //时间格式
+    public static final String FORMAT_TIME = "HH:mm";
 }

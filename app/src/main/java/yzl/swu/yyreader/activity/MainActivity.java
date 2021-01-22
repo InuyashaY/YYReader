@@ -1,16 +1,24 @@
 package yzl.swu.yyreader.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,11 +45,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         initBottomBar();
 
 
-//        this.setSupportActionBar(toolbar);
+//        this.setSupportActionBar(viewBinding.mToolBar);
         viewBinding.mToolBar.getImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("yzll","++++++");
+                showDialog();
             }
         });
 
@@ -139,4 +147,41 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
 //    public void onTabReselected(int position) {
 //
 //    }
+    public void showDialog(){
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_more_setting,null,false);
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).setView(view).create();
+
+        //整理书架
+        view.findViewById(R.id.classfy).setOnClickListener((v) ->{
+
+        });
+        //下载
+        view.findViewById(R.id.txtDownload).setOnClickListener((v) ->{
+
+        });
+        //本地导入
+        view.findViewById(R.id.localBook).setOnClickListener((v)->{
+            FileSelectorActivity.show(this);
+            alertDialog.dismiss();
+        });
+        //取消
+        view.findViewById(R.id.more_cancel).setOnClickListener((v)->{
+            alertDialog.dismiss();
+        });
+
+        //显示弹窗
+        alertDialog.show();
+
+        //自定义的东西
+        //放在show()之后，不然有些属性是没有效果的，比如height和width
+        Window dialogWindow = alertDialog.getWindow();
+        Display d = dialogWindow.getWindowManager().getDefaultDisplay();
+
+        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        p.gravity = Gravity.BOTTOM;//设置位置
+        p.width = d.getWidth(); //设置dialog的宽度为当前手机屏幕的宽度
+
+//        p.alpha = 0.8f;//设置透明度
+        dialogWindow.setAttributes(p);
+    }
 }

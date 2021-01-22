@@ -28,9 +28,7 @@ public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View root = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.book_recycler_item,viewGroup,false);
         ViewHolder viewHolder = new ViewHolder(root);
-        viewHolder.cover = root.findViewById(R.id.iconImageView);
-        viewHolder.mTitle = root.findViewById(R.id.titleTextView);
-        viewHolder.mRecord = root.findViewById(R.id.recordTextView);
+
         return viewHolder;
     }
 
@@ -56,6 +54,8 @@ public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return bookModels.size();
     }
 
+
+    /******************inner class*********************/
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView cover;
         TextView mTitle;
@@ -63,6 +63,9 @@ public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            cover = itemView.findViewById(R.id.iconImageView);
+            mTitle = itemView.findViewById(R.id.titleTextView);
+            mRecord = itemView.findViewById(R.id.recordTextView);
         }
     }
 

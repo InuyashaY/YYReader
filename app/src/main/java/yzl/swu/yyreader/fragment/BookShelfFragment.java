@@ -28,6 +28,7 @@ import java.util.List;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.activity.BookReaderActivity;
+import yzl.swu.yyreader.activity.MainActivity;
 import yzl.swu.yyreader.adapter.BookShelfAdapter;
 import yzl.swu.yyreader.adapter.SpaceItemDecoration;
 import yzl.swu.yyreader.common.ContentScaleAnimation;

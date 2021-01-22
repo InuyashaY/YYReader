@@ -3,6 +3,8 @@ package yzl.swu.yyreader.views;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 
@@ -12,9 +14,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import yzl.swu.yyreader.common.Constants;
 import yzl.swu.yyreader.models.BookModel;
 import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.models.TxtPageModel;
+import yzl.swu.yyreader.utils.StringUtils;
+import yzl.swu.yyreader.utils.Utils;
 
 public abstract class PageLoader {
     //显示容器
@@ -45,6 +50,8 @@ public abstract class PageLoader {
     //应用的宽高
     private int mDisplayWidth;
     private int mDisplayHeight;
+    //电池的百分比
+    private int mBatteryLevel;
     //间距
     private int mMarginWidth;
     private int mMarginHeight;
@@ -53,8 +60,14 @@ public abstract class PageLoader {
     Paint mTitleTextPaint;
     //内容画笔
     Paint mContentTextPaint;
+    // 绘制电池的画笔
+    private Paint mBatteryPaint;
+    // 绘制提示的画笔
+    private Paint mTipPaint;
     //字体大小 单位dp
     int mTextSize = 18;
+    //背景颜色
+    int bgColor = 0xFFCEC29C;
 
 
 
@@ -67,6 +80,7 @@ public abstract class PageLoader {
         initData();
     }
 
+    //初始化数据
     private void initData(){
         try {
             loadChapters();
@@ -79,6 +93,7 @@ public abstract class PageLoader {
         }
     }
 
+    //初始化尺寸
     private void initDimens(){
         mMarginWidth = 40;
         mMarginHeight = 50;
@@ -88,6 +103,7 @@ public abstract class PageLoader {
         mTextInterval = (int) (mContentTextPaint.getTextSize()/2);
     }
 
+    //初始化画笔
     private void initPaint(){
         // 绘制页面内容的画笔
         mContentTextPaint = new TextPaint();
@@ -103,6 +119,9 @@ public abstract class PageLoader {
         mTitleTextPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mTitleTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
         mTitleTextPaint.setAntiAlias(true);
+
+        mTipPaint = new TextPaint();
+        mBatteryPaint = new Paint();
     }
 
     public void reloadPageList(){
@@ -208,7 +227,6 @@ public abstract class PageLoader {
                     readHeight = readHeight - mTitleInterval;
                     showTitle = false;
                 }
-
             }
             //处理尾页
             if (lines.size() != 0) {
@@ -238,13 +256,60 @@ public abstract class PageLoader {
 
     //绘制页面
     public void drawPage(Canvas canvas){
-        drawBG();
+        drawBG(canvas);
         drawContent(canvas);
     }
 
     //绘制背景
-    private void drawBG(){
+    private void drawBG(Canvas canvas){
+        int tipMarginHeight = Utils.dpToPx(pageView.getContext(),3);
+        canvas.drawColor(bgColor);
+        /******绘制电池********/
+        int visibleRight = mDisplayWidth - mMarginWidth;
 
+        int visibleBottom = mDisplayHeight - tipMarginHeight;
+
+        int outFrameWidth = (int) mTipPaint.measureText("xxx");
+        int outFrameHeight = (int) mTipPaint.getTextSize();
+
+        int polarHeight = Utils.dpToPx(pageView.getContext(),6);
+        int polarWidth = Utils.dpToPx(pageView.getContext(),2);
+        int border = 1;
+        int innerMargin = 1;
+
+        //电极的制作
+        int polarLeft = visibleRight - polarWidth;
+        int polarTop = visibleBottom - (outFrameHeight + polarHeight) / 2;
+        Rect polar = new Rect(polarLeft, polarTop, visibleRight,
+                polarTop + polarHeight - Utils.dpToPx(pageView.getContext(),2));
+
+        mBatteryPaint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(polar, mBatteryPaint);
+
+        //外框的制作
+        int outFrameLeft = polarLeft - outFrameWidth;
+        int outFrameTop = visibleBottom - outFrameHeight;
+        int outFrameBottom = visibleBottom - Utils.dpToPx(pageView.getContext(),2);
+        Rect outFrame = new Rect(outFrameLeft, outFrameTop, polarLeft, outFrameBottom);
+
+        mBatteryPaint.setStyle(Paint.Style.STROKE);
+        mBatteryPaint.setStrokeWidth(border);
+        canvas.drawRect(outFrame, mBatteryPaint);
+
+        //内框的制作
+        float innerWidth = (outFrame.width() - innerMargin * 2 - border) * (mBatteryLevel / 100.0f);
+        RectF innerFrame = new RectF(outFrameLeft + border + innerMargin, outFrameTop + border + innerMargin,
+                outFrameLeft + border + innerMargin + innerWidth, outFrameBottom - border - innerMargin);
+
+        mBatteryPaint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(innerFrame, mBatteryPaint);
+
+        /******绘制当前时间********/
+        //底部的字显示的位置Y
+        float y = mDisplayHeight - mTipPaint.getFontMetrics().bottom - tipMarginHeight;
+        String time = StringUtils.dateConvert(System.currentTimeMillis(), Constants.FORMAT_TIME);
+        float x = outFrameLeft - mTipPaint.measureText(time) - Utils.dpToPx(pageView.getContext(),4);
+        canvas.drawText(time, x, y, mTipPaint);
     }
 
     //绘制内容
@@ -358,7 +423,8 @@ public abstract class PageLoader {
 
     //设置背景颜色
     public void setPageBgColor(int color){
-        pageView.setBgColor(color);
+        this.bgColor = color;
+        pageView.invalidate();
     }
 
     //设置字体大小

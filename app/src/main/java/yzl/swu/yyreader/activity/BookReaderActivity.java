@@ -33,6 +33,7 @@ import yzl.swu.yyreader.R2;
 import yzl.swu.yyreader.adapter.ReadChaptersAdapter;
 import yzl.swu.yyreader.databinding.ActivityBookReaderBinding;
 import yzl.swu.yyreader.utils.FileManager;
+import yzl.swu.yyreader.views.BrightnessSettingDialog;
 import yzl.swu.yyreader.views.ReadSettingDialog;
 import yzl.swu.yyreader.views.YPageView;
 
@@ -41,6 +42,8 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
     boolean isShowSetting = false;
     //设置Dialog
     ReadSettingDialog readSettingDialog;
+    //亮度设置Dialog
+    BrightnessSettingDialog brightnessSettingDialog;
 
     public static void show(Context context){
         Intent intent = new Intent(context,BookReaderActivity.class);
@@ -58,6 +61,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     /**************************init*******************************/
     private void initWidgets(){
+
     }
 
     private void initEvents(){
@@ -110,6 +114,21 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
             viewBinding.mPageView.getPageLoader().preChapter();
         });
+
+        //中心区域被点击   显示菜单
+        viewBinding.mPageView.setOnCenterClickListener(new YPageView.OnCenterClickListener() {
+            @Override
+            public void centerClicked() {
+                if (!isShowSetting){
+                    viewBinding.readBottomMenu.setVisibility(View.GONE);
+                    viewBinding.readTopAppBar.setVisibility(View.GONE);
+                }else {
+                    viewBinding.readBottomMenu.setVisibility(View.VISIBLE);
+                    viewBinding.readTopAppBar.setVisibility(View.VISIBLE);
+                }
+                isShowSetting = !isShowSetting;
+            }
+        });
     }
 
 
@@ -137,7 +156,8 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     //亮度
     public void changeBrightness(){
-
+        brightnessSettingDialog =  new BrightnessSettingDialog(this);
+        brightnessSettingDialog.show();
     }
 
     //夜间
@@ -151,32 +171,24 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
         readSettingDialog.show();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
-            if (!isShowSetting){
-                viewBinding.readBottomMenu.setVisibility(View.GONE);
-                viewBinding.readTopAppBar.setVisibility(View.GONE);
-            }else {
-                viewBinding.readBottomMenu.setVisibility(View.VISIBLE);
-                viewBinding.readTopAppBar.setVisibility(View.VISIBLE);
-            }
-            isShowSetting = !isShowSetting;
-            //return true;
-        }
-        return false;
 
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getY()>viewBinding.readTopAppBar.getY()+viewBinding.readTopAppBar.getHeight()
-        && ev.getY() < viewBinding.readBottomMenu.getY()){
-            onTouchEvent(ev);
+    //设置栏隐藏和显示
+    private void changeMenuState(){
+        if (!isShowSetting){
+            viewBinding.readBottomMenu.setVisibility(View.GONE);
+            viewBinding.readTopAppBar.setVisibility(View.GONE);
+        }else {
+            viewBinding.readBottomMenu.setVisibility(View.VISIBLE);
+            viewBinding.readTopAppBar.setVisibility(View.VISIBLE);
         }
-        return super.dispatchTouchEvent(ev);
+        isShowSetting = !isShowSetting;
     }
 
     /**************************common method*******************************/
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/readMenuBgColor"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/brightness_minus"
+            style="@style/customReadActivityBottomMenu"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@color/readMenuBgColor"
+            android:src="@drawable/ic_brightness_minus"
+            android:gravity="center" />
+
+        <SeekBar
+            android:id="@+id/read_setting_sb_brightness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="255"
+            android:progress="12"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
+            android:progressDrawable="@drawable/seekbar_bg"
+            android:thumb="@drawable/seekbar_pointer_selector"
+            android:thumbOffset="10dp" />
+
+        <ImageButton
+            android:id="@+id/brightness_plus"
+            style="@style/customReadActivityBottomMenu"
+            android:layout_width="80dp"
+            android:background="@color/readMenuBgColor"
+            android:src="@drawable/ic_brightness_plus"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/brightness_auto"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="@dimen/read_setting_padding_left"
+        android:paddingEnd="@dimen/read_setting_padding_right">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="系统亮度"
+            style="@style/readSettingBtnTextStyle"
+            android:gravity="center"
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/auto_brightness_sw"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:shadowColor="@color/readSettingBtnSelectedBorderColor"
+            tools:ignore="NotSibling" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/protect_mode"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="@dimen/read_setting_padding_left"
+        android:paddingEnd="@dimen/read_setting_padding_right">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="护眼模式"
+            style="@style/readSettingBtnTextStyle"
+            android:gravity="center"
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/protect_sw"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:shadowColor="@color/readSettingBtnSelectedBorderColor"
+            tools:ignore="NotSibling" />
+    </RelativeLayout>
+
+</LinearLayout>

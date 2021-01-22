@@ -55,6 +55,7 @@ public class LocalPageLoader extends PageLoader {
     @Override
     public void loadChapters() throws IOException {
         List<TxtChapterModel> chapters = new ArrayList<>();
+        //先获取本地文件
         bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getBookTitle()+".txt");
         //获取文件流
         RandomAccessFile bookStream = new RandomAccessFile(bookFile, "r");

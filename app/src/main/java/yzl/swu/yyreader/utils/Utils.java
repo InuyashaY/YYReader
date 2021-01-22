@@ -1,6 +1,8 @@
 package yzl.swu.yyreader.utils;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
 public class Utils {
 
@@ -17,5 +19,11 @@ public class Utils {
     public static int getScreenWidth(Context context) {
         return context.getResources().getDisplayMetrics().widthPixels;
     }
+
+    public static int dpToPx(Context context,int dp){
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,metrics);
+    }
+
 
 }
