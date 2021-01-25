@@ -1,14 +1,15 @@
 package yzl.swu.yyreader.models;
 
+import yzl.swu.yyreader.common.FileType;
+
 public class LocalFileModel {
     private String fileTitle;
     private String fileSize;
     private String fileDate;
+    private FileType fileType;
 
-    public LocalFileModel(String fileTitle, String fileSize, String fileDate) {
+    public LocalFileModel(String fileTitle) {
         this.fileTitle = fileTitle;
-        this.fileSize = fileSize;
-        this.fileDate = fileDate;
     }
 
     public String getFileTitle() {
@@ -33,5 +34,13 @@ public class LocalFileModel {
 
     public void setFileDate(String fileDate) {
         this.fileDate = fileDate;
+    }
+
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(FileType fileType) {
+        this.fileType = fileType;
     }
 }

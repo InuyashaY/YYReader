@@ -23,11 +23,12 @@
         android:id="@+id/tab_tl_indicator"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/colorSkyBlue"
+        android:background="@color/colorWhite"
         app:layout_constraintTop_toBottomOf="@+id/selector_toolbar"
-        app:tabIndicatorColor="@color/colorWhite"
-        app:tabSelectedTextColor="@color/colorWhite"
-        app:tabTextColor="@color/colorWhite" />
+        app:tabIndicatorColor="@color/colorSkyBlue"
+
+        app:tabSelectedTextColor="@color/colorSkyBlue"
+        app:tabTextColor="@color/dark_gray" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/file_select_viewpager"

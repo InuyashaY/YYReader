@@ -10,4 +10,5 @@ public class Constants {
 
     //时间格式
     public static final String FORMAT_TIME = "HH:mm";
+    public static final String FORMAT_DATE = "YYYY-MM-DD";
 }

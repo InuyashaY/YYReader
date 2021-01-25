@@ -13,6 +13,7 @@ import yzl.swu.yyreader.adapter.TabFragmentPageAdapter;
 import yzl.swu.yyreader.databinding.ActivityFileSelectorBinding;
 import yzl.swu.yyreader.fragment.FilesCategoryFragment;
 import yzl.swu.yyreader.fragment.LocalFilesFragment;
+import yzl.swu.yyreader.utils.FileManager;
 
 public class FileSelectorActivity extends BaseActivity<ActivityFileSelectorBinding> {
     //tab的标题
@@ -31,6 +32,7 @@ public class FileSelectorActivity extends BaseActivity<ActivityFileSelectorBindi
 //        super.initWidget();
         viewBinding.selectorToolbar.setTitle("本机导入");
         setUpTabLayout();
+        FileManager.getInstance().listTxtFiles();
     }
 
     private void setUpTabLayout(){

@@ -9,7 +9,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/light_gray"
+        android:background="@color/while_gray"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView

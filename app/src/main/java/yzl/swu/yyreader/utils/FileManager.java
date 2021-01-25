@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 public class FileManager {
@@ -24,7 +26,6 @@ public class FileManager {
     }
 
     public void test(Context context){
-        Stack stack = new Stack();
         String a = Environment.getDataDirectory().toString();
         String b = context.getFilesDir().getAbsolutePath();
         String c = context.getCacheDir().getAbsolutePath();
@@ -40,35 +41,120 @@ public class FileManager {
 
     }
 
+    //根目录下的文件
+    public List<File> listRootFiles(){
+        return listFilesByFilePath(getRootPath());
+    }
 
-    public void listTxtFiles(){
-        File temp = Environment.getExternalStorageDirectory();
-        File[] files = temp.listFiles();
-        for (File f : files){
-            if (!f.isDirectory()){
-                if (f.getName().endsWith(".txt")){
-                    //获取并计算文件大小
-                    long size = f.length();
-                    String t_size = "";
-                    if (size <= 1024){
-                        t_size = size + "B";
-                    }else if (size > 1024 && size <= 1024 * 1024){
-                        size /= 1024;
-                        t_size = size + "KB";
-                    }else {
-                        size = size / (1024 * 1024);
-                        t_size = size + "MB";
-                    }
-                    Log.i(LOG_Info,""+t_size+" "+f.getName()+" "+f.getAbsolutePath());
-//                    file_size.add(t_size);//文件大小
-//                    file_name.add(f.getName());//文件名称
-//                    file_txt_path.add(f.getAbsolutePath());//文件路径
-                }
-            }else if (f.isDirectory()){
-                //如果是目录，迭代进入该目录
-                //listFileTxt(f);
+    //某目录下的文件夹和txt文件
+    public List<File> listFilesByFilePath(String filePath){
+        File root = new File(filePath);
+        File[] dirs = root.listFiles((pathname -> {
+            if (pathname.isDirectory()) {
+                return true;
             }
+            //获取txt文件
+            else if(pathname.getName().endsWith(".txt")){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }));
+        return Arrays.asList(dirs);
+    }
+
+    //获取根目录path
+    public String getRootPath(){
+        return Environment.getExternalStorageDirectory().getPath();
+    }
+
+    //获取内存中的所有txt文件
+    public List<File> listTxtFiles(){
+        List result = listTxtFiles(getRootPath(),0);
+        return result;
+    }
+
+
+    private List<File> listTxtFiles(String filePath, int layer){
+        File root = new File(filePath);
+        List<File> txtFiles = new ArrayList<>();
+
+        //如果层级为 3，则直接返回
+        if (layer == 3){
+            return txtFiles;
         }
+
+        File[] dirs = root.listFiles(
+                pathname -> {
+                    if (pathname.isDirectory() && !pathname.getName().startsWith(".")) {
+                        return true;
+                    }
+                    //获取txt文件
+                    else if(pathname.getName().endsWith(".txt")){
+                        txtFiles.add(pathname);
+                        return false;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+        );
+
+        //遍历文件夹
+        for (File dir : dirs){
+            //递归遍历txt文件
+            txtFiles.addAll(listTxtFiles(dir.getPath(),layer + 1));
+        }
+//        for (File f : files){
+//            if (!f.isDirectory()){
+//                if (f.getName().endsWith(".txt")){
+//                    //获取并计算文件大小
+//                    long size = f.length();
+//                    String t_size = "";
+//                    if (size <= 1024){
+//                        t_size = size + "B";
+//                    }else if (size > 1024 && size <= 1024 * 1024){
+//                        size /= 1024;
+//                        t_size = size + "KB";
+//                    }else {
+//                        size = size / (1024 * 1024);
+//                        t_size = size + "MB";
+//                    }
+//                    Log.i(LOG_Info,""+t_size+" "+f.getName()+" "+f.getAbsolutePath());
+////                    file_size.add(t_size);//文件大小
+////                    file_name.add(f.getName());//文件名称
+////                    file_txt_path.add(f.getAbsolutePath());//文件路径
+//                }
+//            }else if (f.isDirectory()){
+//                //如果是目录，迭代进入该目录
+//                //listFileTxt(f);
+//            }
+//        }
+        return txtFiles;
+    }
+
+    public String getFileSize(File f){
+        if (f.getName().endsWith(".txt")) {
+            //获取并计算文件大小
+            long size = f.length();
+            String t_size = "";
+            if (size <= 1024) {
+                t_size = size + "B";
+            } else if (size > 1024 && size <= 1024 * 1024) {
+                size /= 1024;
+                t_size = size + "KB";
+            } else {
+                size = size / (1024 * 1024);
+                t_size = size + "MB";
+            }
+            return t_size;
+        }
+        return null;
+    }
+
+    public int getSubFileCount(File file){
+        return file.listFiles().length;
     }
 
     public String TestFilePathApkPrivate(Context context, String FileDirName) {
