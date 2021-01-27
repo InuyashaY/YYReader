@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,11 +16,13 @@ import yzl.swu.yyreader.fragment.FilesCategoryFragment;
 import yzl.swu.yyreader.fragment.LocalFilesFragment;
 import yzl.swu.yyreader.utils.FileManager;
 
-public class FileSelectorActivity extends BaseActivity<ActivityFileSelectorBinding> {
+public class FileSelectorActivity extends BaseActivity<ActivityFileSelectorBinding> implements FilesCategoryFragment.OnTxtCheckedListener, LocalFilesFragment.OnTxtCheckedListener {
     //tab的标题
     List<String> tabTitles;
     //对应的fragment
     List<Fragment> tabFragments;
+    //选中的文件
+    List<File> seletedFiles;
 
     public static void show(Context context){
         Intent intent = new Intent(context,FileSelectorActivity.class);
@@ -32,19 +35,41 @@ public class FileSelectorActivity extends BaseActivity<ActivityFileSelectorBindi
 //        super.initWidget();
         viewBinding.selectorToolbar.setTitle("本机导入");
         setUpTabLayout();
-        FileManager.getInstance().listTxtFiles();
+
+        //添加选中的书籍
+        viewBinding.addToShelfBtn.setOnClickListener((v)->{
+
+        });
     }
 
     private void setUpTabLayout(){
         //设置标题和fragment
         tabTitles = Arrays.asList("智能导入","手机目录");
         tabFragments = new ArrayList<>();
-        tabFragments.add(new LocalFilesFragment());
-        tabFragments.add(new FilesCategoryFragment());
+        LocalFilesFragment localFilesFragment = new LocalFilesFragment();
+        FilesCategoryFragment filesCategoryFragment = new FilesCategoryFragment();
+        localFilesFragment.setCheckedListener(this);
+        filesCategoryFragment.setCheckedListener(this);
+        tabFragments.add(localFilesFragment);
+        tabFragments.add(filesCategoryFragment);
 
-        //设置适配器
+        //设置适配器 绑定tab和viewPager
         viewBinding.fileSelectViewpager.setAdapter(new TabFragmentPageAdapter(getSupportFragmentManager(),0,tabTitles,tabFragments));
         viewBinding.fileSelectViewpager.setOffscreenPageLimit(3);
         viewBinding.tabTlIndicator.setupWithViewPager(viewBinding.fileSelectViewpager);
+
     }
+
+    @Override
+    public void onTxtFileChecked(List<File> selectedFiles) {
+        this.seletedFiles = selectedFiles;
+        if (selectedFiles.size() > 0){
+            viewBinding.addToShelfBtn.setEnabled(true);
+            viewBinding.addToShelfBtn.setText("导入书架("+selectedFiles.size()+")");
+        }else {
+            viewBinding.addToShelfBtn.setText("导入书架");
+            viewBinding.addToShelfBtn.setEnabled(false);
+        }
+    }
+
 }

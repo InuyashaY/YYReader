@@ -10,20 +10,37 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.common.FileType;
-import yzl.swu.yyreader.models.LocalFileModel;
+import yzl.swu.yyreader.utils.FileManager;
+import yzl.swu.yyreader.utils.StringUtils;
+
+import static yzl.swu.yyreader.common.Constants.FORMAT_DATE;
 
 public class LocalFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<LocalFileModel> localFileModels;
+    //显示文件的模型
+    List<File> localFiles;
     //已选文件
-    List<LocalFileModel> selectedFiles = new ArrayList<>();
+    List<File> selectedFiles = new ArrayList<>();
+    //点击事件监听者
+    private OnItemClickListener mClickListener;
+    //选中回调
+    private OnTxtCheckedListener mCheckedListener;
 
-    public LocalFileAdapter(List<LocalFileModel> localFileModels){
-        this.localFileModels = localFileModels;
+    public LocalFileAdapter(List<File> localFileModels){
+        this.localFiles = localFileModels;
+    }
+
+    public void setClickListener(OnItemClickListener mClickListener) {
+        this.mClickListener = mClickListener;
+    }
+
+    public void setCheckedListener(OnTxtCheckedListener checkedListener){
+        this.mCheckedListener = checkedListener;
     }
 
     @NonNull
@@ -39,36 +56,69 @@ public class LocalFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        LocalFileModel model = localFileModels.get(position);
-        if (model.getFileType() == FileType.DIRECTORY){
-
+        File file = localFiles.get(position);
+        if (file.isDirectory()){
+            viewHolder.containsTextView.setText(String.valueOf(FileManager.getInstance().getSubFileCount(file)));
         }else {
-            viewHolder.sizeTextView.setText(model.getFileSize());
-            viewHolder.dateTextView.setText(model.getFileDate());
+            viewHolder.sizeTextView.setText(FileManager.getInstance().getFileSize(file));
+            viewHolder.dateTextView.setText(StringUtils.dateConvert(file.lastModified(),FORMAT_DATE));
+            //txt文件选中回调
             viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
-                        selectedFiles.add(model);
+                        selectedFiles.add(file);
                     }else {
-                        selectedFiles.remove(model);
+                        selectedFiles.remove(file);
                     }
+                    mCheckedListener.onTxtFileChecked(selectedFiles);
                 }
             });
         }
-        viewHolder.titleTextView.setText(model.getFileTitle());
-
+        viewHolder.titleTextView.setText(file.getName());
+        //item点击事件回调
+        if (mClickListener != null) viewHolder.itemView.setOnClickListener((v)->{
+            mClickListener.onItemClick(viewHolder.itemView,position);
+        });
     }
 
+    //获取文件数量
     @Override
     public int getItemCount() {
-        return localFileModels.size();
+        return localFiles.size();
+    }
+
+    // 获取选中文件数量
+    public int getSelectedCount(){
+        return selectedFiles.size();
+    }
+
+    //获取某个item的model
+    public File getItem(int pos){
+        return localFiles.get(pos);
     }
 
     //获取文件类型
     @Override
     public int getItemViewType(int position) {
-        return localFileModels.get(position).getFileType().ordinal();
+        return localFiles.get(position).isDirectory()?FileType.DIRECTORY.ordinal():FileType.TXTFILE.ordinal();
+    }
+
+    //更新目录
+    public void refreshItems(List<File> items){
+        localFiles.clear();
+        localFiles.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    //获取当前目录的所有文件
+    public List<File> getItems(){
+        return localFiles;
+    }
+
+    //获取已选文件
+    public List<File> getSelectedItems(){
+        return selectedFiles;
     }
 
     /******************inner class*********************/
@@ -89,5 +139,15 @@ public class LocalFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 containsTextView = itemView.findViewById(R.id.containsTextView);
             }
         }
+    }
+
+
+    /**********************interface***************************/
+    public interface OnItemClickListener{
+        void onItemClick(View view, int pos);
+    }
+
+    public interface OnTxtCheckedListener{
+        void onTxtFileChecked(List<File> selectedFiles);
     }
 }

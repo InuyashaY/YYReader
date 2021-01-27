@@ -32,8 +32,8 @@ public class FileStack {
     }
 
     //文件快照
-    class FileSnapShot{
-        String filePath;
-        List<File> fileList;
+    public static class FileSnapShot{
+        public String filePath;
+        public List<File> fileList;
     }
 }

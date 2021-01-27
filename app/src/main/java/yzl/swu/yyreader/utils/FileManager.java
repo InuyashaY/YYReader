@@ -61,7 +61,8 @@ public class FileManager {
                 return false;
             }
         }));
-        return Arrays.asList(dirs);
+
+        return new ArrayList<>(Arrays.asList(dirs));
     }
 
     //获取根目录path
