@@ -2,6 +2,8 @@ package yzl.swu.yyreader.views;
 
 import android.util.Log;
 
+import org.litepal.LitePal;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -54,9 +56,15 @@ public class LocalPageLoader extends PageLoader {
     //分章
     @Override
     public void loadChapters() throws IOException {
+        //从数据库加载分章信息
+        mChapterList = LitePal.where("book_id=?",bookModel.getId())
+                .find(TxtChapterModel.class);
+        if (!mChapterList.isEmpty()) return;
+
+        //如果没有 就根据文件进行分章
         List<TxtChapterModel> chapters = new ArrayList<>();
         //先获取本地文件
-        bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getBookTitle()+".txt");
+        bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getFilePath());
         //获取文件流
         RandomAccessFile bookStream = new RandomAccessFile(bookFile, "r");
         //查看文件内是否存在分章

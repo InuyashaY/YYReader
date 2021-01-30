@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -22,6 +23,8 @@ import android.widget.Toolbar;
 
 import com.google.android.material.appbar.AppBarLayout;
 
+import org.litepal.LitePal;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,10 +35,16 @@ import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.R2;
 import yzl.swu.yyreader.adapter.ReadChaptersAdapter;
 import yzl.swu.yyreader.databinding.ActivityBookReaderBinding;
+import yzl.swu.yyreader.models.BookModel;
+import yzl.swu.yyreader.models.BookRecordModel;
+import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.utils.FileManager;
 import yzl.swu.yyreader.views.BrightnessSettingDialog;
+import yzl.swu.yyreader.views.PageLoader;
 import yzl.swu.yyreader.views.ReadSettingDialog;
 import yzl.swu.yyreader.views.YPageView;
+
+import static yzl.swu.yyreader.common.Constants.READBOOK_KEY;
 
 public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> {
 
@@ -44,24 +53,39 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
     ReadSettingDialog readSettingDialog;
     //亮度设置Dialog
     BrightnessSettingDialog brightnessSettingDialog;
+    //书籍
+    BookModel mBookModel;
+    //页面加载器
+    private PageLoader mPageLoader;
 
-    public static void show(Context context){
-        Intent intent = new Intent(context,BookReaderActivity.class);
-        context.startActivity(intent);
-    }
+//    public static void show(Context context,BookModel model){
+//        Intent intent = new Intent(context,BookReaderActivity.class);
+//
+//        context.startActivity(intent);
+//
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.mBookModel = getIntent().getParcelableExtra(READBOOK_KEY);
         initWidgets();
         initEvents();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //LitePal.saveAll(mPageLoader.mChapterList);
+        ContentValues values = new ContentValues();
+        values.put("chapterpos",mPageLoader.getCurChapterIndex());
+        values.put("pagepos",mPageLoader.getCurPageIndex());
+        LitePal.updateAll(BookRecordModel.class,values,"book_id=?",mBookModel.getId());
     }
 
     /**************************init*******************************/
     private void initWidgets(){
-
+        mPageLoader = viewBinding.mPageView.getPageLoader(mBookModel);
     }
 
     private void initEvents(){
@@ -80,8 +104,8 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int process = seekBar.getProgress();
-                int chapterIndex = (int)(process/100f*(viewBinding.mPageView.getPageLoader().mChapterList.size()-1));
-                viewBinding.mPageView.getPageLoader().skipToChapter(chapterIndex);
+                int chapterIndex = (int)(process/100f*(mPageLoader.mChapterList.size()-1));
+                mPageLoader.skipToChapter(chapterIndex);
             }
         });
         //目录
@@ -106,13 +130,13 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
         //下一章
         viewBinding.readBvNextChapter.setOnClickListener((v)->{
-            viewBinding.mPageView.getPageLoader().nextChapter();
+            mPageLoader.nextChapter();
         });
 
         //上一章
         viewBinding.readBvPreChapter.setOnClickListener((v)->{
 
-            viewBinding.mPageView.getPageLoader().preChapter();
+            mPageLoader.preChapter();
         });
 
         //中心区域被点击   显示菜单
@@ -137,10 +161,10 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
         viewBinding.readRvCategory.setLayoutManager(new LinearLayoutManager(this));
         //选中章节
-        viewBinding.readRvCategory.setAdapter(new ReadChaptersAdapter(viewBinding.mPageView.getPageLoader().mChapterList, new ReadChaptersAdapter.OnChapterClickListener() {
+        viewBinding.readRvCategory.setAdapter(new ReadChaptersAdapter(mPageLoader.mChapterList, new ReadChaptersAdapter.OnChapterClickListener() {
             @Override
             public void onItemClick(int pos) {
-                viewBinding.mPageView.getPageLoader().skipToChapter(pos);
+                mPageLoader.skipToChapter(pos);
             }
         }));
     }
@@ -167,7 +191,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     //设置
     public void openReadSetting(){
-        readSettingDialog = new ReadSettingDialog(this,viewBinding.mPageView.getPageLoader());
+        readSettingDialog = new ReadSettingDialog(this,mPageLoader);
         readSettingDialog.show();
     }
 
@@ -191,4 +215,6 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return super.dispatchTouchEvent(ev);
     }
+
+
 }

@@ -177,9 +177,9 @@ public class FileManager {
         return filedirpath;
     }
 
-    public File getFileByFilePath(String fileName){
+    public File getFileByFilePath(String filePath){
 
-        String filePath = Environment.getExternalStorageDirectory().getPath()+"/"+fileName;
+//        String filePath = Environment.getExternalStorageDirectory().getPath()+"/"+fileName;
         File file = new File(filePath);
 //        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
 //        String contenet = br.readLine();

@@ -1,5 +1,6 @@
 package yzl.swu.yyreader.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +37,8 @@ import yzl.swu.yyreader.adapter.SpaceItemDecoration;
 import yzl.swu.yyreader.common.ContentScaleAnimation;
 import yzl.swu.yyreader.common.Rotate3DAnimation;
 import yzl.swu.yyreader.models.BookModel;
+
+import static yzl.swu.yyreader.common.Constants.READBOOK_KEY;
 
 public class BookShelfFragment extends Fragment implements Animation.AnimationListener,BookShelfAdapter.OnBookClickListener{
 
@@ -59,6 +64,8 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
     private int toolBarHeight;
     // 是否打开书籍 其实是是否离开当前界面，跳转到其他的界面
     private boolean isOpenBook = false;
+    //选中的书籍
+    private int selectedIndex = 0;
     //handler消费
     private Handler handler = new Handler(){
         @Override
@@ -120,14 +127,16 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     // 重复添加数据
     private void initData() {
+        //从数据库查询已添加的书籍
+        bookModels = LitePal.findAll(BookModel.class);
         for(int i = 0;i<10;i++){
-            BookModel model = new BookModel("太古神王",R.drawable.tgsw,"未读");
+            BookModel model = new BookModel("斗罗大陆",R.drawable.tgsw,"未读","/storage/emulated/0/斗罗大陆.txt");
             bookModels.add(model);
         }
     }
@@ -175,7 +184,10 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
             // 两个动画都结束的时候再处理后续操作
             if (!isOpenBook) {
                 isOpenBook = true;
-                BookReaderActivity.show(this.getContext());
+//                BookReaderActivity.show(this.getContext());
+                Intent intent = new Intent(getActivity(),BookReaderActivity.class);
+                intent.putExtra(READBOOK_KEY,bookModels.get(selectedIndex));
+                startActivity(intent);
                 int a = getActivity().findViewById(R.id.mBottomBar).getHeight();
                 Log.v("yzll","${}"+getActivity().findViewById(R.id.mBottomBar).getHeight());
             } else {
@@ -196,6 +208,7 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
     public void onItemClick(int pos,View view) {
         mFirst.setVisibility(View.VISIBLE);
         mContent.setVisibility(View.VISIBLE);
+        selectedIndex = pos;
 
         //隐藏toolabr和bottombar
         getActivity().findViewById(R.id.mToolBar).setVisibility(View.GONE);
@@ -263,5 +276,11 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
         threeDAnimation.setDuration(1000);                         //设置动画时长
         threeDAnimation.setFillAfter(true);                        //保持旋转后效果
         threeDAnimation.setInterpolator(new DecelerateInterpolator());
+    }
+
+    //添加新书
+    public void addBooks(List<BookModel> models){
+        bookModels.addAll(0,models);
+        mAdapter.notifyDataSetChanged();
     }
 }

@@ -1,14 +1,10 @@
 package yzl.swu.yyreader.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,20 +16,29 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+
+import org.litepal.LitePal;
+
+import java.util.List;
+
 import yzl.swu.yyreader.R;
-import yzl.swu.yyreader.common.YToolBar;
 import yzl.swu.yyreader.databinding.ActivityMainBinding;
+import yzl.swu.yyreader.fragment.BookShelfFragment;
+import yzl.swu.yyreader.models.BookModel;
+
+import static yzl.swu.yyreader.common.Constants.FIELSELECTOR_RESULT_KEY;
+import static yzl.swu.yyreader.common.Constants.FILESELECTOR_RESULT_CODE;
+import static yzl.swu.yyreader.common.Constants.MAINACTIVITY_REQUEST_CODE;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding>{
@@ -52,6 +57,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
                 showDialog();
             }
         });
+
+        //数据库 LitePal
+
+        LitePal.initialize(this);
+        SQLiteDatabase db = LitePal.getDatabase();
 
         isStoragePermissionGranted();
     }
@@ -161,7 +171,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         });
         //本地导入
         view.findViewById(R.id.localBook).setOnClickListener((v)->{
-            FileSelectorActivity.show(this);
+//            FileSelectorActivity.show(this);
+            Intent intent = new Intent(MainActivity.this,FileSelectorActivity.class);
+            startActivityForResult(intent,MAINACTIVITY_REQUEST_CODE);
             alertDialog.dismiss();
         });
         //取消
@@ -184,4 +196,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
 //        p.alpha = 0.8f;//设置透明度
         dialogWindow.setAttributes(p);
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
+        if (requestCode == MAINACTIVITY_REQUEST_CODE && resultCode == FILESELECTOR_RESULT_CODE) {
+            List<BookModel> resultModels = data.getParcelableArrayListExtra(FIELSELECTOR_RESULT_KEY);
+            Fragment navFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+            Fragment shelfFragment = navFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+            if (shelfFragment instanceof BookShelfFragment) ((BookShelfFragment) shelfFragment).addBooks(resultModels);
+            //fragment.addBooks(resultModels);
+        }
+    }
+
 }

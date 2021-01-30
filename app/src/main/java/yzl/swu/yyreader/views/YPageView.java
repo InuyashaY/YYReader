@@ -60,20 +60,22 @@ public class YPageView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        mPageLoader.initDimens();
+        mPageLoader.initData();
     }
 
     //自定义绘制
     @Override
     protected void onDraw(Canvas canvas) {
         //canvas.drawColor(bgColor);
-        getPageLoader().drawPage(canvas);
+        mPageLoader.drawPage(canvas);
     }
 
 
     /*******************************Setter and Getter***************************************/
-    public PageLoader getPageLoader() {
+    public PageLoader getPageLoader(BookModel bookModel) {
         if (mPageLoader == null){
-            BookModel bookModel = new BookModel("斗罗大陆",0,"");
+//            BookModel bookModel = new BookModel("斗罗大陆",R,"","/storage/emulated/0/斗罗大陆.txt");
             mPageLoader = new LocalPageLoader(this,bookModel);
         }
         return mPageLoader;

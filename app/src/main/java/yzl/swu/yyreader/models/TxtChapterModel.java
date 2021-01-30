@@ -1,6 +1,11 @@
 package yzl.swu.yyreader.models;
 
-public class TxtChapterModel {
+import org.litepal.crud.LitePalSupport;
+
+/**
+ * 小说的章节
+ * */
+public class TxtChapterModel extends LitePalSupport {
     //章节名
     public String title;
     //章节链接
@@ -8,6 +13,8 @@ public class TxtChapterModel {
     //章节的起始和结束位置
     public long start;
     public long end;
+    //书籍id
+    private int book_id;
 
     public TxtChapterModel() {
 

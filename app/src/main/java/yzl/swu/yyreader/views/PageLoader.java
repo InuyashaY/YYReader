@@ -8,6 +8,8 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 
+import org.litepal.LitePal;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.util.List;
 
 import yzl.swu.yyreader.common.Constants;
 import yzl.swu.yyreader.models.BookModel;
+import yzl.swu.yyreader.models.BookRecordModel;
 import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.models.TxtPageModel;
 import yzl.swu.yyreader.utils.StringUtils;
@@ -40,6 +43,8 @@ public abstract class PageLoader {
     int curChapterIndex = 0;
     //当前页面位置
     int curPageIndex = 0;
+
+
     //行间距
     private int mTextInterval;
     //标题的行间距
@@ -76,14 +81,20 @@ public abstract class PageLoader {
         this.bookModel = bookModel;
 
         initPaint();
-        initDimens();
-        initData();
+//        initDimens();
+//        initData();
     }
 
     //初始化数据
-    private void initData(){
+    public void initData(){
         try {
             loadChapters();
+            //获取上次的数据
+            BookRecordModel recordModel = LitePal.where("book_id=?",bookModel.getId()).findFirst(BookRecordModel.class);
+            if (recordModel != null){
+                curChapterIndex = recordModel.getChapterPos();
+                curPageIndex = recordModel.getPagePos();
+            }
             if (curChapterIndex > 0) mPrePageList = loadPageList(curChapterIndex-1);
             mCurPageList = loadPageList(curChapterIndex);
             if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
@@ -94,7 +105,7 @@ public abstract class PageLoader {
     }
 
     //初始化尺寸
-    private void initDimens(){
+    public void initDimens(){
         mMarginWidth = 40;
         mMarginHeight = 50;
         mVisibleWidth = pageView.getWidth()-mMarginWidth*2;
@@ -438,6 +449,14 @@ public abstract class PageLoader {
 
     private void updateCurPage(){
         mCurPage = mCurPageList.get(curPageIndex);
+    }
+
+    public int getCurChapterIndex() {
+        return curChapterIndex;
+    }
+
+    public int getCurPageIndex() {
+        return curPageIndex;
     }
 
 
