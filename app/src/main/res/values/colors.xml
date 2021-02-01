@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#00BFFF</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorSkyBlue">#00BFFF</color>
@@ -29,4 +29,8 @@
     <color name="readBgColor3">#009688</color>
     <color name="readBgColor4">#8BC34A</color>
     <color name="readBgColor5">#292621</color>
+
+    <!-- “我的”界面描边颜色 -->
+    <color name="border_clo">#ccc</color>
+    <color name="text_clo">#333</color>
 </resources>

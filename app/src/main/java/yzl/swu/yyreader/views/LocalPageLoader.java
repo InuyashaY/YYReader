@@ -53,18 +53,18 @@ public class LocalPageLoader extends PageLoader {
         return br;
     }
 
+
+    static final byte BLANK = 0x0a;
     //分章
     @Override
     public void loadChapters() throws IOException {
-        //从数据库加载分章信息
-        mChapterList = LitePal.where("book_id=?",bookModel.getId())
-                .find(TxtChapterModel.class);
+
+        //先获取本地文件
+        bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getFilePath());
         if (!mChapterList.isEmpty()) return;
 
         //如果没有 就根据文件进行分章
         List<TxtChapterModel> chapters = new ArrayList<>();
-        //先获取本地文件
-        bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getFilePath());
         //获取文件流
         RandomAccessFile bookStream = new RandomAccessFile(bookFile, "r");
         //查看文件内是否存在分章
@@ -116,7 +116,7 @@ public class LocalPageLoader extends PageLoader {
                             }
 
                             //创建新章节，加入数组
-                            TxtChapterModel curChapter = new TxtChapterModel();
+                            TxtChapterModel curChapter = new TxtChapterModel(bookModel.getId());
                             curChapter.title = chapterMatcher.group();
                             curChapter.start = forwardChapter.end;
                             chapters.add(curChapter);
@@ -128,7 +128,7 @@ public class LocalPageLoader extends PageLoader {
                             lastChapter.end += lastContent.getBytes("utf-8").length;
 
                             //创建新章节，加入数组
-                            TxtChapterModel curChapter = new TxtChapterModel();
+                            TxtChapterModel curChapter = new TxtChapterModel(bookModel.getId());
                             curChapter.title = chapterMatcher.group();
                             curChapter.start = lastChapter.end;
                             chapters.add(curChapter);
@@ -147,13 +147,13 @@ public class LocalPageLoader extends PageLoader {
                             lastChapter.end = lastChapter.start+chapterContent.getBytes("utf-8").length;
 
                             //创建新章节，加入数组
-                            TxtChapterModel curChapter = new TxtChapterModel();
+                            TxtChapterModel curChapter = new TxtChapterModel(bookModel.getId());
                             curChapter.title = chapterMatcher.group();
                             curChapter.start = lastChapter.end;
                             chapters.add(curChapter);
                         }else {     //没有已创建的章节
                             //创建新章节，加入数组
-                            TxtChapterModel curChapter = new TxtChapterModel();
+                            TxtChapterModel curChapter = new TxtChapterModel(bookModel.getId());
                             curChapter.title = chapterMatcher.group();
                             curChapter.start = 0;
                             chapters.add(curChapter);
@@ -163,16 +163,53 @@ public class LocalPageLoader extends PageLoader {
 
             }
 
-            //若文件中不存在章节信息，则以固定长度为一章
+            //若文件中不存在章节信息，则以固定长度为一章划分
             else {
+                //章节在buffer的偏移量
+                int chapterOffset = 0;
+                //当前剩余可分配的长度
+                int strLength = length;
+                //分章的位置
+                int chapterPos = 0;
 
+                while (strLength > 0) {
+                    ++chapterPos;
+                    //是否长度超过一章
+                    if (strLength > MAX_LENGTH_WITH_NO_CHAPTER) {
+                        //在buffer中一章的终止点
+                        int end = length;
+                        //寻找换行符作为终止点
+                        for (int i = chapterOffset + MAX_LENGTH_WITH_NO_CHAPTER; i < length; ++i) {
+                            if (blockBuffer[i] == BLANK) {
+                                end = i;
+                                break;
+                            }
+                        }
+                        TxtChapterModel chapter = new TxtChapterModel(bookModel.getId());
+                        chapter.title = "第" + blockCount + "章" + "(" + chapterPos + ")";
+                        chapter.start = curOffset + chapterOffset + 1;
+                        chapter.end = curOffset + end;
+                        chapters.add(chapter);
+                        //减去已经被分配的长度
+                        strLength = strLength - (end - chapterOffset);
+                        //设置偏移的位置
+                        chapterOffset = end;
+                    } else {
+                        TxtChapterModel chapter = new TxtChapterModel(bookModel.getId());
+                        chapter.title = "第" + blockCount + "章" + "(" + chapterPos + ")";
+                        chapter.start = curOffset + chapterOffset + 1;
+                        chapter.end = curOffset + length;
+                        chapters.add(chapter);
+                        strLength = 0;
+                    }
+                }
             }
 
             //一块数据处理完，移动block的指针（即偏移）
             curOffset += length;
 
             //设置上一章结尾为此block的结尾
-            if (hasChapters){
+            if (hasChapters && chapters.size()!=0){
                 TxtChapterModel lastChapter = chapters.get(chapters.size() - 1);
                 lastChapter.end = curOffset;
             }
@@ -182,6 +219,14 @@ public class LocalPageLoader extends PageLoader {
                 System.gc();
                 System.runFinalization();
             }
+        }
+
+        if (chapters.size() == 0){
+            TxtChapterModel chapterModel = new TxtChapterModel(bookModel.getId());
+            chapterModel.title = "抱歉加载失败";
+            chapterModel.start = 0 ;
+            chapterModel.end = 0;
+            chapters.add(chapterModel);
         }
 
         mChapterList = chapters;

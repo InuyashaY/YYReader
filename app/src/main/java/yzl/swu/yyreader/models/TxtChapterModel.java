@@ -16,8 +16,8 @@ public class TxtChapterModel extends LitePalSupport {
     //书籍id
     private int book_id;
 
-    public TxtChapterModel() {
-
+    public TxtChapterModel(int book_id) {
+        this.book_id = book_id;
     }
     public TxtChapterModel(String title) {
         this.title = title;

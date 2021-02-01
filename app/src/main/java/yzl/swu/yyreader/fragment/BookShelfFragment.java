@@ -8,9 +8,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
@@ -18,6 +22,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -31,29 +36,31 @@ import java.util.List;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.activity.BookReaderActivity;
+import yzl.swu.yyreader.activity.FileSelectorActivity;
 import yzl.swu.yyreader.activity.MainActivity;
 import yzl.swu.yyreader.adapter.BookShelfAdapter;
 import yzl.swu.yyreader.adapter.SpaceItemDecoration;
 import yzl.swu.yyreader.common.ContentScaleAnimation;
 import yzl.swu.yyreader.common.Rotate3DAnimation;
+import yzl.swu.yyreader.databinding.BookShelfFragmentBinding;
 import yzl.swu.yyreader.models.BookModel;
+import yzl.swu.yyreader.utils.Utils;
 
+import static yzl.swu.yyreader.common.Constants.FIELSELECTOR_RESULT_KEY;
+import static yzl.swu.yyreader.common.Constants.FILESELECTOR_RESULT_CODE;
+import static yzl.swu.yyreader.common.Constants.MAINACTIVITY_REQUEST_CODE;
 import static yzl.swu.yyreader.common.Constants.READBOOK_KEY;
 
-public class BookShelfFragment extends Fragment implements Animation.AnimationListener,BookShelfAdapter.OnBookClickListener{
+public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> implements Animation.AnimationListener,BookShelfAdapter.OnBookClickListener{
 
     private final String TAG = "OpenBookActivity";
 
-    private RecyclerView mRecyclerView;
+
     private BookShelfAdapter mAdapter;
     // 资源文件列表
-    private List<BookModel> bookModels = new ArrayList<>();
+    private List<BookModel> bookModels;
     // 记录View的位置
     private int[] location = new int[2];
-    // 内容页
-    private ImageView mContent;
-    // 封面
-    private ImageView mFirst;
     // 缩放动画
     private ContentScaleAnimation scaleAnimation;
     // 3D旋转动画
@@ -72,6 +79,7 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 111:
+
                     ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) getActivity().findViewById(R.id.mToolBar).getLayoutParams();
                     layoutParams.height = 0;
                     getActivity().findViewById(R.id.mToolBar);
@@ -85,23 +93,7 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
 //        context.startActivity(intent);
 //    }
 
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //加载布局
-        View inflateView = inflater.inflate(R.layout.book_shelf_fragment,container,false);
-
-        initWidget(inflateView);
-
-        return inflateView;
-    }
-
-    private void initWidget(View inflateView) {
-
-        mRecyclerView = inflateView.findViewById(R.id.mShelfRecycleView);
-        mContent = inflateView.findViewById(R.id.bookContent);
-        mFirst = inflateView.findViewById(R.id.bookCover);
+    protected void initWidget() {
         // 获取状态栏高度
         statusHeight = -1;
         //获取status_bar_height资源的ID
@@ -111,12 +103,19 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
             statusHeight = getResources().getDimensionPixelSize(resourceId);
             //statusHeight = 171;
         }
-        toolBarHeight = getActivity().findViewById(R.id.mToolBar).getHeight();
+        toolBarHeight = viewBinding.mToolBar.getHeight();
         initData();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this.getContext(),3));
-        mAdapter = new BookShelfAdapter(bookModels,this);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(10));
+        viewBinding.mShelfRecycleView.setLayoutManager(new GridLayoutManager(this.getContext(),3));
+        mAdapter = new BookShelfAdapter(bookModels,this,getContext());
+        viewBinding.mShelfRecycleView.setAdapter(mAdapter);
+        viewBinding.mShelfRecycleView.addItemDecoration(new SpaceItemDecoration(10));
+
+        viewBinding.mToolBar.getImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
     }
 
 
@@ -127,18 +126,19 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onResume() {
+        super.onResume();
     }
 
     // 重复添加数据
     private void initData() {
         //从数据库查询已添加的书籍
         bookModels = LitePal.findAll(BookModel.class);
-        for(int i = 0;i<10;i++){
-            BookModel model = new BookModel("斗罗大陆",R.drawable.tgsw,"未读","/storage/emulated/0/斗罗大陆.txt");
-            bookModels.add(model);
-        }
+        System.out.println();
+//        for(int i = 0;i<10;i++){
+//            BookModel model = new BookModel("斗罗大陆",R.drawable.tgsw,"未读","/storage/emulated/0/斗罗大陆.txt");
+//            bookModels.add(model);
+//        }
     }
 
 //    @Override
@@ -164,10 +164,10 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
         if(isOpenBook) {
             scaleAnimation.reverse();
             threeDAnimation.reverse();
-            mFirst.clearAnimation();
-            mFirst.startAnimation(threeDAnimation);
-            mContent.clearAnimation();
-            mContent.startAnimation(scaleAnimation);
+            viewBinding.bookCover.clearAnimation();
+            viewBinding.bookCover.startAnimation(threeDAnimation);
+            viewBinding.bookContent.clearAnimation();
+            viewBinding.bookContent.startAnimation(scaleAnimation);
             getActivity().findViewById(R.id.mToolBar).setVisibility(View.VISIBLE);
             getActivity().findViewById(R.id.mBottomBar).setVisibility(View.VISIBLE);
         }
@@ -192,10 +192,10 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
                 Log.v("yzll","${}"+getActivity().findViewById(R.id.mBottomBar).getHeight());
             } else {
                 isOpenBook = false;
-                mFirst.clearAnimation();
-                mContent.clearAnimation();
-                mFirst.setVisibility(View.GONE);
-                mContent.setVisibility(View.GONE);
+                viewBinding.bookCover.clearAnimation();
+                viewBinding.bookContent.clearAnimation();
+                viewBinding.bookCover.setVisibility(View.GONE);
+                viewBinding.bookContent.setVisibility(View.GONE);
             }
         }
     }
@@ -206,8 +206,8 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
 
     @Override
     public void onItemClick(int pos,View view) {
-        mFirst.setVisibility(View.VISIBLE);
-        mContent.setVisibility(View.VISIBLE);
+        viewBinding.bookCover.setVisibility(View.VISIBLE);
+        viewBinding.bookContent.setVisibility(View.VISIBLE);
         selectedIndex = pos;
 
         //隐藏toolabr和bottombar
@@ -225,30 +225,30 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
 
 
         // 两个ImageView设置大小和位置
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mFirst.getLayoutParams();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewBinding.bookCover.getLayoutParams();
         params.leftMargin = location[0];
         params.topMargin = location[1] - statusHeight - toolBarHeight;
         params.width = width;
         params.height = height;
-        mFirst.setLayoutParams(params);
-        mContent.setLayoutParams(params);
+        viewBinding.bookCover.setLayoutParams(params);
+        viewBinding.bookContent.setLayoutParams(params);
 
         //mContent = new ImageView(MainActivity.this);
         Bitmap contentBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
         contentBitmap.eraseColor(getResources().getColor(R.color.read_theme_yellow));
-        mContent.setImageBitmap(contentBitmap);
+        viewBinding.bookContent.setImageBitmap(contentBitmap);
 
         // mCover = new ImageView(MainActivity.this);
-        Bitmap coverBitmap = BitmapFactory.decodeResource(getResources(), bookModels.get(pos).getCoverResource());
-        mFirst.setImageBitmap(coverBitmap);
+        Bitmap coverBitmap = BitmapFactory.decodeResource(getResources(), Utils.getImageid(getContext(),bookModels.get(pos).getCoverResource()));
+        viewBinding.bookCover.setImageBitmap(coverBitmap);
 
         initAnimation(view);
-        Log.v(TAG,"left:"+mFirst.getLeft()+"top:"+mFirst.getTop());
+        Log.v(TAG,"left:"+viewBinding.bookCover.getLeft()+"top:"+viewBinding.bookCover.getTop());
 
-        mContent.clearAnimation();
-        mContent.startAnimation(scaleAnimation);
-        mFirst.clearAnimation();
-        mFirst.startAnimation(threeDAnimation);
+        viewBinding.bookContent.clearAnimation();
+        viewBinding.bookContent.startAnimation(scaleAnimation);
+        viewBinding.bookCover.clearAnimation();
+        viewBinding.bookCover.startAnimation(threeDAnimation);
     }
 
     // 初始化动画
@@ -283,4 +283,71 @@ public class BookShelfFragment extends Fragment implements Animation.AnimationLi
         bookModels.addAll(0,models);
         mAdapter.notifyDataSetChanged();
     }
+
+    //刷新数据
+    public void refreshData(){
+        bookModels = LitePal.findAll(BookModel.class);
+        mAdapter.refreshModels(bookModels);
+    }
+
+
+    public void showDialog(){
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_more_setting,null,false);
+        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
+
+        //整理书架
+        view.findViewById(R.id.classfy).setOnClickListener((v) ->{
+
+        });
+        //下载
+        view.findViewById(R.id.txtDownload).setOnClickListener((v) ->{
+
+        });
+        //本地导入
+        view.findViewById(R.id.localBook).setOnClickListener((v)->{
+//            FileSelectorActivity.show(this);
+            Intent intent = new Intent(getActivity(), FileSelectorActivity.class);
+            startActivityForResult(intent,MAINACTIVITY_REQUEST_CODE);
+            alertDialog.dismiss();
+        });
+        //取消
+        view.findViewById(R.id.more_cancel).setOnClickListener((v)->{
+            alertDialog.dismiss();
+        });
+
+        //显示弹窗
+        alertDialog.show();
+
+        //自定义的东西
+        //放在show()之后，不然有些属性是没有效果的，比如height和width
+        Window dialogWindow = alertDialog.getWindow();
+        Display d = dialogWindow.getWindowManager().getDefaultDisplay();
+
+        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        p.gravity = Gravity.BOTTOM;//设置位置
+        p.width = d.getWidth(); //设置dialog的宽度为当前手机屏幕的宽度
+
+//        p.alpha = 0.8f;//设置透明度
+        dialogWindow.setAttributes(p);
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
+        if (requestCode == MAINACTIVITY_REQUEST_CODE && resultCode == FILESELECTOR_RESULT_CODE) {
+            List<BookModel> resultModels = data.getParcelableArrayListExtra(FIELSELECTOR_RESULT_KEY);
+            if(!resultModels.isEmpty()){
+                Fragment navFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                Fragment shelfFragment = navFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+                if (shelfFragment instanceof BookShelfFragment) ((BookShelfFragment) shelfFragment).addBooks(resultModels);
+                //fragment.addBooks(resultModels);
+                //保存添加的文件
+                LitePal.saveAll(resultModels);
+            }
+        }
+    }
+
 }

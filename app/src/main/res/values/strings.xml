@@ -23,4 +23,13 @@
     <string name="more_setting3">Txt下载</string>
     <string name="more_setting_cancel">取消</string>
 
+
+    <!--我的-button文字-->
+    <string name="me_reflect">帮助与反馈</string>
+    <string name="me_cache">缓存管理</string>
+    <string name="me_self">个人中心</string>
+    <string name="me_about">关于</string>
+    <string name="me_setting">设置</string>
+
+
 </resources>

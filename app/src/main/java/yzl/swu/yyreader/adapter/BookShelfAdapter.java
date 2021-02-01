@@ -1,5 +1,6 @@
 package yzl.swu.yyreader.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,17 @@ import java.util.List;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.models.BookModel;
+import yzl.swu.yyreader.utils.Utils;
 
 public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<BookModel> bookModels;
     private OnBookClickListener listener;
+    private Context mContext;
 
-    public BookShelfAdapter(List<BookModel> values,OnBookClickListener listener) {
+    public BookShelfAdapter(List<BookModel> values,OnBookClickListener listener,Context context) {
         this.bookModels = values;
         this.listener = listener;
+        this.mContext = context;
     }
 
     @NonNull
@@ -36,7 +40,7 @@ public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         //显示数据
-        viewHolder.cover.setImageResource(bookModels.get(position).getCoverResource());
+        viewHolder.cover.setImageResource(Utils.getImageid(mContext,bookModels.get(position).getCoverResource()));
         viewHolder.mTitle.setText(bookModels.get(position).getBookTitle());
         viewHolder.mRecord.setText(bookModels.get(position).getRecord());
 
@@ -71,5 +75,10 @@ public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public interface OnBookClickListener{
         void onItemClick(int pos,View view);
+    }
+
+    public void refreshModels(List<BookModel> models){
+        this.bookModels = models;
+        notifyDataSetChanged();
     }
 }

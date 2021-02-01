@@ -27,4 +27,12 @@
     <!--主页dialog item间距-->
     <dimen name="more_setting_item_padding">13dp</dimen>
 
+    <dimen name="expanded_toolbar_height">144dp</dimen>
+    <dimen name="default_collapsed_padding">72dp</dimen>
+    <dimen name="default_expanded_padding">16dp</dimen>
+    <dimen name="default_collapsed_image_size">40dp</dimen>
+    <dimen name="default_expanded_image_size">60dp</dimen>
+    <dimen name="default_collapsed_text_size">18sp</dimen>
+    <dimen name="default_expanded_text_size">19sp</dimen>
+
 </resources>

@@ -1,6 +1,7 @@
 package yzl.swu.yyreader.utils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
@@ -25,5 +26,11 @@ public class Utils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,metrics);
     }
 
+    public static int getImageid(Context context,String imageName){
+        int id=0;
+        ApplicationInfo appInfo = context.getApplicationInfo();
+        id = context.getResources().getIdentifier(imageName, "drawable", appInfo.packageName);
+        return id;
+    }
 
 }

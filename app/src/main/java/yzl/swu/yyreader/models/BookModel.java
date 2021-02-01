@@ -11,13 +11,14 @@ import org.litepal.crud.LitePalSupport;
  * 书籍的模型
  * */
 public class BookModel extends LitePalSupport implements Parcelable {
-    private String id;
+
+    private int id;
     private String bookTitle;
-    private int coverResource;
+    private String coverResource;
     private String record;
     private String filePath;
 
-    public BookModel(String bookTitle,int coverResource,String record,String filePath){
+    public BookModel(String bookTitle,String coverResource,String record,String filePath){
         this.bookTitle = bookTitle;
         this.coverResource = coverResource;
         this.record = record;
@@ -28,7 +29,7 @@ public class BookModel extends LitePalSupport implements Parcelable {
 
     protected BookModel(Parcel in) {
         bookTitle = in.readString();
-        coverResource = in.readInt();
+        coverResource = in.readString();
         record = in.readString();
         filePath = in.readString();
     }
@@ -37,8 +38,9 @@ public class BookModel extends LitePalSupport implements Parcelable {
         @Override
         public BookModel createFromParcel(Parcel in) {
             BookModel model = new BookModel();
+            model.id = in.readInt();
             model.bookTitle = in.readString();
-            model.coverResource = in.readInt();
+            model.coverResource = in.readString();
             model.record = in.readString();
             model.filePath = in.readString();
             return model;
@@ -51,11 +53,11 @@ public class BookModel extends LitePalSupport implements Parcelable {
     };
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -67,11 +69,11 @@ public class BookModel extends LitePalSupport implements Parcelable {
         this.bookTitle = bookTitle;
     }
 
-    public int getCoverResource() {
+    public String getCoverResource() {
         return coverResource;
     }
 
-    public void setCoverResource(int coverResource) {
+    public void setCoverResource(String coverResource) {
         this.coverResource = coverResource;
     }
 
@@ -98,8 +100,9 @@ public class BookModel extends LitePalSupport implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(bookTitle);
-        dest.writeInt(coverResource);
+        dest.writeString(coverResource);
         dest.writeString(record);
         dest.writeString(filePath);
     }

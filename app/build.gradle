@@ -47,6 +47,8 @@ dependencies {
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     //noinspection GradleCompatible
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-
+    //Litepal
     implementation 'org.litepal.guolindev:core:3.1.1'
+    //用户圆形头像依赖
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }

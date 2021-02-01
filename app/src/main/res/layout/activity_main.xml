@@ -8,15 +8,7 @@
     tools:context=".activity.MainActivity">
 
 
-    <yzl.swu.yyreader.common.YToolBar
-        android:id="@+id/mToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:background="@color/colorSkyBlue"
-        app:centerTitle="@string/book_shelf_toolbar_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rightIcon="@drawable/add" />
+
 
     <fragment
         android:id="@+id/main_fragment"
@@ -26,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mToolBar"
+        app:layout_constraintTop_toTopOf="parent"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"

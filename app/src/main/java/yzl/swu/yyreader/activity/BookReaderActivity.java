@@ -77,15 +77,46 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
     protected void onDestroy() {
         super.onDestroy();
         //LitePal.saveAll(mPageLoader.mChapterList);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (LitePal.where("book_id=?",String.valueOf(mBookModel.getId())).findFirst(TxtChapterModel.class) == null){
+            LitePal.saveAll(mPageLoader.mChapterList);
+        }
+//        ContentValues values = new ContentValues();
+//        values.put("chapterpos",mPageLoader.getCurChapterIndex());
+//        values.put("pagepos",mPageLoader.getCurPageIndex());
+//        LitePal.updateAll(BookRecordModel.class,values,"book_id=?",mBookModel.getId());
+        BookRecordModel bookRecord = new BookRecordModel();
+        bookRecord.setChapterPos(mPageLoader.getCurChapterIndex());
+        bookRecord.setPagePos(mPageLoader.getCurPageIndex());
+        bookRecord.setBook_id(mBookModel.getId());
+        bookRecord.saveOrUpdate("book_id=?",String.valueOf(mBookModel.getId()));
+
         ContentValues values = new ContentValues();
-        values.put("chapterpos",mPageLoader.getCurChapterIndex());
-        values.put("pagepos",mPageLoader.getCurPageIndex());
-        LitePal.updateAll(BookRecordModel.class,values,"book_id=?",mBookModel.getId());
+        values.put("record","已阅读至第"+mPageLoader.getCurChapterIndex()+"章");
+        mBookModel.setRecord("已阅读至第"+mPageLoader.getCurChapterIndex()+"章");
+        LitePal.update(BookModel.class,values,mBookModel.getId());
     }
 
     /**************************init*******************************/
     private void initWidgets(){
         mPageLoader = viewBinding.mPageView.getPageLoader(mBookModel);
+
+        //从数据库加载分章信息
+        mPageLoader.mChapterList = LitePal.where("book_id=?",String.valueOf(mBookModel.getId()))
+                .find(TxtChapterModel.class);
+
+        //获取上次的数据
+        BookRecordModel recordModel = LitePal.where("book_id=?",String.valueOf(mBookModel.getId())).findFirst(BookRecordModel.class);
+        if (recordModel != null){
+            mPageLoader.setCurChapterIndex(recordModel.getChapterPos());
+            mPageLoader.setCurPageIndex(recordModel.getPagePos());
+
+        }
     }
 
     private void initEvents(){

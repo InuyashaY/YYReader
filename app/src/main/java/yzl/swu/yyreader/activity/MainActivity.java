@@ -51,19 +51,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
 
 
 //        this.setSupportActionBar(viewBinding.mToolBar);
-        viewBinding.mToolBar.getImageButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
 
+
+        //获取存储权限
+        isStoragePermissionGranted();
         //数据库 LitePal
-
         LitePal.initialize(this);
         SQLiteDatabase db = LitePal.getDatabase();
 
-        isStoragePermissionGranted();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Fragment navFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+        Fragment shelfFragment = navFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+        if (shelfFragment instanceof BookShelfFragment) ((BookShelfFragment) shelfFragment).refreshData();
     }
 
     @Override
@@ -157,45 +161,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
 //    public void onTabReselected(int position) {
 //
 //    }
-    public void showDialog(){
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_more_setting,null,false);
-        final AlertDialog alertDialog = new AlertDialog.Builder(this).setView(view).create();
 
-        //整理书架
-        view.findViewById(R.id.classfy).setOnClickListener((v) ->{
-
-        });
-        //下载
-        view.findViewById(R.id.txtDownload).setOnClickListener((v) ->{
-
-        });
-        //本地导入
-        view.findViewById(R.id.localBook).setOnClickListener((v)->{
-//            FileSelectorActivity.show(this);
-            Intent intent = new Intent(MainActivity.this,FileSelectorActivity.class);
-            startActivityForResult(intent,MAINACTIVITY_REQUEST_CODE);
-            alertDialog.dismiss();
-        });
-        //取消
-        view.findViewById(R.id.more_cancel).setOnClickListener((v)->{
-            alertDialog.dismiss();
-        });
-
-        //显示弹窗
-        alertDialog.show();
-
-        //自定义的东西
-        //放在show()之后，不然有些属性是没有效果的，比如height和width
-        Window dialogWindow = alertDialog.getWindow();
-        Display d = dialogWindow.getWindowManager().getDefaultDisplay();
-
-        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        p.gravity = Gravity.BOTTOM;//设置位置
-        p.width = d.getWidth(); //设置dialog的宽度为当前手机屏幕的宽度
-
-//        p.alpha = 0.8f;//设置透明度
-        dialogWindow.setAttributes(p);
-    }
 
 
 
@@ -205,10 +171,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
         if (requestCode == MAINACTIVITY_REQUEST_CODE && resultCode == FILESELECTOR_RESULT_CODE) {
             List<BookModel> resultModels = data.getParcelableArrayListExtra(FIELSELECTOR_RESULT_KEY);
-            Fragment navFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
-            Fragment shelfFragment = navFragment.getChildFragmentManager().getPrimaryNavigationFragment();
-            if (shelfFragment instanceof BookShelfFragment) ((BookShelfFragment) shelfFragment).addBooks(resultModels);
-            //fragment.addBooks(resultModels);
+            if(!resultModels.isEmpty()){
+                Fragment navFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                Fragment shelfFragment = navFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+                if (shelfFragment instanceof BookShelfFragment) ((BookShelfFragment) shelfFragment).addBooks(resultModels);
+                //fragment.addBooks(resultModels);
+                //保存添加的文件
+                LitePal.saveAll(resultModels);
+            }
         }
     }
 

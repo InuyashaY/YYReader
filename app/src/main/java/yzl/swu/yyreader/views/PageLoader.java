@@ -89,12 +89,6 @@ public abstract class PageLoader {
     public void initData(){
         try {
             loadChapters();
-            //获取上次的数据
-            BookRecordModel recordModel = LitePal.where("book_id=?",bookModel.getId()).findFirst(BookRecordModel.class);
-            if (recordModel != null){
-                curChapterIndex = recordModel.getChapterPos();
-                curPageIndex = recordModel.getPagePos();
-            }
             if (curChapterIndex > 0) mPrePageList = loadPageList(curChapterIndex-1);
             mCurPageList = loadPageList(curChapterIndex);
             if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
@@ -457,6 +451,14 @@ public abstract class PageLoader {
 
     public int getCurPageIndex() {
         return curPageIndex;
+    }
+
+    public void setCurChapterIndex(int curChapterIndex) {
+        this.curChapterIndex = curChapterIndex;
+    }
+
+    public void setCurPageIndex(int curPageIndex) {
+        this.curPageIndex = curPageIndex;
     }
 
 

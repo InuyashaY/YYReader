@@ -2,18 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <yzl.swu.yyreader.common.YToolBar
+        android:id="@+id/mToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorSkyBlue"
+        app:centerTitle="@string/book_shelf_toolbar_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rightIcon="@drawable/add" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mShelfRecycleView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:layout_height="0dp"
+        android:layout_below="@+id/mToolBar"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/bookContent"
