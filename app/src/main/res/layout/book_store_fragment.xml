@@ -4,4 +4,24 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent">
 
+    <yzl.swu.yyreader.common.ScrollerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/read_theme_yellow"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/dark_gray"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/colorSkyBlue"
+            />
+    </yzl.swu.yyreader.common.ScrollerLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

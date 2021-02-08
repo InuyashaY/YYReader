@@ -15,9 +15,10 @@ import androidx.annotation.Nullable;
 
 import java.io.IOException;
 
+import yzl.swu.yyreader.common.CoverAnimation;
 import yzl.swu.yyreader.models.BookModel;
 
-public class YPageView extends View {
+public class YPageView extends View implements CoverAnimation.OnPageChangeListener {
     /** 属性*/
     //背景颜色
 //    private int bgColor = 0xFFCEC29C;
@@ -38,6 +39,8 @@ public class YPageView extends View {
     //翻页方向
     boolean isNext = true;
 
+    CoverAnimation coverAnimation;
+
     public YPageView(Context context) {
         this(context,null);
     }
@@ -48,27 +51,39 @@ public class YPageView extends View {
 
     public YPageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initData();
+
     }
 
     /*******************************初始化方法***************************************/
     private void initData() {
-
+        coverAnimation = new CoverAnimation(this, (CoverAnimation.OnPageChangeListener) this);
+        mPageLoader.initDimens();
+        mPageLoader.initData();
+//        mPageLoader.drawPage(coverAnimation.getmCurBitmap());
+        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
     }
 
     /*******************************自定义绘制方法***************************************/
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mPageLoader.initDimens();
-        mPageLoader.initData();
+        initData();
     }
 
     //自定义绘制
     @Override
     protected void onDraw(Canvas canvas) {
         //canvas.drawColor(bgColor);
-        mPageLoader.drawPage(canvas);
+
+
+//        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
+        if (isMove){
+            coverAnimation.drawMove(canvas);
+        }else {
+            coverAnimation.drawViewPages(canvas);
+        }
+
+
     }
 
 
@@ -99,7 +114,7 @@ public class YPageView extends View {
                 mStartY = y;
                 isMove = false;
                 //canTouch = mTouchListener.onTouch();
-//                mPageAnim.onTouchEvent(event);
+                coverAnimation.onTouchEvent(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 判断是否大于最小滑动值。
@@ -107,6 +122,9 @@ public class YPageView extends View {
                 if (!isMove) {
                     isMove = Math.abs(mStartX - event.getX()) > 100 || Math.abs(mStartY - event.getY()) > slop;
                     isNext = event.getX()-mStartX<0;
+                }
+                if (isMove){
+                    coverAnimation.onTouchEvent(event);
                 }
 
                 break;
@@ -127,23 +145,73 @@ public class YPageView extends View {
                         return true;
                     }
                 }
-                // 如果滑动了，则进行翻页。
+                //如果滑动了，则进行翻页
                 if (isMove) {
-//                    mPageAnim.onTouchEvent(event);
-                    if (isNext) mPageLoader.nextPage();
-                    else mPageLoader.prePage();
+                    coverAnimation.onTouchEvent(event);
+//                    if (isNext) mPageLoader.nextPage();
+//                    else mPageLoader.prePage();
+
                     isNext = true;
                     isMove = !isMove;
                 }
-//                mPageAnim.onTouchEvent(event);
+
+
                 break;
         }
         return true;
     }
 
+    @Override
+    public void computeScroll() {
+        // 判断Scroller是否执行完毕
+        //进行滑动
+        coverAnimation.scrollAnim();
+        super.computeScroll();
+    }
+
+    //判断是否存在上一页
+    private boolean hasPrevPage() {
+        return mPageLoader.prePage();
+    }
+
+    //判断是否下一页存在
+    private boolean hasNextPage() {
+
+        return mPageLoader.nextPage();
+    }
+
+    //绘制下一页
+    public void drawNextPage() {
+        coverAnimation.changePage();
+        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
+    }
+
+    //绘制当前页
+    public void drawCurPage() {
+        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
+    }
 
 
+
+
+    /*********************interface implements*************************/
     public interface OnCenterClickListener{
         void centerClicked();
+    }
+
+
+    @Override
+    public boolean hasPrev() {
+        return this.hasPrevPage();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return this.hasNextPage();
+    }
+
+    @Override
+    public void pageCancel() {
+
     }
 }

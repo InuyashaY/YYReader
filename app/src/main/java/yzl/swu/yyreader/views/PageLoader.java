@@ -1,5 +1,6 @@
 package yzl.swu.yyreader.views;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,6 +34,8 @@ public abstract class PageLoader {
     public List<TxtChapterModel> mChapterList;
     // 当前显示的页
     private TxtPageModel mCurPage;
+    // 被覆盖的页面
+    private TxtPageModel mHidenPage;
     // 上一章的页面列表缓存
     private List<TxtPageModel> mPrePageList;
     // 当前章节的页面列表
@@ -41,6 +44,8 @@ public abstract class PageLoader {
     private List<TxtPageModel> mNextPageList;
     //当前章节位置
     int curChapterIndex = 0;
+    //上一章节位置
+    int lastChapterIndex = 0;
     //当前页面位置
     int curPageIndex = 0;
 
@@ -260,7 +265,8 @@ public abstract class PageLoader {
 
 
     //绘制页面
-    public void drawPage(Canvas canvas){
+    public void drawPage(Bitmap bitmap){
+        Canvas canvas = new Canvas(bitmap);
         drawBG(canvas);
         drawContent(canvas);
     }
@@ -366,27 +372,29 @@ public abstract class PageLoader {
     }
 
     //上一页
-    public void prePage(){
+    public boolean prePage(){
 
         if (curPageIndex > 0){
             curPageIndex--;
         }else{
+            if (curChapterIndex == 0) return false;
             curChapterIndex--;
             mNextPageList = mCurPageList;
             mCurPageList = mNextPageList;
             if (curChapterIndex > 0) mPrePageList = loadPageList(--curChapterIndex);;
-            curPageIndex = 0;
+            curPageIndex = mCurPageList.size()-1;
         }
         mCurPage = mCurPageList.get(curPageIndex);
-        pageView.invalidate();
+        pageView.drawNextPage();
+        return true;
     }
 
     //下一页
-    public void nextPage(){
-
+    public boolean nextPage(){
         if (curPageIndex >= 0 && curPageIndex < mCurPageList.size()-1){
             curPageIndex++;
         }else{
+            if (curChapterIndex >= mChapterList.size()-1) return false;
             curChapterIndex++;
             mPrePageList = mCurPageList;
             mCurPageList = mNextPageList;
@@ -394,7 +402,8 @@ public abstract class PageLoader {
             curPageIndex = 0;
         }
         mCurPage = mCurPageList.get(curPageIndex);
-        pageView.invalidate();
+        pageView.drawNextPage();
+        return true;
     }
 
 
