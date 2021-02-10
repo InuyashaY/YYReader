@@ -2,23 +2,18 @@ package yzl.swu.yyreader.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.RectF;
-import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import androidx.annotation.Nullable;
-
-import java.io.IOException;
-
-import yzl.swu.yyreader.common.CoverAnimation;
+import yzl.swu.yyreader.common.AlikeAnim;
+import yzl.swu.yyreader.common.SlideAnim;
 import yzl.swu.yyreader.models.BookModel;
 
-public class YPageView extends View implements CoverAnimation.OnPageChangeListener {
+public class YPageView extends View implements SlideAnim.OnPageChangeListener {
     /** 属性*/
     //背景颜色
 //    private int bgColor = 0xFFCEC29C;
@@ -39,7 +34,7 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
     //翻页方向
     boolean isNext = true;
 
-    CoverAnimation coverAnimation;
+    AlikeAnim slideAnim;
 
     public YPageView(Context context) {
         this(context,null);
@@ -56,11 +51,11 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
 
     /*******************************初始化方法***************************************/
     private void initData() {
-        coverAnimation = new CoverAnimation(this, (CoverAnimation.OnPageChangeListener) this);
+        slideAnim = new AlikeAnim(this, this);
         mPageLoader.initDimens();
         mPageLoader.initData();
 //        mPageLoader.drawPage(coverAnimation.getmCurBitmap());
-        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
+        mPageLoader.drawPage(slideAnim.getmNextBitmap());
     }
 
     /*******************************自定义绘制方法***************************************/
@@ -77,11 +72,9 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
 
 
 //        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
-        if (isMove){
-            coverAnimation.drawMove(canvas);
-        }else {
-            coverAnimation.drawViewPages(canvas);
-        }
+
+        slideAnim.drawViewPages(canvas);
+
 
 
     }
@@ -114,7 +107,7 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
                 mStartY = y;
                 isMove = false;
                 //canTouch = mTouchListener.onTouch();
-                coverAnimation.onTouchEvent(event);
+                slideAnim.onTouchEvent(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 判断是否大于最小滑动值。
@@ -124,7 +117,7 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
                     isNext = event.getX()-mStartX<0;
                 }
                 if (isMove){
-                    coverAnimation.onTouchEvent(event);
+                    slideAnim.onTouchEvent(event);
                 }
 
                 break;
@@ -147,13 +140,13 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
                 }
                 //如果滑动了，则进行翻页
                 if (isMove) {
-                    coverAnimation.onTouchEvent(event);
 //                    if (isNext) mPageLoader.nextPage();
 //                    else mPageLoader.prePage();
 
                     isNext = true;
                     isMove = !isMove;
                 }
+                slideAnim.onTouchEvent(event);
 
 
                 break;
@@ -165,7 +158,8 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
     public void computeScroll() {
         // 判断Scroller是否执行完毕
         //进行滑动
-        coverAnimation.scrollAnim();
+        Log.v("yzll","computScroll");
+        slideAnim.scrollAnim();
         super.computeScroll();
     }
 
@@ -182,13 +176,18 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
 
     //绘制下一页
     public void drawNextPage() {
-        coverAnimation.changePage();
-        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
+        slideAnim.changePage();
+        mPageLoader.drawPage(slideAnim.getmNextBitmap());
     }
 
     //绘制当前页
     public void drawCurPage() {
-        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
+        mPageLoader.drawPage(slideAnim.getmNextBitmap());
+    }
+
+    //取消翻页
+    public void cancelChangePage(){
+        mPageLoader.cancelChangePage();
     }
 
 
@@ -212,6 +211,6 @@ public class YPageView extends View implements CoverAnimation.OnPageChangeListen
 
     @Override
     public void pageCancel() {
-
+        cancelChangePage();
     }
 }

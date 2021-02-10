@@ -34,8 +34,8 @@ public abstract class PageLoader {
     public List<TxtChapterModel> mChapterList;
     // 当前显示的页
     private TxtPageModel mCurPage;
-    // 被覆盖的页面
-    private TxtPageModel mHidenPage;
+    // 被遮盖的页，或者认为被取消显示的页
+    private TxtPageModel mCancelPage;
     // 上一章的页面列表缓存
     private List<TxtPageModel> mPrePageList;
     // 当前章节的页面列表
@@ -378,12 +378,13 @@ public abstract class PageLoader {
             curPageIndex--;
         }else{
             if (curChapterIndex == 0) return false;
-            curChapterIndex--;
+            lastChapterIndex = curChapterIndex--;
             mNextPageList = mCurPageList;
-            mCurPageList = mNextPageList;
-            if (curChapterIndex > 0) mPrePageList = loadPageList(--curChapterIndex);;
+            mCurPageList = mPrePageList;
+            if (curChapterIndex > 0) mPrePageList = loadPageList(curChapterIndex-1);
             curPageIndex = mCurPageList.size()-1;
         }
+        mCancelPage = mCurPage;
         mCurPage = mCurPageList.get(curPageIndex);
         pageView.drawNextPage();
         return true;
@@ -395,15 +396,78 @@ public abstract class PageLoader {
             curPageIndex++;
         }else{
             if (curChapterIndex >= mChapterList.size()-1) return false;
-            curChapterIndex++;
+            lastChapterIndex = curChapterIndex++;
             mPrePageList = mCurPageList;
             mCurPageList = mNextPageList;
             if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
             curPageIndex = 0;
         }
+        mCancelPage = mCurPage;
         mCurPage = mCurPageList.get(curPageIndex);
         pageView.drawNextPage();
         return true;
+    }
+
+    //取消翻页
+    public void cancelChangePage(){
+        // 加载到下一章取消了
+        if (mCurPage.position == 0 && curChapterIndex > lastChapterIndex) {
+            if (mPrePageList != null) {
+                cancelNextChapter();
+            } else {
+                mCurPage = new TxtPageModel();
+            }
+        }
+        // 加载上一章取消了
+        else if (mCurPageList == null
+                || (mCurPage.position == mCurPageList.size() - 1
+                && curChapterIndex < lastChapterIndex)) {
+
+            if (mNextPageList != null) {
+                cancelPreChapter();
+            } else {
+                mCurPage = new TxtPageModel();
+            }
+        } else {
+            // 假设加载到下一页，又取消了。那么需要重新装载。
+            mCurPage = mCancelPage;
+            curPageIndex = mCurPage.position;
+        }
+    }
+
+    //翻到下一章 取消加载
+    private void cancelNextChapter() {
+        int temp = lastChapterIndex;
+        lastChapterIndex = curChapterIndex;
+        curChapterIndex = temp;
+
+        mNextPageList = mCurPageList;
+        mCurPageList = mPrePageList;
+        mPrePageList = null;
+        if (curChapterIndex > 0) mPrePageList = loadPageList(curChapterIndex-1);
+
+        curPageIndex = mCurPageList.size()-1;
+
+        mCurPage = mCurPageList.get(curPageIndex);
+        mCancelPage = null;
+    }
+
+    //翻到上一章 取消加载
+    private void cancelPreChapter() {
+        // 重置位置点
+        int temp = lastChapterIndex;
+        lastChapterIndex = curChapterIndex;
+        curChapterIndex = temp;
+        // 重置页面列表
+        mPrePageList = mCurPageList;
+        mCurPageList = mNextPageList;
+        mNextPageList = null;
+
+        if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
+        curPageIndex = 0;
+
+        mCurPage = mCurPageList.get(curPageIndex);
+        mCancelPage = null;
     }
 
 

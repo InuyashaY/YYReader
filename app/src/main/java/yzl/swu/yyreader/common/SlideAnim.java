@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
-public class CoverAnimation {
+public class SlideAnim {
     //绘制的页面
     Bitmap mCurBitmap;
     Bitmap mNextBitmap;
@@ -31,30 +31,30 @@ public class CoverAnimation {
     protected float mLastY;
 
     //是否在移动
-    private boolean isMove;
+    protected boolean isMove;
     //最短滑动距离
     int slop;
     //滑动方向
-    Direction mDirection;
+    Direction mDirection = Direction.NONE;
     //是否取消翻页
     boolean isCancel;
     //页面位移矩阵
-    private Rect mSrcRect, mDestRect;
+    protected Rect mSrcRect, mDestRect;
     //是否开始动画
     boolean isAnim = false;
     //监听者
-    private OnPageChangeListener mListener;
+    protected OnPageChangeListener mListener;
     //是否没下一页或者上一页
-    private boolean noNext = false;
+    protected boolean noNext = false;
 
-    public CoverAnimation(View view,OnPageChangeListener mListener){
+    public SlideAnim(View view, OnPageChangeListener mListener){
         mView = view;
         mScroller = new Scroller(mView.getContext());
         this.mListener = mListener;
         initData();
     }
 
-    private void initData(){
+    protected void initData(){
         mViewWidth = mView.getWidth();
         mViewHeight = mView.getHeight();
         mCurBitmap = Bitmap.createBitmap(mView.getWidth(),mView.getHeight(),Bitmap.Config.RGB_565);
@@ -69,10 +69,7 @@ public class CoverAnimation {
 //        translateAnimation.setDuration(1000);
 //        mView.startAnimation(translateAnimation);
         //mView.scrollBy(100,100);
-        if (isAnim){
-            return;
-        }
-        isAnim = true;
+
         int dx = 0;
         switch (mDirection){
             case NEXT:
@@ -96,7 +93,7 @@ public class CoverAnimation {
         }
 
         //滑动速度保持一致
-        int duration = (400 * Math.abs(dx)) / mViewWidth;
+        int duration = (800 * Math.abs(dx)) / mViewWidth;
         mScroller.startScroll((int) mTouchX, 0, dx, 0, duration);
     }
 
@@ -133,8 +130,7 @@ public class CoverAnimation {
                 isAnim = false;
                 //取消
                 isCancel = false;
-                //方向默认
-                mDirection = Direction.NEXT;
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 //判断是否移动了
@@ -145,7 +141,7 @@ public class CoverAnimation {
                 //处理滑动
                 if (isMove) {
                     //还未开始滑动
-                    if (mLastX == mStartX && mLastY == mStartY) {
+                    if (mLastX == mStartX) {
                         //判断方向
                         if (x - mStartX > 0) {
                             mDirection = Direction.PRE;
@@ -244,6 +240,7 @@ public class CoverAnimation {
             mTouchX = x;
             mTouchY = y;
 
+
             if (mScroller.getFinalX() == x && mScroller.getFinalY() == y){
                 isAnim = false;
             }
@@ -254,7 +251,7 @@ public class CoverAnimation {
 
     //绘制翻页动画
     public void drawMove(Canvas canvas) {
-        if (!isAnim) return;
+
         switch (mDirection){
             case NEXT:
                 int dis = (int) (mViewWidth - mStartX + mTouchX);
@@ -267,14 +264,14 @@ public class CoverAnimation {
                 mDestRect.right = dis;
                 canvas.drawBitmap(mNextBitmap,0,0,null);
                 canvas.drawBitmap(mCurBitmap,mSrcRect,mDestRect,null);
-                //addShadow(dis,canvas);
+
                 break;
             default:
                 mSrcRect.left = (int) (mViewWidth - mTouchX);
                 mDestRect.right = (int) mTouchX;
                 canvas.drawBitmap(mCurBitmap,0,0,null);
                 canvas.drawBitmap(mNextBitmap,mSrcRect,mDestRect,null);
-                //addShadow((int) mTouchX,canvas);
+
                 break;
         }
     }
@@ -282,12 +279,17 @@ public class CoverAnimation {
 
     //画页面
     public void drawViewPages(Canvas canvas){
-        if (isCancel){
-            mNextBitmap = mCurBitmap.copy(Bitmap.Config.RGB_565, true);
-            canvas.drawBitmap(mCurBitmap, 0, 0, null);
+        if (isAnim){
+            drawMove(canvas);
         }else {
-            canvas.drawBitmap(mNextBitmap, 0, 0, null);
+            if (isCancel){
+                mNextBitmap = mCurBitmap.copy(Bitmap.Config.RGB_565, true);
+                canvas.drawBitmap(mCurBitmap, 0, 0, null);
+            }else {
+                canvas.drawBitmap(mNextBitmap, 0, 0, null);
+            }
         }
+
     }
 
 
