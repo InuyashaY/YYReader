@@ -5,6 +5,10 @@
     <!--Toolbar-->
     <dimen name="toolbar_height">40dp</dimen>
 
+    <!--书架界面-->
+    <dimen name="item_book_title_size">15sp</dimen>
+    <dimen name="item_book_record_size">10sp</dimen>
+
     <!--阅读界面 设置菜单字体大小-->
     <dimen name="read_menu_text_size">12sp</dimen>
     <dimen name="read_top_text_size">14sp</dimen>

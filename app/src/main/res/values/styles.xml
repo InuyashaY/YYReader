@@ -8,6 +8,10 @@
 
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/colorSkyBlue</item>
     </style>
     
     
@@ -53,6 +57,7 @@
         <!-- 设置背景模糊的透明度-->
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
+
 
 
 

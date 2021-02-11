@@ -78,6 +78,11 @@ public abstract class PageLoader {
     int mTextSize = 18;
     //背景颜色
     int bgColor = 0xFFCEC29C;
+    //字体颜色
+    int textColor = Color.BLACK;
+    //记录上一次颜色 用于恢复
+    int lastBgColor;
+    int lastTextColor;
 
 
 
@@ -473,17 +478,17 @@ public abstract class PageLoader {
 
     //下一章
     public void nextChapter(){
-        curPageIndex = 0;
+
         if (curChapterIndex < mChapterList.size()-1) skipToChapter(++curChapterIndex);
     }
 
     //上一章
     public void preChapter(){
-        curPageIndex = 0;
-        if (curChapterIndex < mChapterList.size()-1) skipToChapter(--curChapterIndex);
+
+        if (curChapterIndex > 0) skipToChapter(--curChapterIndex);
     }
 
-    //跳转到某一页
+    //跳转到某一章
     public void skipToChapter(int pos){
         curChapterIndex = pos;
         if (pos > 0) mPrePageList = loadPageList(pos-1);
@@ -491,7 +496,6 @@ public abstract class PageLoader {
         if (pos < mChapterList.size()-1) mNextPageList = loadPageList(pos+1);
         curPageIndex = 0;
         updateCurPage();
-        pageView.invalidate();
     }
 
     //设置翻页模式
@@ -501,8 +505,29 @@ public abstract class PageLoader {
 
     //设置背景颜色
     public void setPageBgColor(int color){
+        lastBgColor = this.bgColor;
         this.bgColor = color;
-        pageView.invalidate();
+        updateCurPage();
+    }
+
+    //设置阅读样式
+    public void setPageStyle(int bgColor,int textColor){
+        lastBgColor = this.bgColor;
+        lastTextColor = this.textColor;
+        this.bgColor = bgColor;
+        this.textColor = textColor;
+        this.mTitleTextPaint.setColor(textColor);
+        this.mContentTextPaint.setColor(textColor);
+        updateCurPage();
+    }
+
+    //恢复上次颜色
+    public void cancelColorChange(){
+        this.bgColor = lastBgColor;
+        this.textColor = lastTextColor;
+        this.mTitleTextPaint.setColor(textColor);
+        this.mContentTextPaint.setColor(textColor);
+        updateCurPage();
     }
 
     //设置字体大小
@@ -511,11 +536,13 @@ public abstract class PageLoader {
         initPaint();
         initDimens();
         reloadPageList();
-        pageView.invalidate();
+        updateCurPage();
     }
 
     private void updateCurPage(){
         mCurPage = mCurPageList.get(curPageIndex);
+        pageView.drawNextPage();
+        pageView.postInvalidate();
     }
 
     public int getCurChapterIndex() {
@@ -534,6 +561,8 @@ public abstract class PageLoader {
         this.curPageIndex = curPageIndex;
     }
 
+    public int getBgColor(){return bgColor;}
+
 
     /********************************abstract***********************************/
     public abstract BufferedReader getChapterReader(TxtChapterModel chapterModel) throws FileNotFoundException, IOException;
@@ -542,5 +571,10 @@ public abstract class PageLoader {
 
     private float dp2px(float dp){
         return pageView.getContext().getResources().getDisplayMetrics().density*dp;
+    }
+
+    /**************************interface*******************************/
+    interface OnChapterChangeListener{
+        void onChapterChange(int pos);
     }
 }

@@ -104,6 +104,7 @@ public class ReadSettingDialog extends Dialog  {
         //背景颜色切换
         viewBinding.readSettingRgColor.setOnCheckedChangeListener((group, checkedId) -> {
                     int pageColor;
+                    int textColor = Color.BLACK;
                     switch (checkedId) {
 
                         case R.id.read_setting_rb_color2:
@@ -117,12 +118,13 @@ public class ReadSettingDialog extends Dialog  {
                             break;
                         case R.id.read_setting_rb_color5:
                             pageColor = mActivity.getResources().getColor(R.color.readBgColor5);
+                            textColor = Color.WHITE;
                             break;
                         default:
                             pageColor = mActivity.getResources().getColor(R.color.readBgColor1);
                             break;
                     }
-                    mPageLoader.setPageBgColor(pageColor);
+                    mPageLoader.setPageStyle(pageColor,textColor);
                 }
         );
 

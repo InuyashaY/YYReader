@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:text="@string/app_name"
+        android:textColor="#000"
+        android:textSize="@dimen/item_book_title_size"
         android:singleLine="true"
         android:ellipsize="end"
         app:layout_constraintBottom_toTopOf="@+id/recordTextView"
@@ -34,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:textSize="@dimen/item_book_record_size"
         android:text="未读"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/iconImageView" />

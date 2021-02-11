@@ -9,13 +9,16 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -57,6 +60,8 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
     BookModel mBookModel;
     //页面加载器
     private PageLoader mPageLoader;
+    //是否为夜间模式
+    private boolean isNightMode = false;
 
 //    public static void show(Context context,BookModel model){
 //        Intent intent = new Intent(context,BookReaderActivity.class);
@@ -80,6 +85,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     }
 
+    //保存阅读记录
     @Override
     protected void onPause() {
         super.onPause();
@@ -104,7 +110,12 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     /**************************init*******************************/
     private void initWidgets(){
+        //书籍
         mPageLoader = viewBinding.mPageView.getPageLoader(mBookModel);
+
+        //隐藏状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         //从数据库加载分章信息
         mPageLoader.mChapterList = LitePal.where("book_id=?",String.valueOf(mBookModel.getId()))
@@ -139,6 +150,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
                 mPageLoader.skipToChapter(chapterIndex);
             }
         });
+
         //目录
         viewBinding.readBvCategory.setOnClickListener((v)->{
             openChaptersCategory();
@@ -192,7 +204,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
         viewBinding.readRvCategory.setLayoutManager(new LinearLayoutManager(this));
         //选中章节
-        viewBinding.readRvCategory.setAdapter(new ReadChaptersAdapter(mPageLoader.mChapterList, new ReadChaptersAdapter.OnChapterClickListener() {
+        viewBinding.readRvCategory.setAdapter(new ReadChaptersAdapter(mPageLoader.mChapterList,this, new ReadChaptersAdapter.OnChapterClickListener() {
             @Override
             public void onItemClick(int pos) {
                 mPageLoader.skipToChapter(pos);
@@ -211,13 +223,30 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     //亮度
     public void changeBrightness(){
-        brightnessSettingDialog =  new BrightnessSettingDialog(this);
+        brightnessSettingDialog =  new BrightnessSettingDialog(this,mPageLoader);
         brightnessSettingDialog.show();
     }
 
     //夜间
     public void changeLightMode(){
+        Drawable drawable;
 
+        if (isNightMode){
+            drawable = getResources().getDrawable(R.drawable.ic_night);
+            viewBinding.readBvNightMode.setText("夜间");
+            mPageLoader.cancelColorChange();
+        }else {
+            int pageColor = Color.BLACK;
+            int textColor = Color.WHITE;
+            drawable = getResources().getDrawable(R.drawable.ic_daynight);
+            mPageLoader.setPageStyle(pageColor,textColor);
+            viewBinding.readBvNightMode.setText("日间");
+        }
+
+        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+        viewBinding.readBvNightMode.setCompoundDrawables(null,drawable,null,null);
+
+        isNightMode = !isNightMode;
     }
 
     //设置

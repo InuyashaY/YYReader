@@ -1,11 +1,13 @@
 package yzl.swu.yyreader.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -17,10 +19,14 @@ import yzl.swu.yyreader.models.TxtChapterModel;
 public class ReadChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<TxtChapterModel> chapterModels;
     private OnChapterClickListener listener;
+    private Context mContext;
+    //选中章节
+    private int selectedChapterIndex = 0;
 
-    public ReadChaptersAdapter(List<TxtChapterModel> values, OnChapterClickListener listener) {
+    public ReadChaptersAdapter(List<TxtChapterModel> values,Context context, OnChapterClickListener listener) {
         this.chapterModels = values;
         this.listener = listener;
+        this.mContext = context;
     }
 
 
@@ -29,6 +35,7 @@ public class ReadChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.read_chapters_item,parent,false);
         ChapterViewHolder viewHolder = new ChapterViewHolder(root);
         viewHolder.chapterTextView = root.findViewById(R.id.titleTextView);
+
         return viewHolder;
     }
 
@@ -37,6 +44,9 @@ public class ReadChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final ChapterViewHolder viewHolder = (ChapterViewHolder) holder;
         //显示数据
         viewHolder.chapterTextView.setText("· "+chapterModels.get(position).getTitle());
+        if (position == selectedChapterIndex){
+            viewHolder.setSelectedChapter();
+        }
 
         viewHolder.chapterTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,16 +62,27 @@ public class ReadChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
+    //item类
     class ChapterViewHolder extends RecyclerView.ViewHolder{
         TextView chapterTextView;
         public ChapterViewHolder(View itemView){
-
             super(itemView);
         }
+
+        public void setSelectedChapter(){
+            chapterTextView.setTextColor(ContextCompat.getColor(mContext,R.color.light_red));
+            chapterTextView.setSelected(true);
+        }
+    }
+
+    public void setChapter(int pos){
+        selectedChapterIndex = pos;
+        notifyDataSetChanged();
     }
 
 
 
+    /**********************interface***************************/
     public interface OnChapterClickListener{
         void onItemClick(int pos);
     }

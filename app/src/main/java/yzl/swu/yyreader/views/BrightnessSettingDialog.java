@@ -3,6 +3,7 @@ package yzl.swu.yyreader.views;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Window;
@@ -23,15 +24,15 @@ public class BrightnessSettingDialog extends Dialog {
     DialogBrightnessSettingBinding viewBinding;
     //Activity
     private Activity mActivity;
+    //pageLoad
+    private PageLoader mPageLoader;
 
-    public BrightnessSettingDialog(Activity activity) {
+    public BrightnessSettingDialog(Activity activity,PageLoader pageLoader) {
         super(activity, R.style.ReadSettingDialog);
         this.mActivity = activity;
+        this.mPageLoader = pageLoader;
     }
 
-    public BrightnessSettingDialog(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,11 @@ public class BrightnessSettingDialog extends Dialog {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-
+                    int pageColor = mActivity.getResources().getColor(R.color.readBgColor1);
+                    int textColor = Color.BLACK;
+                    mPageLoader.setPageStyle(pageColor,textColor);
+                }else {
+                    mPageLoader.cancelColorChange();
                 }
             }
         });
