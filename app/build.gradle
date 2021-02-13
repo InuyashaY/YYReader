@@ -51,4 +51,6 @@ dependencies {
     implementation 'org.litepal.guolindev:core:3.1.1'
     //用户圆形头像依赖
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    //banner
+    implementation 'com.youth.banner:banner:2.1.0'
 }

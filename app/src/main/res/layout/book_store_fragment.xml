@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorAccent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <yzl.swu.yyreader.common.ScrollerLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/selector_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/read_theme_yellow"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/dark_gray"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/colorSkyBlue"
-            />
-    </yzl.swu.yyreader.common.ScrollerLayout>
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorSkyBlue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/colorWhite"
+        />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_tl_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintTop_toBottomOf="@+id/selector_toolbar"
+        app:tabIndicatorColor="@color/colorSkyBlue"
+        app:tabSelectedTextColor="@color/colorSkyBlue"
+        app:tabTextColor="@color/dark_gray" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/file_select_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_tl_indicator"
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

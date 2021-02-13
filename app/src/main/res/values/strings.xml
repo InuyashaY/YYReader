@@ -32,4 +32,8 @@
     <string name="me_setting">设置</string>
 
 
+    <!--书城 精选-->
+    <string name="title1">精选</string>
+
+
 </resources>

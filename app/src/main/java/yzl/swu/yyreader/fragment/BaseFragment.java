@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 
-public class BaseFragment<T extends ViewBinding> extends Fragment {
+public abstract class BaseFragment<T extends ViewBinding> extends Fragment {
     protected T viewBinding;
     @Nullable
     @Override

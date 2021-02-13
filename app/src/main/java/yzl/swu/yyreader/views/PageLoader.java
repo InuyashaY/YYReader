@@ -50,6 +50,8 @@ public abstract class PageLoader {
     int curPageIndex = 0;
 
 
+
+
     //行间距
     private int mTextInterval;
     //标题的行间距
@@ -83,6 +85,8 @@ public abstract class PageLoader {
     //记录上一次颜色 用于恢复
     int lastBgColor;
     int lastTextColor;
+    //页面变换监听者
+    OnChapterChangeListener chapterChangeListener;
 
 
 
@@ -388,6 +392,9 @@ public abstract class PageLoader {
             mCurPageList = mPrePageList;
             if (curChapterIndex > 0) mPrePageList = loadPageList(curChapterIndex-1);
             curPageIndex = mCurPageList.size()-1;
+            if (chapterChangeListener != null){
+                chapterChangeListener.onChapterChange(curChapterIndex);
+            }
         }
         mCancelPage = mCurPage;
         mCurPage = mCurPageList.get(curPageIndex);
@@ -406,6 +413,9 @@ public abstract class PageLoader {
             mCurPageList = mNextPageList;
             if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
             curPageIndex = 0;
+            if (chapterChangeListener != null){
+                chapterChangeListener.onChapterChange(curChapterIndex);
+            }
         }
         mCancelPage = mCurPage;
         mCurPage = mCurPageList.get(curPageIndex);
@@ -491,6 +501,9 @@ public abstract class PageLoader {
     //跳转到某一章
     public void skipToChapter(int pos){
         curChapterIndex = pos;
+        if (chapterChangeListener != null){
+            chapterChangeListener.onChapterChange(curChapterIndex);
+        }
         if (pos > 0) mPrePageList = loadPageList(pos-1);
         mCurPageList = loadPageList(pos);
         if (pos < mChapterList.size()-1) mNextPageList = loadPageList(pos+1);
@@ -563,6 +576,11 @@ public abstract class PageLoader {
 
     public int getBgColor(){return bgColor;}
 
+    public void setChapterChangeListener(OnChapterChangeListener listener){
+        this.chapterChangeListener = listener;
+    }
+
+
 
     /********************************abstract***********************************/
     public abstract BufferedReader getChapterReader(TxtChapterModel chapterModel) throws FileNotFoundException, IOException;
@@ -574,7 +592,7 @@ public abstract class PageLoader {
     }
 
     /**************************interface*******************************/
-    interface OnChapterChangeListener{
+    public interface OnChapterChangeListener{
         void onChapterChange(int pos);
     }
 }

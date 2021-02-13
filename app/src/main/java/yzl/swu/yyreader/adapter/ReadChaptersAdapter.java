@@ -1,6 +1,7 @@
 package yzl.swu.yyreader.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,8 @@ public class ReadChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         viewHolder.chapterTextView.setText("· "+chapterModels.get(position).getTitle());
         if (position == selectedChapterIndex){
             viewHolder.setSelectedChapter();
+        }else {
+            viewHolder.chapterTextView.setTextColor(Color.BLACK);
         }
 
         viewHolder.chapterTextView.setOnClickListener(new View.OnClickListener() {

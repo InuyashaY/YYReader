@@ -62,6 +62,8 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
     private PageLoader mPageLoader;
     //是否为夜间模式
     private boolean isNightMode = false;
+    //目录适配器
+    ReadChaptersAdapter readChaptersAdapter;
 
 //    public static void show(Context context,BookModel model){
 //        Intent intent = new Intent(context,BookReaderActivity.class);
@@ -128,6 +130,9 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
             mPageLoader.setCurPageIndex(recordModel.getPagePos());
 
         }
+
+        //初始化目录
+        initChapterRecyclerView();
     }
 
     private void initEvents(){
@@ -203,13 +208,22 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
     private void initChapterRecyclerView(){
 
         viewBinding.readRvCategory.setLayoutManager(new LinearLayoutManager(this));
-        //选中章节
-        viewBinding.readRvCategory.setAdapter(new ReadChaptersAdapter(mPageLoader.mChapterList,this, new ReadChaptersAdapter.OnChapterClickListener() {
+
+        readChaptersAdapter = new ReadChaptersAdapter(mPageLoader.mChapterList,this, new ReadChaptersAdapter.OnChapterClickListener() {
             @Override
             public void onItemClick(int pos) {
                 mPageLoader.skipToChapter(pos);
             }
-        }));
+        });
+        //章节回调
+        mPageLoader.setChapterChangeListener(new PageLoader.OnChapterChangeListener() {
+            @Override
+            public void onChapterChange(int pos) {
+                readChaptersAdapter.setChapter(pos);
+            }
+        });
+        //选中章节
+        viewBinding.readRvCategory.setAdapter(readChaptersAdapter);
     }
 
 
@@ -217,7 +231,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     //目录
     public void openChaptersCategory(){
-        initChapterRecyclerView();
+        viewBinding.readRvCategory.scrollToPosition(mPageLoader.getCurChapterIndex());
         viewBinding.readDrawer.openDrawer(Gravity.START);
     }
 

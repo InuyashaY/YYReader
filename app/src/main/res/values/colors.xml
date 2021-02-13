@@ -10,6 +10,7 @@
     <color name="dark_gray">#444444</color>
     <color name="while_gray">#dddddd</color>
     <color name="light_red">#EC4A48</color>
+    <color name="color_black">#000000</color>
 
 
     <!--readSetting-->
