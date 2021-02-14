@@ -247,6 +247,9 @@ public class LocalPageLoader extends PageLoader {
     private byte[] getChapterContent(TxtChapterModel chapter) {
         RandomAccessFile bookStream = null;
         try {
+            if (bookFile == null){
+                bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getFilePath());
+            }
             bookStream = new RandomAccessFile(bookFile, "r");
             bookStream.seek(chapter.start);
             int extent = (int) (chapter.end - chapter.start);

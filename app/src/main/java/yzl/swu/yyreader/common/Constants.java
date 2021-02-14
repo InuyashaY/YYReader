@@ -1,9 +1,6 @@
 package yzl.swu.yyreader.common;
 
 public class Constants {
-    public enum PageMode{
-        SIMULATION, COVER, SLIDE, NONE, SCROLL
-    }
 
     //阅读界面 默认字体大小
     public static int DEFAULT_TEXT_SIZE = 18;

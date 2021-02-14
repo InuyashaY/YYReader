@@ -93,6 +93,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         NavHostFragment navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.main_fragment);
         NavController navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(viewBinding.mBottomBar, navController);
+
     }
 
 

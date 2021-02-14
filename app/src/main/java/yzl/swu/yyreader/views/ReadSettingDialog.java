@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 
 import yzl.swu.yyreader.R;
+import yzl.swu.yyreader.common.AnimType;
 import yzl.swu.yyreader.common.Constants;
 import yzl.swu.yyreader.databinding.DiologReadSettingBinding;
 
@@ -79,25 +80,22 @@ public class ReadSettingDialog extends Dialog  {
     private void initEvents(){
         //Page Mode 切换
         viewBinding.readSettingRgPageMode.setOnCheckedChangeListener((group, checkedId) -> {
-                    Constants.PageMode pageMode;
+                    AnimType pageMode;
                     switch (checkedId) {
                         case R.id.read_setting_rb_cover:
-                            pageMode = Constants.PageMode.COVER;
+                            pageMode = AnimType.COVER;
                             break;
                         case R.id.read_setting_rb_slide:
-                            pageMode = Constants.PageMode.SLIDE;
-                            break;
-                        case R.id.read_setting_rb_scroll:
-                            pageMode = Constants.PageMode.SCROLL;
+                            pageMode = AnimType.SLIDE;
                             break;
                         case R.id.read_setting_rb_none:
-                            pageMode = Constants.PageMode.NONE;
+                            pageMode = AnimType.NONE;
                             break;
                         default:
-                            pageMode = Constants.PageMode.SIMULATION;
+                            pageMode = AnimType.ALIKE;
                             break;
                     }
-                    mPageLoader.setPageMode();
+                    mPageLoader.setPageMode(pageMode);
                 }
         );
 

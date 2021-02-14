@@ -8,68 +8,14 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
-public class SlideAnim {
-    //绘制的页面
-    Bitmap mCurBitmap;
-    Bitmap mNextBitmap;
-    //滑动器
-    public Scroller mScroller;
-    //需要动画的视图
-    View mView;
+public class SlideAnim extends PageAnim {
 
-    //视图的尺寸
-    protected int mViewWidth;
-    protected int mViewHeight;
-    //起始点
-    protected float mStartX;
-    protected float mStartY;
-    //触碰点
-    protected float mTouchX;
-    protected float mTouchY;
-    //上一个触碰点
-    protected float mLastX;
-    protected float mLastY;
-
-    //是否在移动
-    protected boolean isMove;
-    //最短滑动距离
-    int slop;
-    //滑动方向
-    Direction mDirection = Direction.NONE;
-    //是否取消翻页
-    boolean isCancel;
-    //页面位移矩阵
-    protected Rect mSrcRect, mDestRect;
-    //是否开始动画
-    boolean isAnim = false;
-    //监听者
-    protected OnPageChangeListener mListener;
-    //是否没下一页或者上一页
-    protected boolean noNext = false;
-
-    public SlideAnim(View view, OnPageChangeListener mListener){
-        mView = view;
-        mScroller = new Scroller(mView.getContext());
-        this.mListener = mListener;
-        initData();
+    public SlideAnim(View view, PageAnim.OnPageChangeListener mListener){
+        super(view,mListener);
     }
 
-    protected void initData(){
-        mViewWidth = mView.getWidth();
-        mViewHeight = mView.getHeight();
-        mCurBitmap = Bitmap.createBitmap(mView.getWidth(),mView.getHeight(),Bitmap.Config.RGB_565);
-        mNextBitmap = Bitmap.createBitmap(mView.getWidth(),mView.getHeight(),Bitmap.Config.RGB_565);
-        mSrcRect = new Rect(0, 0, mViewWidth, mViewHeight);
-        mDestRect = new Rect(0, 0, mViewWidth, mViewHeight);
-        slop = ViewConfiguration.get(mView.getContext()).getScaledTouchSlop();
-    }
 
     public void startAnim(){
-//        TranslateAnimation translateAnimation = new TranslateAnimation(0,200,0,200);
-//        translateAnimation.setDuration(1000);
-//        mView.startAnimation(translateAnimation);
-        //mView.scrollBy(100,100);
-
         int dx = 0;
         switch (mDirection){
             case NEXT:
@@ -277,34 +223,8 @@ public class SlideAnim {
     }
 
 
-    //画页面
-    public void drawViewPages(Canvas canvas){
-        if (isAnim){
-            drawMove(canvas);
-        }else {
-            if (isCancel){
-                mNextBitmap = mCurBitmap.copy(Bitmap.Config.RGB_565, true);
-                canvas.drawBitmap(mCurBitmap, 0, 0, null);
-            }else {
-                canvas.drawBitmap(mNextBitmap, 0, 0, null);
-            }
-        }
-
-    }
 
 
-    public void changePage(){
-        Bitmap bitmap = mCurBitmap;
-        mCurBitmap = mNextBitmap;
-        mNextBitmap = bitmap;
-    }
 
-
-    //监听界面变化    PageView实现
-    public interface OnPageChangeListener {
-        boolean hasPrev();
-        boolean hasNext();
-        void pageCancel();
-    }
 
 }

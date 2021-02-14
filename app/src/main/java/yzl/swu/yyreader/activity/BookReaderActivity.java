@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.R2;
 import yzl.swu.yyreader.adapter.ReadChaptersAdapter;
+import yzl.swu.yyreader.common.AnimType;
 import yzl.swu.yyreader.databinding.ActivityBookReaderBinding;
 import yzl.swu.yyreader.models.BookModel;
 import yzl.swu.yyreader.models.BookRecordModel;
@@ -102,6 +103,10 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
         bookRecord.setChapterPos(mPageLoader.getCurChapterIndex());
         bookRecord.setPagePos(mPageLoader.getCurPageIndex());
         bookRecord.setBook_id(mBookModel.getId());
+        bookRecord.setPage_color(mPageLoader.getBgColor());
+        bookRecord.setText_color(mPageLoader.getTextColor());
+        bookRecord.setText_size(mPageLoader.getmTextSize());
+        bookRecord.setAnim_type(viewBinding.mPageView.getAnimType().getType());
         bookRecord.saveOrUpdate("book_id=?",String.valueOf(mBookModel.getId()));
 
         ContentValues values = new ContentValues();
@@ -128,7 +133,22 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
         if (recordModel != null){
             mPageLoader.setCurChapterIndex(recordModel.getChapterPos());
             mPageLoader.setCurPageIndex(recordModel.getPagePos());
-
+            mPageLoader.setTextSize(recordModel.getText_size());
+            mPageLoader.setPageStyle(recordModel.getPage_color(),recordModel.getText_color());
+            switch (recordModel.getAnim_type()){
+                case 1:
+                    viewBinding.mPageView.setAnimType(AnimType.SLIDE);
+                    break;
+                case 2:
+                    viewBinding.mPageView.setAnimType(AnimType.COVER);
+                    break;
+                case 3:
+                    viewBinding.mPageView.setAnimType(AnimType.ALIKE);
+                    break;
+                default:
+                    viewBinding.mPageView.setAnimType(AnimType.NONE);
+                    break;
+            }
         }
 
         //初始化目录
@@ -187,11 +207,19 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
             mPageLoader.preChapter();
         });
 
+        //退出
+        viewBinding.readToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         //中心区域被点击   显示菜单
         viewBinding.mPageView.setOnCenterClickListener(new YPageView.OnCenterClickListener() {
             @Override
             public void centerClicked() {
-                if (!isShowSetting){
+                if (isShowSetting){
                     viewBinding.readBottomMenu.setVisibility(View.GONE);
                     viewBinding.readTopAppBar.setVisibility(View.GONE);
                 }else {

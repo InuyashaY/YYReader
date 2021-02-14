@@ -1,5 +1,6 @@
 package yzl.swu.yyreader.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -93,6 +94,7 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
 //        context.startActivity(intent);
 //    }
 
+
     protected void initWidget() {
         // 获取状态栏高度
         statusHeight = -1;
@@ -103,7 +105,8 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
             statusHeight = getResources().getDimensionPixelSize(resourceId);
             //statusHeight = 171;
         }
-        toolBarHeight = viewBinding.mToolBar.getHeight();
+//        toolBarHeight = viewBinding.mToolBar.getMeasuredHeight();
+        toolBarHeight = getResources().getDimensionPixelSize(R.dimen.toolbar_height);
         initData();
         viewBinding.mShelfRecycleView.setLayoutManager(new GridLayoutManager(this.getContext(),3));
         mAdapter = new BookShelfAdapter(bookModels,this,getContext());
@@ -227,7 +230,7 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
         // 两个ImageView设置大小和位置
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewBinding.bookCover.getLayoutParams();
         params.leftMargin = location[0];
-        params.topMargin = location[1] - statusHeight - toolBarHeight;
+        params.topMargin = location[1] - statusHeight;
         params.width = width;
         params.height = height;
         viewBinding.bookCover.setLayoutParams(params);
@@ -244,6 +247,7 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
 
         initAnimation(view);
         Log.v(TAG,"left:"+viewBinding.bookCover.getLeft()+"top:"+viewBinding.bookCover.getTop());
+
 
         viewBinding.bookContent.clearAnimation();
         viewBinding.bookContent.startAnimation(scaleAnimation);
@@ -272,7 +276,7 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
         scaleAnimation.setAnimationListener(this);
 
         threeDAnimation = new Rotate3DAnimation(getContext(), -180, 0
-                , location[0], location[1]-20, scale, true);
+                , location[0], location[1], scale, true);
         threeDAnimation.setDuration(1000);                         //设置动画时长
         threeDAnimation.setFillAfter(true);                        //保持旋转后效果
         threeDAnimation.setInterpolator(new DecelerateInterpolator());
@@ -292,43 +296,41 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
 
 
     public void showDialog(){
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_more_setting,null,false);
-        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
+
+        Dialog dialog = new Dialog(getContext(), R.style.MoreSettingDialog);
+        dialog.show();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.dialog_more_setting, null);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        //设置dialog的宽高为屏幕的宽高
+        ViewGroup.LayoutParams layoutParams = new  ViewGroup.LayoutParams(width, height);
+        dialog.setContentView(view, layoutParams);
+
 
         //整理书架
         view.findViewById(R.id.classfy).setOnClickListener((v) ->{
 
         });
+
         //下载
         view.findViewById(R.id.txtDownload).setOnClickListener((v) ->{
 
         });
+
         //本地导入
         view.findViewById(R.id.localBook).setOnClickListener((v)->{
-//            FileSelectorActivity.show(this);
             Intent intent = new Intent(getActivity(), FileSelectorActivity.class);
             startActivityForResult(intent,MAINACTIVITY_REQUEST_CODE);
-            alertDialog.dismiss();
+            dialog.dismiss();
         });
+
         //取消
         view.findViewById(R.id.more_cancel).setOnClickListener((v)->{
-            alertDialog.dismiss();
+            dialog.dismiss();
         });
 
-        //显示弹窗
-        alertDialog.show();
-
-        //自定义的东西
-        //放在show()之后，不然有些属性是没有效果的，比如height和width
-        Window dialogWindow = alertDialog.getWindow();
-        Display d = dialogWindow.getWindowManager().getDefaultDisplay();
-
-        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        p.gravity = Gravity.BOTTOM;//设置位置
-        p.width = d.getWidth(); //设置dialog的宽度为当前手机屏幕的宽度
-
-//        p.alpha = 0.8f;//设置透明度
-        dialogWindow.setAttributes(p);
     }
 
 

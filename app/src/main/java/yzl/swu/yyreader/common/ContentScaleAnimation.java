@@ -18,7 +18,7 @@ public class ContentScaleAnimation extends Animation {
     public ContentScaleAnimation(float mPivotXValue, float mPivotYValue, float scaleTimes, boolean mReverse) {
 
         this.mStartX = mPivotXValue;
-        this.mStartY = mPivotYValue-110;
+        this.mStartY = mPivotYValue;
         this.scaleTimes = scaleTimes;
         this.mReverse = mReverse;
     }
@@ -40,7 +40,7 @@ public class ContentScaleAnimation extends Animation {
     @Override
     public void initialize(int width, int height, int parentWidth, int parentHeight) {
         super.initialize(width, height, parentWidth, parentHeight);
-        parentHeight = 2244;
+
         mPivotX = resolvePivotX(mStartX, parentWidth, width);
         mPivotY = resolvePivoY(mStartY, parentHeight, height);
     }

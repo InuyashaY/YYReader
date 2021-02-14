@@ -36,7 +36,12 @@ public class BookStoreFragment extends BaseFragment<BookStoreFragmentBinding> {
         tabFragments = new ArrayList<>();
         StoreFragment_one storeFragment_one = new StoreFragment_one();
 
+
         tabFragments.add(storeFragment_one);
+        tabFragments.add(new Fragment());
+        tabFragments.add(new Fragment());
+        tabFragments.add(new Fragment());
+
 
 
         //设置适配器 绑定tab和viewPager

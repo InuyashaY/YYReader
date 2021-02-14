@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import yzl.swu.yyreader.common.AlikeAnim;
+import yzl.swu.yyreader.common.AnimType;
+import yzl.swu.yyreader.common.CoverAnim;
+import yzl.swu.yyreader.common.PageAnim;
 import yzl.swu.yyreader.common.SlideAnim;
 import yzl.swu.yyreader.models.BookModel;
 
@@ -33,8 +36,10 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
     boolean canTouch = true;
     //翻页方向
     boolean isNext = true;
+    //翻页动画
+    AnimType animType;
 
-    AlikeAnim slideAnim;
+    PageAnim pageAnim;
 
     public YPageView(Context context) {
         this(context,null);
@@ -51,11 +56,12 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
     /*******************************初始化方法***************************************/
     private void initData() {
-        slideAnim = new AlikeAnim(this, this);
+        animType = AnimType.SLIDE;
+        setAnimType(animType);
         mPageLoader.initDimens();
         mPageLoader.initData();
 //        mPageLoader.drawPage(coverAnimation.getmCurBitmap());
-        mPageLoader.drawPage(slideAnim.getmNextBitmap());
+        mPageLoader.drawPage(pageAnim.getmNextBitmap());
     }
 
     /*******************************自定义绘制方法***************************************/
@@ -73,7 +79,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
 //        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
 
-        slideAnim.drawViewPages(canvas);
+        pageAnim.drawViewPages(canvas);
 
 
 
@@ -93,6 +99,29 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
         this.listener = listener;
     }
 
+
+    public void setAnimType(AnimType animType) {
+        this.animType = animType;
+        switch (animType){
+            case COVER:
+                pageAnim = new CoverAnim(this,this);
+                break;
+            case ALIKE:
+                pageAnim = new AlikeAnim(this,this);
+                break;
+            case SLIDE:
+                pageAnim = new SlideAnim(this,this);
+                break;
+            default:
+                pageAnim = new CoverAnim(this,this);
+                break;
+        }
+    }
+
+    public AnimType getAnimType() {
+        return animType;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
@@ -107,7 +136,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
                 mStartY = y;
                 isMove = false;
                 //canTouch = mTouchListener.onTouch();
-                slideAnim.onTouchEvent(event);
+                pageAnim.onTouchEvent(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 判断是否大于最小滑动值。
@@ -117,7 +146,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
                     isNext = event.getX()-mStartX<0;
                 }
                 if (isMove){
-                    slideAnim.onTouchEvent(event);
+                    pageAnim.onTouchEvent(event);
                 }
 
                 break;
@@ -146,7 +175,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
                     isNext = true;
                     isMove = !isMove;
                 }
-                slideAnim.onTouchEvent(event);
+                pageAnim.onTouchEvent(event);
 
 
                 break;
@@ -159,7 +188,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
         // 判断Scroller是否执行完毕
         //进行滑动
         Log.v("yzll","computScroll");
-        slideAnim.scrollAnim();
+        pageAnim.scrollAnim();
         super.computeScroll();
     }
 
@@ -176,13 +205,13 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
     //绘制下一页
     public void drawNextPage() {
-        slideAnim.changePage();
-        mPageLoader.drawPage(slideAnim.getmNextBitmap());
+        pageAnim.changePage();
+        mPageLoader.drawPage(pageAnim.getmNextBitmap());
     }
 
     //绘制当前页
     public void drawCurPage() {
-        mPageLoader.drawPage(slideAnim.getmNextBitmap());
+        mPageLoader.drawPage(pageAnim.getmNextBitmap());
     }
 
     //取消翻页

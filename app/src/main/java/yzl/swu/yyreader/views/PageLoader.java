@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import yzl.swu.yyreader.common.AnimType;
 import yzl.swu.yyreader.common.Constants;
 import yzl.swu.yyreader.models.BookModel;
 import yzl.swu.yyreader.models.BookRecordModel;
@@ -27,7 +28,7 @@ import yzl.swu.yyreader.utils.Utils;
 
 public abstract class PageLoader {
     //显示容器
-    YPageView pageView;
+    public YPageView pageView;
     //加载的书籍
     BookModel bookModel;
     // 当前书籍章节列表
@@ -512,8 +513,8 @@ public abstract class PageLoader {
     }
 
     //设置翻页模式
-    public void setPageMode(){
-
+    public void setPageMode(AnimType animType){
+        pageView.setAnimType(animType);
     }
 
     //设置背景颜色
@@ -580,7 +581,13 @@ public abstract class PageLoader {
         this.chapterChangeListener = listener;
     }
 
+    public int getmTextSize() {
+        return mTextSize;
+    }
 
+    public int getTextColor() {
+        return textColor;
+    }
 
     /********************************abstract***********************************/
     public abstract BufferedReader getChapterReader(TxtChapterModel chapterModel) throws FileNotFoundException, IOException;

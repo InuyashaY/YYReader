@@ -22,7 +22,7 @@ import android.view.View;
  * Created by newbiechen on 17-7-24.
  */
 
-public class AlikeAnim extends SlideAnim {
+public class AlikeAnim extends PageAnim {
     private static final String TAG = "SimulationPageAnim";
 
     private int mCornerX = 1; // 拖拽点对应的页脚
@@ -310,31 +310,6 @@ public class AlikeAnim extends SlideAnim {
     }
 
 
-    public void setStartPoint(float x, float y) {
-        mStartX = x;
-        mStartY = y;
-
-        mLastX = mStartX;
-        mLastY = mStartY;
-        calcCornerXY(x, y);
-    }
-
-    public void setTouchPoint(float x, float y) {
-        mLastX = mTouchX;
-        mLastY = mTouchY;
-
-        mTouchX = x;
-        mTouchY = y;
-        //触摸y中间位置吧y变成屏幕高度
-        if ((mStartY > mViewHeight / 3 && mStartY < mViewHeight * 2 / 3) || mDirection.equals(Direction.PRE)) {
-            mTouchY = mViewHeight;
-        }
-
-        if (mStartY > mViewHeight / 3 && mStartY < mViewHeight / 2 && mDirection.equals(Direction.NEXT)) {
-            mTouchY = 1;
-        }
-    }
-
     /**
      * 创建阴影的GradientDrawable
      */
@@ -382,18 +357,6 @@ public class AlikeAnim extends SlideAnim {
                 .setGradientType(GradientDrawable.LINEAR_GRADIENT);
     }
 
-    /**
-     * 是否能够拖动过去
-     *
-     * @return
-     */
-    public boolean canDragOver() {
-        return mTouchToCornerDis > mViewWidth / 10;
-    }
-
-    public boolean right() {
-        return mCornerX <= -4;
-    }
 
     /**
      * 绘制翻起页背面

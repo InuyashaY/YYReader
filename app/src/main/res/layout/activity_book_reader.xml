@@ -25,8 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/readToolbar"
@@ -75,8 +74,7 @@
         android:background="@color/readMenuBgColor"
         android:clickable="true"
         android:orientation="vertical"
-        android:visibility="visible"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <!--页面进度栏-->
         <LinearLayout
@@ -172,8 +170,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="15dp"
         android:text="目录"
-        android:textColor="@color/readMenuTextColor"
-        android:textSize="20sp" />
+        android:textColor="@color/color_black"
+        android:textSize="22sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
