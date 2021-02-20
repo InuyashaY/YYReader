@@ -1,4 +1,4 @@
-package yzl.swu.yyreader.common;
+package yzl.swu.yyreader.anim;
 
 import android.content.Context;
 import android.graphics.Camera;

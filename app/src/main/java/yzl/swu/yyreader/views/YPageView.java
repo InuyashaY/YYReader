@@ -10,11 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import yzl.swu.yyreader.common.AlikeAnim;
+import yzl.swu.yyreader.anim.AlikeAnim;
+import yzl.swu.yyreader.anim.NoneAnim;
 import yzl.swu.yyreader.common.AnimType;
-import yzl.swu.yyreader.common.CoverAnim;
-import yzl.swu.yyreader.common.PageAnim;
-import yzl.swu.yyreader.common.SlideAnim;
+import yzl.swu.yyreader.anim.CoverAnim;
+import yzl.swu.yyreader.anim.PageAnim;
+import yzl.swu.yyreader.anim.SlideAnim;
 import yzl.swu.yyreader.models.BookModel;
 
 public class YPageView extends View implements SlideAnim.OnPageChangeListener {
@@ -117,7 +118,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
                 pageAnim = new SlideAnim(this,this);
                 break;
             default:
-                pageAnim = new CoverAnim(this,this);
+                pageAnim = new NoneAnim(this,this);
                 break;
         }
         if (tempBitmap != null){

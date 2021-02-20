@@ -1,4 +1,4 @@
-package yzl.swu.yyreader.common;
+package yzl.swu.yyreader.anim;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,10 +17,7 @@ import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 
-
-/**
- * Created by newbiechen on 17-7-24.
- */
+import yzl.swu.yyreader.common.Direction;
 
 public class AlikeAnim extends PageAnim {
     private static final String TAG = "SimulationPageAnim";

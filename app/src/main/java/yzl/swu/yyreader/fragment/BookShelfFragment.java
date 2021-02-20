@@ -4,45 +4,34 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.litepal.LitePal;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.activity.BookReaderActivity;
 import yzl.swu.yyreader.activity.FileSelectorActivity;
-import yzl.swu.yyreader.activity.MainActivity;
 import yzl.swu.yyreader.adapter.BookShelfAdapter;
 import yzl.swu.yyreader.adapter.SpaceItemDecoration;
-import yzl.swu.yyreader.common.ContentScaleAnimation;
-import yzl.swu.yyreader.common.Rotate3DAnimation;
+import yzl.swu.yyreader.anim.ContentScaleAnimation;
+import yzl.swu.yyreader.anim.Rotate3DAnimation;
 import yzl.swu.yyreader.databinding.BookShelfFragmentBinding;
 import yzl.swu.yyreader.models.BookModel;
 import yzl.swu.yyreader.utils.Utils;
@@ -74,25 +63,6 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
     private boolean isOpenBook = false;
     //选中的书籍
     private int selectedIndex = 0;
-    //handler消费
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 111:
-
-                    ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) getActivity().findViewById(R.id.mToolBar).getLayoutParams();
-                    layoutParams.height = 0;
-                    getActivity().findViewById(R.id.mToolBar);
-                    break;
-            }
-        }
-    };
-
-//    public static void show(Context context) {
-//        Intent intent = new Intent(context, OpenBookActivity.class);
-//        context.startActivity(intent);
-//    }
 
 
     protected void initWidget() {
@@ -116,7 +86,9 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
         viewBinding.mToolBar.getImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+//                showDialog();
+                Intent intent = new Intent(getActivity(), FileSelectorActivity.class);
+                startActivityForResult(intent,MAINACTIVITY_REQUEST_CODE);
             }
         });
     }

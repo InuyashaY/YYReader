@@ -68,15 +68,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
 
         //初始化默认书籍
         initDefaultBooks();
-        FileManager.getInstance().test(this);
     }
 
     private void initDefaultBooks() {
-        //定义一个setting记录APP是几次启动！！！
+        //定义一个setting记录APP是几次启动
         SharedPreferences setting = getSharedPreferences(Constants.IS_FIRST, 0);
         Boolean user_first = setting.getBoolean(FIRST_KEY, true);
         if (user_first) {
-            // 第一次则将raw中文件写入外部存储
+            // 第一次则将raw中文件写入内部存储
             setting.edit().putBoolean(FIRST_KEY, false).commit();
             generateBooks();
         }

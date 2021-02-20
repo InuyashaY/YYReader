@@ -1,8 +1,10 @@
-package yzl.swu.yyreader.common;
+package yzl.swu.yyreader.anim;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
+
+import yzl.swu.yyreader.common.Direction;
 
 public class CoverAnim extends SlideAnim {
     private GradientDrawable mBackShadowDrawableLR;

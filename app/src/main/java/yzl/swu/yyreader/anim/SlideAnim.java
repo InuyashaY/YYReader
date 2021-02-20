@@ -1,12 +1,11 @@
-package yzl.swu.yyreader.common;
+package yzl.swu.yyreader.anim;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.Scroller;
+
+import yzl.swu.yyreader.common.Direction;
 
 public class SlideAnim extends PageAnim {
 
