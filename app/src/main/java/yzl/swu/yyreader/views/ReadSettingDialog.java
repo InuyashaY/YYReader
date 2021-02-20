@@ -131,7 +131,7 @@ public class ReadSettingDialog extends Dialog  {
             //获取当前字体大小
             int curTextSize = Integer.parseInt(viewBinding.readSettingTvFont.getText().toString());
             viewBinding.readSettingTvFont.setText(++curTextSize+"");
-            mPageLoader.setTextSize(curTextSize);
+            mPageLoader.updateTextSize(curTextSize);
             if (viewBinding.readSettingCbFontDefault.isChecked()) viewBinding.readSettingCbFontDefault.setChecked(false);
         });
 
@@ -140,7 +140,7 @@ public class ReadSettingDialog extends Dialog  {
             //获取当前字体大小
             int curTextSize = Integer.parseInt(viewBinding.readSettingTvFont.getText().toString());
             viewBinding.readSettingTvFont.setText(--curTextSize+"");
-            mPageLoader.setTextSize(curTextSize);
+            mPageLoader.updateTextSize(curTextSize);
             if (viewBinding.readSettingCbFontDefault.isChecked()) viewBinding.readSettingCbFontDefault.setChecked(false);
         });
 
@@ -150,7 +150,7 @@ public class ReadSettingDialog extends Dialog  {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     viewBinding.readSettingTvFont.setText(Constants.DEFAULT_TEXT_SIZE+"");
-                    mPageLoader.setTextSize(Constants.DEFAULT_TEXT_SIZE);
+                    mPageLoader.updateTextSize(Constants.DEFAULT_TEXT_SIZE);
                 }
             }
         });

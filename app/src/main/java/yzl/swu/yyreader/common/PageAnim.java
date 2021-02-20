@@ -55,6 +55,7 @@ public abstract class PageAnim {
     }
 
     /***********************************public***********************************/
+    //初始化数据
     protected void initData(){
         mViewWidth = mView.getWidth();
         mViewHeight = mView.getHeight();
@@ -103,6 +104,14 @@ public abstract class PageAnim {
     //获取下页的bitmap
     public Bitmap getmNextBitmap() {
         return mNextBitmap;
+    }
+
+    public void setmCurBitmap(Bitmap mCurBitmap) {
+        this.mCurBitmap = mCurBitmap;
+    }
+
+    public void setmNextBitmap(Bitmap mNextBitmap) {
+        this.mNextBitmap = mNextBitmap;
     }
 
     //处理触摸事件

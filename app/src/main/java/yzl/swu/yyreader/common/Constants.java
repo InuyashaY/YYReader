@@ -16,4 +16,8 @@ public class Constants {
     public static final String READBOOK_KEY = "readBookKey";
 
     public static final String FIELSELECTOR_RESULT_KEY = "fileSelectorResultKey";
+
+    //SharedPreference
+    public static final String IS_FIRST = "isFirst";
+    public static final String FIRST_KEY = "firstKey";
 }

@@ -3,6 +3,7 @@ package yzl.swu.yyreader.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -29,15 +30,20 @@ import androidx.navigation.ui.NavigationUI;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import yzl.swu.yyreader.R;
+import yzl.swu.yyreader.common.Constants;
 import yzl.swu.yyreader.databinding.ActivityMainBinding;
 import yzl.swu.yyreader.fragment.BookShelfFragment;
 import yzl.swu.yyreader.models.BookModel;
+import yzl.swu.yyreader.utils.FileManager;
 
 import static yzl.swu.yyreader.common.Constants.FIELSELECTOR_RESULT_KEY;
 import static yzl.swu.yyreader.common.Constants.FILESELECTOR_RESULT_CODE;
+import static yzl.swu.yyreader.common.Constants.FIRST_KEY;
 import static yzl.swu.yyreader.common.Constants.MAINACTIVITY_REQUEST_CODE;
 
 
@@ -60,6 +66,47 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         SQLiteDatabase db = LitePal.getDatabase();
 
 
+        //初始化默认书籍
+        initDefaultBooks();
+        FileManager.getInstance().test(this);
+    }
+
+    private void initDefaultBooks() {
+        //定义一个setting记录APP是几次启动！！！
+        SharedPreferences setting = getSharedPreferences(Constants.IS_FIRST, 0);
+        Boolean user_first = setting.getBoolean(FIRST_KEY, true);
+        if (user_first) {
+            // 第一次则将raw中文件写入外部存储
+            setting.edit().putBoolean(FIRST_KEY, false).commit();
+            generateBooks();
+        }
+    }
+
+    //将raw文件写入存储
+    private void generateBooks(){
+        FileManager.getInstance().copyFilesFromRaw(this,R.raw.dldl,"斗罗大陆.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
+        BookModel model = new BookModel("斗罗大陆","dldl","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/斗罗大陆.txt");
+        FileManager.getInstance().copyFilesFromRaw(this,R.raw.dpcq,"斗破苍穹.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
+        BookModel model1 = new BookModel("斗破苍穹","dpcq","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/斗破苍穹.txt");
+        FileManager.getInstance().copyFilesFromRaw(this,R.raw.jl,"捡漏.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
+        BookModel model2 = new BookModel("捡漏","jl","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/捡漏.txt");
+        FileManager.getInstance().copyFilesFromRaw(this,R.raw.jswh,"绝世武魂.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
+        BookModel model3 = new BookModel("绝世武魂","jswh","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/绝世武魂.txt");
+        FileManager.getInstance().copyFilesFromRaw(this,R.raw.fts,"伏天氏.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
+        BookModel model4 = new BookModel("伏天氏","fts","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/伏天氏.txt");
+        FileManager.getInstance().copyFilesFromRaw(this,R.raw.dzz,"大主宰.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
+        BookModel model5 = new BookModel("大主宰","dzz","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/大主宰.txt");
+
+
+        ArrayList<BookModel> bookModels = new ArrayList<>();
+        bookModels.add(model);
+        bookModels.add(model1);
+        bookModels.add(model2);
+        bookModels.add(model3);
+        bookModels.add(model4);
+        bookModels.add(model5);
+
+        LitePal.saveAll(bookModels);
     }
 
     @Override

@@ -81,12 +81,6 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
         initEvents();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //LitePal.saveAll(mPageLoader.mChapterList);
-
-    }
 
     //保存阅读记录
     @Override
@@ -117,6 +111,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     /**************************init*******************************/
     private void initWidgets(){
+        int width = viewBinding.mPageView.getWidth();
         //书籍
         mPageLoader = viewBinding.mPageView.getPageLoader(mBookModel);
 
@@ -134,7 +129,9 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
             mPageLoader.setCurChapterIndex(recordModel.getChapterPos());
             mPageLoader.setCurPageIndex(recordModel.getPagePos());
             mPageLoader.setTextSize(recordModel.getText_size());
-            mPageLoader.setPageStyle(recordModel.getPage_color(),recordModel.getText_color());
+//            mPageLoader.setPageStyle(recordModel.getPage_color(),recordModel.getText_color());
+            mPageLoader.setTextColor(recordModel.getText_color());
+            mPageLoader.setPageBgColor(recordModel.getPage_color());
             switch (recordModel.getAnim_type()){
                 case 1:
                     viewBinding.mPageView.setAnimType(AnimType.SLIDE);

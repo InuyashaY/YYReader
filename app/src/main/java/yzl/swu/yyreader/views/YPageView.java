@@ -1,6 +1,7 @@
 package yzl.swu.yyreader.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -37,7 +38,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
     //翻页方向
     boolean isNext = true;
     //翻页动画
-    AnimType animType;
+    AnimType animType = AnimType.SLIDE;
 
     PageAnim pageAnim;
 
@@ -56,11 +57,10 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
     /*******************************初始化方法***************************************/
     private void initData() {
-        animType = AnimType.SLIDE;
         setAnimType(animType);
         mPageLoader.initDimens();
         mPageLoader.initData();
-//        mPageLoader.drawPage(coverAnimation.getmCurBitmap());
+        mPageLoader.drawPage(pageAnim.getmCurBitmap());
         mPageLoader.drawPage(pageAnim.getmNextBitmap());
     }
 
@@ -102,6 +102,10 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
     public void setAnimType(AnimType animType) {
         this.animType = animType;
+        if (this.getWidth()==0 || getHeight()==0) return;
+        Bitmap tempBitmap = null;
+        if (pageAnim != null) tempBitmap = pageAnim.getmNextBitmap().copy(Bitmap.Config.RGB_565, true);
+        //显示出来后再创建
         switch (animType){
             case COVER:
                 pageAnim = new CoverAnim(this,this);
@@ -116,6 +120,10 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
                 pageAnim = new CoverAnim(this,this);
                 break;
         }
+        if (tempBitmap != null){
+            pageAnim.setmCurBitmap(tempBitmap);
+        }
+        pageAnim.changePage();
     }
 
     public AnimType getAnimType() {

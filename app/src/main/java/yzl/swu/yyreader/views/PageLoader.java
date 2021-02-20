@@ -64,7 +64,7 @@ public abstract class PageLoader {
     private int mDisplayWidth;
     private int mDisplayHeight;
     //电池的百分比
-    private int mBatteryLevel;
+    private int mBatteryLevel = 80;
     //间距
     private int mMarginWidth;
     private int mMarginHeight;
@@ -107,7 +107,7 @@ public abstract class PageLoader {
             if (curChapterIndex > 0) mPrePageList = loadPageList(curChapterIndex-1);
             mCurPageList = loadPageList(curChapterIndex);
             if (curChapterIndex < mChapterList.size()-1) mNextPageList = loadPageList(curChapterIndex+1);
-            mCurPage = mCurPageList.get(0);
+            mCurPage = mCurPageList.get(curPageIndex);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,6 +117,8 @@ public abstract class PageLoader {
     public void initDimens(){
         mMarginWidth = 40;
         mMarginHeight = 50;
+        mDisplayHeight = pageView.getHeight();
+        mDisplayWidth = pageView.getWidth();
         mVisibleWidth = pageView.getWidth()-mMarginWidth*2;
         mVisibleHeight = pageView.getHeight()-mMarginHeight;
         mTitleInterval = (int) (mTitleTextPaint.getTextSize()/2);
@@ -140,8 +142,19 @@ public abstract class PageLoader {
         mTitleTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
         mTitleTextPaint.setAntiAlias(true);
 
-        mTipPaint = new TextPaint();
+        // 绘制提示的画笔
+        mTipPaint = new Paint();
+        mTipPaint.setColor(textColor);
+        mTipPaint.setTextAlign(Paint.Align.LEFT); // 绘制的起始点
+        mTipPaint.setTextSize(dp2px(12)); // Tip默认的字体大小
+        mTipPaint.setAntiAlias(true);
+        mTipPaint.setSubpixelText(true);
+
+
+        // 绘制电池的画笔
         mBatteryPaint = new Paint();
+        mBatteryPaint.setAntiAlias(true);
+        mBatteryPaint.setDither(true);
     }
 
     public void reloadPageList(){
@@ -331,6 +344,8 @@ public abstract class PageLoader {
         String time = StringUtils.dateConvert(System.currentTimeMillis(), Constants.FORMAT_TIME);
         float x = outFrameLeft - mTipPaint.measureText(time) - Utils.dpToPx(pageView.getContext(),4);
         canvas.drawText(time, x, y, mTipPaint);
+
+        canvas.drawText(String.format("%d/%d页",curPageIndex+1,mCurPageList.size()),dp2px(10),y,mTipPaint);
     }
 
     //绘制内容
@@ -521,9 +536,14 @@ public abstract class PageLoader {
     public void setPageBgColor(int color){
         lastBgColor = this.bgColor;
         this.bgColor = color;
-        updateCurPage();
+        //updateCurPage();
     }
 
+    //设置字体颜色
+    public void setTextColor(int color){
+        lastTextColor = this.textColor;
+        this.textColor = color;
+    }
     //设置阅读样式
     public void setPageStyle(int bgColor,int textColor){
         lastBgColor = this.bgColor;
@@ -547,6 +567,11 @@ public abstract class PageLoader {
     //设置字体大小
     public void setTextSize(int textSize){
         mTextSize = textSize;
+    }
+
+    //更新字体大小
+    public void updateTextSize(int size){
+        mTextSize = size;
         initPaint();
         initDimens();
         reloadPageList();
