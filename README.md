@@ -1,6 +1,9 @@
 # YYReader
 Android小说阅读器
 
+# 效果展示
+简书地址：https://www.jianshu.com/p/e8a6eaf68188
+
 第一次commit
 简单搭建界面，activity+fragment+bottomBar+自定义ToolBar
 bottomBar关联fragment跳转
