@@ -9,6 +9,7 @@ import androidx.viewbinding.ViewBinding;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 
 public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
     protected T viewBinding;

@@ -28,12 +28,11 @@ public class YToolBar extends Toolbar {
     private View view;
     public YToolBar(@NonNull Context context) {
         this(context,null);
-        Log.v("yzll","code");
     }
 
     public YToolBar(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs,0);
-        Log.v("yzll","xml");
+
 
     }
 
@@ -62,7 +61,6 @@ public class YToolBar extends Toolbar {
             //view = LayoutInflater.from(getContext()).inflate(R.layout.ytoolbar,null);
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER_HORIZONTAL);
             addView(view,lp);
-            Log.v("yzll","xmll");
         }
     }
 

@@ -12,7 +12,7 @@ android {
         defaultConfig {
         applicationId "yzl.swu.yyreader"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -53,4 +53,23 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     //banner
     implementation 'com.youth.banner:banner:2.1.0'
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+
+    //Okhttp
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    // 日志的拦截器，也可以自行选择
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+    // Retrofit库
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    // gson解析，可以自行替换
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+
 }

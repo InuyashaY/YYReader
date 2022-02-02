@@ -84,17 +84,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
     //将raw文件写入存储
     private void generateBooks(){
         FileManager.getInstance().copyFilesFromRaw(this,R.raw.dldl,"斗罗大陆.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
-        BookModel model = new BookModel("斗罗大陆","dldl","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/斗罗大陆.txt");
+        BookModel model = new BookModel("斗罗大陆","dldl","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/斗罗大陆.txt",true);
         FileManager.getInstance().copyFilesFromRaw(this,R.raw.dpcq,"斗破苍穹.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
-        BookModel model1 = new BookModel("斗破苍穹","dpcq","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/斗破苍穹.txt");
+        BookModel model1 = new BookModel("斗破苍穹","dpcq","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/斗破苍穹.txt",true);
         FileManager.getInstance().copyFilesFromRaw(this,R.raw.jl,"捡漏.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
-        BookModel model2 = new BookModel("捡漏","jl","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/捡漏.txt");
+        BookModel model2 = new BookModel("捡漏","jl","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/捡漏.txt",true);
         FileManager.getInstance().copyFilesFromRaw(this,R.raw.jswh,"绝世武魂.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
-        BookModel model3 = new BookModel("绝世武魂","jswh","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/绝世武魂.txt");
+        BookModel model3 = new BookModel("绝世武魂","jswh","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/绝世武魂.txt",true);
         FileManager.getInstance().copyFilesFromRaw(this,R.raw.fts,"伏天氏.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
-        BookModel model4 = new BookModel("伏天氏","fts","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/伏天氏.txt");
+        BookModel model4 = new BookModel("伏天氏","fts","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/伏天氏.txt",true);
         FileManager.getInstance().copyFilesFromRaw(this,R.raw.dzz,"大主宰.txt",getFilesDir().getAbsolutePath() + "/" + "yzl");
-        BookModel model5 = new BookModel("大主宰","dzz","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/大主宰.txt");
+        BookModel model5 = new BookModel("大主宰","dzz","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/大主宰.txt",true);
+
+        BookModel model6 = new BookModel("武神霸尊","dzz","未读","book/1488053877507973120/1488058771568648192",false);
+        model6.setId(1488053877507973120l);
 
 
         ArrayList<BookModel> bookModels = new ArrayList<>();
@@ -104,6 +107,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         bookModels.add(model3);
         bookModels.add(model4);
         bookModels.add(model5);
+        bookModels.add(model6);
 
         LitePal.saveAll(bookModels);
     }

@@ -144,22 +144,9 @@
             android:text="覆盖"
             android:textSize="14dp" />
 
-        <RadioButton
-            android:id="@+id/read_setting_rb_slide"
-            style="@style/readSettingBtnTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/read_setting_btn_height"
-            android:layout_marginRight="18dp"
-            android:layout_weight="1"
-            android:background="@drawable/read_setting_btn_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="滑动"
-            android:textSize="14dp"
-            android:visibility="gone" />
 
         <RadioButton
-            android:id="@+id/read_setting_rb_scroll"
+            android:id="@+id/read_setting_rb_slide"
             style="@style/readSettingBtnTextStyle"
             android:layout_width="0dp"
             android:layout_height="@dimen/read_setting_btn_height"

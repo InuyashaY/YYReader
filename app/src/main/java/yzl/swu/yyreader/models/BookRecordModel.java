@@ -3,7 +3,7 @@ package yzl.swu.yyreader.models;
 import org.litepal.crud.LitePalSupport;
 
 public class BookRecordModel extends LitePalSupport {
-    private int book_id;
+    private long book_id;
     private int chapterPos;
     private int pagePos;
 
@@ -12,11 +12,11 @@ public class BookRecordModel extends LitePalSupport {
     private int text_size;
     private int anim_type;
 
-    public int getBook_id() {
+    public long getBook_id() {
         return book_id;
     }
 
-    public void setBook_id(int book_id) {
+    public void setBook_id(long book_id) {
         this.book_id = book_id;
     }
 

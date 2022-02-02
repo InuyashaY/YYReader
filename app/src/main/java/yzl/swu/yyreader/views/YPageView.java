@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import java.io.IOException;
+
 import yzl.swu.yyreader.anim.AlikeAnim;
 import yzl.swu.yyreader.anim.NoneAnim;
 import yzl.swu.yyreader.common.AnimType;
@@ -57,10 +59,18 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
     }
 
     /*******************************初始化方法***************************************/
-    private void initData() {
+    private void initData() throws IOException {
         setAnimType(animType);
         mPageLoader.initDimens();
+        mPageLoader.loadChapters();
+    }
+
+    public void showCategory(){
         mPageLoader.initData();
+    }
+
+    public void showContent(){
+        mPageLoader.reloadPageList();
         mPageLoader.drawPage(pageAnim.getmCurBitmap());
         mPageLoader.drawPage(pageAnim.getmNextBitmap());
     }
@@ -69,7 +79,11 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        initData();
+        try {
+            initData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //自定义绘制
@@ -79,7 +93,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
 
 //        mPageLoader.drawPage(coverAnimation.getmNextBitmap());
-
+        if (pageAnim == null) return;
         pageAnim.drawViewPages(canvas);
 
 
@@ -89,9 +103,12 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
     /*******************************Setter and Getter***************************************/
     public PageLoader getPageLoader(BookModel bookModel) {
-        if (mPageLoader == null){
+        if (mPageLoader != null) return mPageLoader;
+        if (bookModel.isLocal()){
 //            BookModel bookModel = new BookModel("斗罗大陆",R,"","/storage/emulated/0/斗罗大陆.txt");
             mPageLoader = new LocalPageLoader(this,bookModel);
+        }else {
+            mPageLoader = new NetworkPageLoader(this,bookModel);
         }
         return mPageLoader;
     }
@@ -197,6 +214,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
         // 判断Scroller是否执行完毕
         //进行滑动
         Log.v("yzll","computScroll");
+        if (pageAnim == null) return;
         pageAnim.scrollAnim();
         super.computeScroll();
     }

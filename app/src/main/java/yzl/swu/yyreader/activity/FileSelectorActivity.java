@@ -45,7 +45,7 @@ public class FileSelectorActivity extends BaseActivity<ActivityFileSelectorBindi
         viewBinding.addToShelfBtn.setOnClickListener((v)->{
             ArrayList<BookModel> models = new ArrayList<>();
             for (File file:seletedFiles){
-                BookModel model = new BookModel(file.getName(), "moren","未读",file.getPath());
+                BookModel model = new BookModel(file.getName(), "moren","未读",file.getPath(),true);
                 models.add(model);
             }
 

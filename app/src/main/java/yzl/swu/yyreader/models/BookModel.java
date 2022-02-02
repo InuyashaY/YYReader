@@ -1,9 +1,11 @@
 package yzl.swu.yyreader.models;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.RequiresApi;
 
 import org.litepal.crud.LitePalSupport;
 
@@ -12,37 +14,43 @@ import org.litepal.crud.LitePalSupport;
  * */
 public class BookModel extends LitePalSupport implements Parcelable {
 
-    private int id;
+    private long id;
     private String bookTitle;
     private String coverResource;
     private String record;
     private String filePath;
+    private Boolean isLocal;
 
-    public BookModel(String bookTitle,String coverResource,String record,String filePath){
+    public BookModel(String bookTitle,String coverResource,String record,String filePath,boolean isLocal){
         this.bookTitle = bookTitle;
         this.coverResource = coverResource;
         this.record = record;
         this.filePath = filePath;
+        this.isLocal = isLocal;
     }
 
     private BookModel(){}
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected BookModel(Parcel in) {
+        id = in.readLong();
         bookTitle = in.readString();
         coverResource = in.readString();
         record = in.readString();
         filePath = in.readString();
+        isLocal = in.readBoolean();
     }
 
     public static final Creator<BookModel> CREATOR = new Creator<BookModel>() {
         @Override
         public BookModel createFromParcel(Parcel in) {
             BookModel model = new BookModel();
-            model.id = in.readInt();
+            model.id = in.readLong();
             model.bookTitle = in.readString();
             model.coverResource = in.readString();
             model.record = in.readString();
             model.filePath = in.readString();
+            model.isLocal = in.readBoolean();
             return model;
         }
 
@@ -53,11 +61,11 @@ public class BookModel extends LitePalSupport implements Parcelable {
     };
 
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -93,6 +101,14 @@ public class BookModel extends LitePalSupport implements Parcelable {
         this.filePath = filePath;
     }
 
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public void setLocal(boolean local) {
+        isLocal = local;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -100,10 +116,11 @@ public class BookModel extends LitePalSupport implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeLong(id);
         dest.writeString(bookTitle);
         dest.writeString(coverResource);
         dest.writeString(record);
         dest.writeString(filePath);
+        dest.writeBoolean(isLocal);
     }
 }

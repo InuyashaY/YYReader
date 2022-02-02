@@ -27,7 +27,6 @@ public class ContentScaleAnimation extends Animation {
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         //缩放方法
         Matrix matrix=t.getMatrix();
-        Log.v("yzll",""+interpolatedTime);
         if (mReverse) {
             matrix.postScale(1 + (scaleTimes - 1) * (1.0f - interpolatedTime), 1 + (scaleTimes - 1) * (1.0f - interpolatedTime), mPivotX - mStartX, mPivotY - mStartY);
         } else {

@@ -61,6 +61,7 @@ public class LocalPageLoader extends PageLoader {
 
         //先获取本地文件
         bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getFilePath());
+
         if (!mChapterList.isEmpty()) return;
 
         //如果没有 就根据文件进行分章
@@ -235,6 +236,8 @@ public class LocalPageLoader extends PageLoader {
         //建议GC
         System.gc();
         System.runFinalization();
+        //回调加载目录完毕
+        chapterChangeListener.finishedLoadChapters(mChapterList);
     }
 
 

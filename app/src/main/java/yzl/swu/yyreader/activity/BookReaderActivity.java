@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.R2;
@@ -231,7 +232,6 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
 
     //目录显示准备 点击回调
     private void initChapterRecyclerView(){
-
         viewBinding.readRvCategory.setLayoutManager(new LinearLayoutManager(this));
 
         readChaptersAdapter = new ReadChaptersAdapter(mPageLoader.mChapterList,this, new ReadChaptersAdapter.OnChapterClickListener() {
@@ -240,13 +240,27 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
                 mPageLoader.skipToChapter(pos);
             }
         });
+
         //章节回调
         mPageLoader.setChapterChangeListener(new PageLoader.OnChapterChangeListener() {
             @Override
             public void onChapterChange(int pos) {
                 readChaptersAdapter.setChapter(pos);
             }
+
+            @Override
+            public void requestChapters(List<TxtChapterModel> requestChapters) {
+
+            }
+
+            @Override
+            public void finishedLoadChapters(List<TxtChapterModel> bookChapters) {
+                mPageLoader.pageView.showCategory();
+//                readChaptersAdapter.notifyDataSetChanged();
+                readChaptersAdapter.setChapterModels(bookChapters);
+            }
         });
+
         //选中章节
         viewBinding.readRvCategory.setAdapter(readChaptersAdapter);
     }
