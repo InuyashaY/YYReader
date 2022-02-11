@@ -1,11 +1,18 @@
 package yzl.swu.yyreader.utils;
 
+import org.litepal.LitePal;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 import yzl.swu.yyreader.common.Constants;
+import yzl.swu.yyreader.models.BookModel;
+import yzl.swu.yyreader.models.TxtChapterModel;
 
 public class BookManager{
     private static final String TAG = "BookManager";
@@ -212,5 +219,42 @@ public class BookManager{
         public void setSize(long size) {
             this.size = size;
         }
+    }
+
+    public Single<Void> deleteCollBookInRx(BookModel bean) {
+        return Single.create(new SingleOnSubscribe<Void>() {
+            @Override
+            public void subscribe(SingleEmitter<Void> e) throws Exception {
+                //查看文本中是否存在删除的数据
+                LitePal.delete(BookModel.class,bean.getId());
+                //删除任务
+//                deleteDownloadTask(bean.get_id());
+                //删除目录
+                LitePal.delete(TxtChapterModel.class,bean.getId());
+                //删除CollBook
+            }
+        });
+    }
+
+    public BookModel getCollectedBook(String bookId){
+        return LitePal.where("book_id=?",bookId).findFirst(BookModel.class);
+    }
+
+    //存储已收藏书籍
+    public void saveCollBookWithAsync(BookModel bean){
+        //启动异步存储
+        bean.saveOrUpdate();
+//        mSession.startAsyncSession()
+//                .runInTx(
+//                        () -> {
+//                            if (bean.getBookChapters() != null){
+//                                // 存储BookChapterBean
+//                                mSession.getBookChapterBeanDao()
+//                                        .insertOrReplaceInTx(bean.getBookChapters());
+//                            }
+//                            //存储CollBook (确保先后顺序，否则出错)
+//                            mCollBookDao.insertOrReplace(bean);
+//                        }
+//                );
     }
 }

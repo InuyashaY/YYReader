@@ -39,4 +39,6 @@
     <dimen name="default_collapsed_text_size">18sp</dimen>
     <dimen name="default_expanded_text_size">19sp</dimen>
 
+    <dimen name="default.divider.line">0.5dp</dimen>
+
 </resources>

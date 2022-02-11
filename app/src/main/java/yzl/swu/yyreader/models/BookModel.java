@@ -29,7 +29,7 @@ public class BookModel extends LitePalSupport implements Parcelable {
         this.isLocal = isLocal;
     }
 
-    private BookModel(){}
+    public BookModel(){}
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected BookModel(Parcel in) {
@@ -42,6 +42,7 @@ public class BookModel extends LitePalSupport implements Parcelable {
     }
 
     public static final Creator<BookModel> CREATOR = new Creator<BookModel>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public BookModel createFromParcel(Parcel in) {
             BookModel model = new BookModel();

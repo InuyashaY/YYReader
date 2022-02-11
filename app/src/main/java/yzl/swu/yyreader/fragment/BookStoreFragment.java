@@ -34,11 +34,9 @@ public class BookStoreFragment extends BaseFragment<BookStoreFragmentBinding> {
         //设置标题和fragment
         tabTitles = Arrays.asList("精选","分类","榜单","书单");
         tabFragments = new ArrayList<>();
-        StoreFragment_one storeFragment_one = new StoreFragment_one();
 
-
-        tabFragments.add(storeFragment_one);
-        tabFragments.add(new Fragment());
+        tabFragments.add(new StoreFragment_one());
+        tabFragments.add(new StoreFragment_two());
         tabFragments.add(new Fragment());
         tabFragments.add(new Fragment());
 

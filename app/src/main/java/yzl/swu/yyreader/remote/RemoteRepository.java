@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Single;
 import okhttp3.Call;
@@ -37,6 +38,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
+import yzl.swu.yyreader.models.BookCategory;
+import yzl.swu.yyreader.models.BookComment;
+import yzl.swu.yyreader.models.BookRankModel;
+import yzl.swu.yyreader.models.StoreBookItemDao;
 import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.models.ChapterInfoBean;
 
@@ -112,6 +120,48 @@ public class RemoteRepository {
     public Single<ChapterInfoBean> getChapterInfo(String bookId,String chapterId){
         return mBookApi.getChapterInfoPackage(bookId,chapterId)
                 .map(bean -> bean);
+    }
+
+    /**
+     * 根据查询参数查询对应类型的书籍列表
+     * */
+    public Single<List<StoreBookItemDao>> getSearchTagByParams(Map<String,String> map){
+        return  mBookApi.getSearchTagByParams(map);
+    }
+
+    /**
+     * 请求书籍分类列表
+     * */
+    public Single<List<BookCategory>> getListOfCategory(){
+        return  mBookApi.getListBookCategory();
+    }
+
+    /**
+     * 点击排行榜
+     * */
+    public Single<List<BookRankModel>> getRankBookList(String type){
+        return mBookApi.getListRank(type);
+    }
+
+    /**
+     * 获取评论
+     * */
+    public Single<List<BookComment>> getBookCommentList(String bookId){
+        return mBookApi.getBookCommentList(bookId);
+    }
+
+    /**
+     * 获取书籍详情
+     * */
+    public Single<StoreBookItemDao> getBookDetail(String bookId){
+        return mBookApi.getBookDetail(bookId);
+    }
+
+    /**
+     * 获取推荐书籍
+     **/
+    public Single<List<StoreBookItemDao>> getRecommandBookListByCatId(String catId){
+        return mBookApi.getRecommandBookListByCatId(catId);
     }
 //
 //    /***********************************************************************************/

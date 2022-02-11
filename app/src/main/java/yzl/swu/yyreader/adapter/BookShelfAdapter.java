@@ -30,7 +30,7 @@ public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View root = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.book_recycler_item,viewGroup,false);
+        View root = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_store_book_group,viewGroup,false);
         ViewHolder viewHolder = new ViewHolder(root);
 
         return viewHolder;

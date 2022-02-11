@@ -1,0 +1,18 @@
+
+    <RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rb_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:gravity="center"
+        android:text="你好"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+
+        android:textSize="10sp"
+        android:textColor="@drawable/tag_text_selector"
+        android:background="@drawable/tag_text_shape"
+        ></RadioButton>
+

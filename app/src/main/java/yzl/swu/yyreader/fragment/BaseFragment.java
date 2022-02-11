@@ -28,8 +28,15 @@ public abstract class BaseFragment<T extends ViewBinding> extends Fragment {
             e.printStackTrace();
         }
         initWidget();
+        processLogic();
         return viewBinding.getRoot();
     }
 
     protected void initWidget(){}
+
+    /**
+     * 逻辑使用区
+     */
+    protected void processLogic(){
+    }
 }

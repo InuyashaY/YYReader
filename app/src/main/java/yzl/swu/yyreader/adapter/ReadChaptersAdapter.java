@@ -30,6 +30,10 @@ public class ReadChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mContext = context;
     }
 
+    public void setChapterModels(List<TxtChapterModel> models){
+        this.chapterModels = models;
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.widget.Toast;
+
+import yzl.swu.yyreader.App;
 
 public class Utils {
 
@@ -31,6 +34,10 @@ public class Utils {
         ApplicationInfo appInfo = context.getApplicationInfo();
         id = context.getResources().getIdentifier(imageName, "drawable", appInfo.packageName);
         return id;
+    }
+
+    public static void showToast(String msg){
+        Toast.makeText(App.getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
 }

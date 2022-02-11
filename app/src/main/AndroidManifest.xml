@@ -17,6 +17,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.FileSelectorActivity"/>
         <activity android:name=".activity.BookReaderActivity" />
+        <activity android:name=".activity.StoreRankActivity"/>
+        <activity android:name=".activity.BookDetailActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

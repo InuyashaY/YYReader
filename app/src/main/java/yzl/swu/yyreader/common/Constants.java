@@ -12,6 +12,7 @@ public class Constants {
     //时间格式
     public static final String FORMAT_TIME = "HH:mm";
     public static final String FORMAT_DATE = "YYYY-MM-DD";
+    public static final String FORMAT_BOOK_DATE = "yyyy-MM-dd'T'HH:mm:ss";
 
     //回调代码
     public static final int MAINACTIVITY_REQUEST_CODE = 1;

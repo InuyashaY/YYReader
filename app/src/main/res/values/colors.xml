@@ -11,6 +11,7 @@
     <color name="while_gray">#dddddd</color>
     <color name="light_red">#EC4A48</color>
     <color name="color_black">#000000</color>
+    <color name="light_coffee">#A58D5E</color>
 
 
     <!--readSetting-->
@@ -35,4 +36,14 @@
     <!-- “我的”界面描边颜色 -->
     <color name="border_clo">#ccc</color>
     <color name="text_clo">#333</color>
+
+    <!--button-->
+    <color name="button.normal">@color/colorWhite</color>
+    <color name="button.selected">#E3E3E3</color>
+    <!--通用一级标题的颜色-->
+    <color name="header_first">#212121</color>
+    <!--通用二级标题的颜色-->
+    <color name="header_second">#727272</color>
+    <!--通用三级标题的颜色-->
+    <color name="header_third">#B2B2B2</color>
 </resources>

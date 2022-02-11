@@ -30,6 +30,7 @@ package yzl.swu.yyreader.remote;
 //import com.example.newbiechen.ireader.model.bean.packages.TagSearchPackage;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -37,7 +38,12 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
+import yzl.swu.yyreader.models.BookCategory;
+import yzl.swu.yyreader.models.BookComment;
+import yzl.swu.yyreader.models.BookRankModel;
 import yzl.swu.yyreader.models.ChapterInfoBean;
+import yzl.swu.yyreader.models.StoreBookItemDao;
 import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.remote.packages.BookChapterPackage;
 import yzl.swu.yyreader.remote.packages.ChapterInfoPackage;
@@ -74,6 +80,61 @@ public interface BookApi {
 //    @GET("http://chapter2.zhuishushenqi.com/chapter/{url}")
     @GET("/book/{bookId}/{chapterIndex}")
     Single<ChapterInfoBean> getChapterInfoPackage(@Path("bookId") String bookId, @Path("chapterIndex")String chapterIndex);
+
+    /**
+     * 按分类查询书城数据
+     *
+     * */
+    @GET("/book/searchByPage")
+    Single<List<StoreBookItemDao>> getSearchTagByParams(@QueryMap Map<String, String> paramas);
+
+    /**
+     * 查询分类
+     * */
+    @GET("/book/listBookCategory")
+    Single<List<BookCategory>> getListBookCategory();
+
+    /**
+     * 查询新书榜单
+     * */
+    @GET("/book/listNewRank")
+    Single<List<BookRankModel>> getListNewRank();
+
+    /**
+     * 查询点击榜单
+     * */
+    @GET("/book/listClickRank")
+    Single<List<BookRankModel>> getListClickRank();
+
+    /**
+     * 查询更新榜单
+     * */
+    @GET("/book/listUpdateRank")
+    Single<List<BookRankModel>> getListUpdateRank();
+
+    /**
+     * 排行榜
+     * */
+    @GET("/book/listRank")
+    Single<List<BookRankModel>> getListRank(@Query("type") String rankId);
+
+    /**
+     * 获取评论
+     * */
+    @GET("/book/listCommentByPage")
+    Single<List<BookComment>> getBookCommentList(@Query("bookId") String bookId);
+
+    /**
+     * 获取书籍详情
+     * */
+    @GET("/book/queryBookDetail/{id}")
+    Single<StoreBookItemDao> getBookDetail(@Path("id") String bookId);
+
+    /**
+     * 获取推荐书籍
+     **/
+    @GET("/book/listRecBookByCatId")
+    Single<List<StoreBookItemDao>> getRecommandBookListByCatId(@Query("catId") String catId);
 
 //    /*******************************Community *******************************************************/
 //    /**

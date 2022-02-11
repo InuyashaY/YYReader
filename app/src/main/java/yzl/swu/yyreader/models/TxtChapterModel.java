@@ -21,7 +21,7 @@ public class TxtChapterModel extends LitePalSupport {
     public long start;
     public long end;
     //书籍id
-    private long bookId;
+    private long book_id;
 
     private Integer indexNum;
 
@@ -46,7 +46,7 @@ public class TxtChapterModel extends LitePalSupport {
     }
 
     public TxtChapterModel(long book_id) {
-        this.bookId = book_id;
+        this.book_id = book_id;
     }
     public TxtChapterModel(String title) {
         this.title = title;
@@ -86,11 +86,11 @@ public class TxtChapterModel extends LitePalSupport {
     }
 
     public long getBook_id() {
-        return bookId;
+        return book_id;
     }
 
     public void setBook_id(long book_id) {
-        this.bookId = book_id;
+        this.book_id = book_id;
     }
 
     public Integer getIndexNum() {
