@@ -1,49 +1,28 @@
 package yzl.swu.yyreader.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toolbar;
-
-import com.google.android.material.appbar.AppBarLayout;
 
 import org.litepal.LitePal;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import yzl.swu.yyreader.R;
-import yzl.swu.yyreader.R2;
 import yzl.swu.yyreader.adapter.ReadChaptersAdapter;
 import yzl.swu.yyreader.common.AnimType;
 import yzl.swu.yyreader.databinding.ActivityBookReaderBinding;
 import yzl.swu.yyreader.models.BookModel;
 import yzl.swu.yyreader.models.BookRecordModel;
 import yzl.swu.yyreader.models.TxtChapterModel;
-import yzl.swu.yyreader.utils.FileManager;
 import yzl.swu.yyreader.views.BrightnessSettingDialog;
 import yzl.swu.yyreader.views.PageLoader;
 import yzl.swu.yyreader.views.ReadSettingDialog;
@@ -97,7 +76,7 @@ public class BookReaderActivity extends BaseActivity<ActivityBookReaderBinding> 
         BookRecordModel bookRecord = new BookRecordModel();
         bookRecord.setChapterPos(mPageLoader.getCurChapterIndex());
         bookRecord.setPagePos(mPageLoader.getCurPageIndex());
-        bookRecord.setBook_id(mBookModel.getId());
+        bookRecord.setBook_id(String.valueOf(mBookModel.getId()));
         bookRecord.setPage_color(mPageLoader.getBgColor());
         bookRecord.setText_color(mPageLoader.getTextColor());
         bookRecord.setText_size(mPageLoader.getmTextSize());

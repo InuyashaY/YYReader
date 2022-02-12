@@ -22,6 +22,11 @@ public class StoreRankListAdapter extends BaseListAdapter<BookRankModel> {
         return new ViewHolder();
     }
 
+    @Override
+    public void setOnItemClickListener() {
+
+    }
+
     //ViewHolder
     public class ViewHolder implements IViewHolder<BookRankModel> {
 
@@ -51,6 +56,7 @@ public class StoreRankListAdapter extends BaseListAdapter<BookRankModel> {
             mTags = itemView.findViewById(R.id.tagTextView);
             mScores = itemView.findViewById(R.id.scoreTextView);
             mRank = itemView.findViewById(R.id.rankTextView);
+            mRank.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -65,15 +71,17 @@ public class StoreRankListAdapter extends BaseListAdapter<BookRankModel> {
                     .into(cover);
 
             mTitle.setText(value.getBookName());
-            mDescribe.setText(value.getBookDesc().replace("&nbsp"," ").replace("<br/>"," "));
+            mDescribe.setText(value.getBookDesc());
             mTags.setText(String.format("%s · %s · %s万人气",value.getAuthorName(),value.getCatName(),value.getVisitCount()));
             mScores.setText(value.getScore()+"分");
+            mRank.setText(String.valueOf(pos+1));
         }
 
         @Override
         public void onClick() {
 
         }
+
     }
 
 }

@@ -141,6 +141,8 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
         mList.clear();
     }
 
+    public abstract void setOnItemClickListener();
+
     /***************************inner class area***********************************/
     //监听事件
     public interface OnItemClickListener{

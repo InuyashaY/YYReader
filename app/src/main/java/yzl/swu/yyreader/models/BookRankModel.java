@@ -163,7 +163,7 @@ public class BookRankModel {
 
 
     public String getBookDesc() {
-        return bookDesc;
+        return bookDesc == null || bookDesc.isEmpty() ? "暂无简介" : bookDesc.replace("&nbsp", " ").replace("<br/>", " ").replace(";", " ");
     }
 
 

@@ -10,8 +10,11 @@ import java.util.Date;
  * 小说的章节
  * */
 public class TxtChapterModel extends LitePalSupport {
-    //id
-    private String id;
+    @SerializedName("Local_id")
+    long id;
+    //chapterId
+    @SerializedName("id")
+    private String chapterId;
     //章节名
     @SerializedName("indexName")
     public String title;
@@ -37,12 +40,20 @@ public class TxtChapterModel extends LitePalSupport {
 
     private Date updateTime;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public String getChapterId() {
+        return chapterId;
+    }
+
+    public void setChapterId(String chapterId) {
+        this.chapterId = chapterId;
     }
 
     public TxtChapterModel(long book_id) {

@@ -9,17 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -31,7 +24,6 @@ import androidx.navigation.ui.NavigationUI;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import yzl.swu.yyreader.R;
@@ -97,8 +89,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         BookModel model5 = new BookModel("大主宰","dzz","未读",getFilesDir().getAbsolutePath() + "/" + "yzl"+"/大主宰.txt",true);
 
         BookModel model6 = new BookModel("武神霸尊","dzz","未读","book/1488053877507973120/1488058771568648192",false);
-        model6.setId(1488053877507973120l);
-
+        model6.setBookId("1488053877507973120");
 
         ArrayList<BookModel> bookModels = new ArrayList<>();
         bookModels.add(model);

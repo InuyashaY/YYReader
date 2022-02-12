@@ -7,9 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -26,15 +23,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import yzl.swu.yyreader.R;
+import yzl.swu.yyreader.adapter.BaseListAdapter;
 import yzl.swu.yyreader.adapter.HotCommentAdapter;
 import yzl.swu.yyreader.adapter.RecommandBookListAdapter;
-import yzl.swu.yyreader.adapter.StoreBookListAdapter;
-import yzl.swu.yyreader.adapter.StoreRankListAdapter;
 import yzl.swu.yyreader.common.Constants;
 import yzl.swu.yyreader.databinding.ActivityBookDetailBinding;
 import yzl.swu.yyreader.models.BookComment;
 import yzl.swu.yyreader.models.BookModel;
-import yzl.swu.yyreader.models.BookRankModel;
 import yzl.swu.yyreader.models.StoreBookItemDao;
 import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.remote.RemoteRepository;
@@ -42,6 +37,8 @@ import yzl.swu.yyreader.utils.BookManager;
 import yzl.swu.yyreader.utils.MD5Utils;
 import yzl.swu.yyreader.utils.StringUtils;
 import yzl.swu.yyreader.utils.Utils;
+
+import static yzl.swu.yyreader.common.Constants.READBOOK_KEY;
 
 public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> {
     public static final String RESULT_IS_COLLECTED = "result_is_collected";
@@ -147,9 +144,10 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
         );
 
         viewBinding.bookDetailTvRead.setOnClickListener(
-                (v) -> startActivityForResult(new Intent(this, BookReaderActivity.class)
+                (v) ->
+                        startActivityForResult(new Intent(this, BookReaderActivity.class)
                         .putExtra("collected", isCollected)
-                        .putExtra("collectBook", mCollBookBean), REQUEST_READ)
+                        .putExtra(READBOOK_KEY, mCollBookBean), REQUEST_READ)
         );
 
 
@@ -178,7 +176,7 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
         viewBinding.bookDetailTvType.setText(bean.getCatName());
 
         //总字数
-        viewBinding.bookDetailTvWordCount.setText(getResources().getString(R.string.book_word, bean.getWordCount()));
+        viewBinding.bookDetailTvWordCount.setText(getResources().getString(R.string.book_word, bean.getWordCount() / 10000));
         //更新时间
         viewBinding.bookDetailTvLatelyUpdate.setText(StringUtils.dateConvert(bean.getUpdateTime(), Constants.FORMAT_BOOK_DATE));
         //追书人数
@@ -186,7 +184,7 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
         //存留率
         viewBinding.bookDetailTvRetention.setText(bean.getVisitCount() + "%");
         //日更字数
-        viewBinding.bookDetailTvDayWordCount.setText(bean.getWordCount() + "");
+        viewBinding.bookDetailTvDayWordCount.setText(bean.getWordCount() / 10000 + "");
         //简介
         viewBinding.bookDetailTvBrief.setText(bean.getBookDesc());
         //社区
@@ -242,6 +240,15 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
             public boolean canScrollVertically() {
                 //与外部ScrollView滑动冲突
                 return false;
+            }
+        });
+        final Context context = this;
+        mBookListAdapter.setOnItemClickListener(new BaseListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int pos) {
+                //点击查看书籍详情
+                String bookId = String.valueOf(mBookListAdapter.getItem(pos).getId());
+                BookDetailActivity.startActivity(context,bookId);
             }
         });
         viewBinding.bookDetailRvRecommendBookList.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
@@ -323,7 +330,7 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
 
     public void addToBookShelf(BookModel collBookBean)  {
         Disposable disposable = RemoteRepository.getInstance()
-                .getBookChapters(String.valueOf(collBookBean.getId()))
+                .getBookChapters(String.valueOf(collBookBean.getBookId()))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(
                         (d) -> waitToBookShelf() //等待加载
@@ -335,7 +342,7 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
 
                             //设置 id
                             for(TxtChapterModel bean :beans){
-                                bean.setId(MD5Utils.strToMd5By16(bean.getLink()));
+                                bean.setChapterId(MD5Utils.strToMd5By16(bean.getLink()));
                             }
 
                             //设置目录

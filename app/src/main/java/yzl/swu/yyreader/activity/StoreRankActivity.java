@@ -1,14 +1,25 @@
 package yzl.swu.yyreader.activity;
 
+import android.content.Context;
+import android.content.Intent;
+
+import androidx.viewbinding.ViewBinding;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import yzl.swu.yyreader.adapter.StoreRankListAdapter;
+import yzl.swu.yyreader.adapter.TabFragmentPageAdapter;
+import yzl.swu.yyreader.databinding.ActivityBaseTabBinding;
 import yzl.swu.yyreader.fragment.FilesCategoryFragment;
 import yzl.swu.yyreader.fragment.LocalFilesFragment;
 import yzl.swu.yyreader.fragment.StoreRankFragment;
 
-public class StoreRankActivity extends BaseTabActivity {
+public class StoreRankActivity extends BaseTabActivity<ActivityBaseTabBinding> {
+    public static void show(Context context){
+        Intent intent = new Intent(context,StoreRankActivity.class);
+        context.startActivity(intent);
+    }
     @Override
     protected void initWidget() {
         viewBinding.selectorToolbar.setTitle("排行榜");
@@ -24,6 +35,10 @@ public class StoreRankActivity extends BaseTabActivity {
             tabFragments.add(StoreRankFragment.newInstance(String.valueOf(i)));
         }
 
-        super.setUpTabLayout();
+        //设置适配器 绑定tab和viewPager
+        viewBinding.fileSelectViewpager.setAdapter(new TabFragmentPageAdapter(getSupportFragmentManager(),0,tabTitles,tabFragments));
+        viewBinding.fileSelectViewpager.setOffscreenPageLimit(4);
+        viewBinding.tabTlIndicator.setupWithViewPager(viewBinding.fileSelectViewpager);
+
     }
 }

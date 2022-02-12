@@ -27,7 +27,6 @@ import io.reactivex.schedulers.Schedulers;
 import yzl.swu.yyreader.common.Constants;
 import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.models.BookModel;
-import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.remote.RemoteRepository;
 import yzl.swu.yyreader.models.ChapterInfoBean;
 import yzl.swu.yyreader.utils.BookManager;
@@ -48,7 +47,7 @@ public class NetworkPageLoader extends PageLoader {
 
     @Override
     public BufferedReader getChapterReader(TxtChapterModel chapterModel) throws FileNotFoundException, IOException {
-        File file = new File(Constants.BOOK_CACHE_PATH + String.valueOf(bookModel.getId())
+        File file = new File(Constants.BOOK_CACHE_PATH + String.valueOf(bookModel.getBookId())
                 + File.separator + chapterModel.title + FileUtils.SUFFIX_NB);
         if (!file.exists()) return null;
 
@@ -65,7 +64,7 @@ public class NetworkPageLoader extends PageLoader {
         if (mChapterList != null && !mChapterList.isEmpty()) return;
         //请求网络小说目录
         Disposable disposable = RemoteRepository.getInstance()
-                .getBookChapters(String.valueOf(bookModel.getId()))
+                .getBookChapters(String.valueOf(bookModel.getBookId()))
                 .doOnSuccess(new Consumer<List<TxtChapterModel>>() {
                     @Override
                     public void accept(List<TxtChapterModel> bookChapters) throws Exception {
@@ -204,14 +203,14 @@ public class NetworkPageLoader extends PageLoader {
 
         if (!chapters.isEmpty()) {
             chapterChangeListener.requestChapters(chapters);
-            loadChapter(String.valueOf(bookModel.getId()),chapters);
+            loadChapter(String.valueOf(bookModel.getBookId()),chapters);
         }else {
             pageView.showContent();
         }
     }
 
     private boolean hasChapterData(TxtChapterModel chapter) {
-        return BookManager.isChapterCached(String.valueOf(bookModel.getId()), chapter.title);
+        return BookManager.isChapterCached(String.valueOf(bookModel.getBookId()), chapter.title);
     }
 
     //加载章节具体内容
@@ -231,7 +230,7 @@ public class NetworkPageLoader extends PageLoader {
             TxtChapterModel bookChapter = bookChapters.get(i);
             // 网络中获取数据
             Single<ChapterInfoBean> chapterInfoSingle = RemoteRepository.getInstance()
-                    .getChapterInfo(String.valueOf(bookChapter.getBook_id()),bookChapter.getId());
+                    .getChapterInfo(String.valueOf(bookId),bookChapter.getChapterId());
 
             chapterInfos.add(chapterInfoSingle);
 

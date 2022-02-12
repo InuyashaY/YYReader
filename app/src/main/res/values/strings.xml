@@ -34,7 +34,11 @@
 
 
     <!--书城 精选-->
-    <string name="title1">精选</string>
+    <string name="title1">排行榜</string>
+    <string name="title2">精选</string>
+    <string name="title3">推荐</string>
+    <string name="title4">分类</string>
+    <string name="title5">精选</string>
     <string name="book_detail.chase_update">追更</string>
     <string name="book_detail.give_up">放弃</string>
     <string name="book.word">|&#160;%1$d&#160;万字</string>

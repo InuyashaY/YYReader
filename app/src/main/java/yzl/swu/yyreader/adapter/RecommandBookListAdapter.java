@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import yzl.swu.yyreader.R;
+import yzl.swu.yyreader.activity.BookDetailActivity;
 import yzl.swu.yyreader.models.BookRankModel;
 import yzl.swu.yyreader.models.StoreBookItemDao;
 
@@ -17,6 +18,11 @@ public class RecommandBookListAdapter extends BaseListAdapter<StoreBookItemDao> 
     @Override
     protected IViewHolder<StoreBookItemDao> createViewHolder(int viewType) {
         return new ViewHolder();
+    }
+
+    @Override
+    public void setOnItemClickListener() {
+
     }
 
     //ViewHolder

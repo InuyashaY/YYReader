@@ -105,6 +105,7 @@ public class FileManager {
         );
 
         //遍历文件夹
+        if(dirs == null || dirs.length == 0) return txtFiles;
         for (File dir : dirs){
             //递归遍历txt文件
             txtFiles.addAll(listTxtFiles(dir.getPath(),layer + 1));

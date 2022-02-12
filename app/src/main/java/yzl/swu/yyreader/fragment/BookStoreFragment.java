@@ -44,7 +44,7 @@ public class BookStoreFragment extends BaseFragment<BookStoreFragmentBinding> {
 
         //设置适配器 绑定tab和viewPager
         viewBinding.fileSelectViewpager.setAdapter(new TabFragmentPageAdapter(getActivity().getSupportFragmentManager(),0,tabTitles,tabFragments));
-        viewBinding.fileSelectViewpager.setOffscreenPageLimit(3);
+        viewBinding.fileSelectViewpager.setOffscreenPageLimit(4);
         viewBinding.tabTlIndicator.setupWithViewPager(viewBinding.fileSelectViewpager);
 
     }

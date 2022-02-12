@@ -237,7 +237,7 @@ public class BookManager{
     }
 
     public BookModel getCollectedBook(String bookId){
-        return LitePal.where("book_id=?",bookId).findFirst(BookModel.class);
+        return LitePal.where("id=?",bookId).findFirst(BookModel.class);
     }
 
     //存储已收藏书籍

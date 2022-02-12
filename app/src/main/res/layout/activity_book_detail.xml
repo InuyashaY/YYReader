@@ -122,10 +122,9 @@
                             android:layout_marginRight="10dp"
                             android:gravity="center"
                             android:layout_weight="1"
-                            android:background="@drawable/top_layout_selector"
+                            android:background="@drawable/selector_btn_book_list"
                             android:clickable="true"
-                            android:drawableLeft="@drawable/ic_book_list_add"
-                            android:drawablePadding="5dp"
+                            
                             android:padding="10dp"
                             android:text="追更"
                             android:textColor="@color/colorWhite" />
@@ -135,11 +134,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@drawable/top_layout_selector"
+                            android:background="@drawable/selector_btn_book_list"
                             android:clickable="true"
                             android:gravity="center"
-                            android:drawableLeft="@drawable/ic_book_list_search"
-                            android:drawablePadding="5dp"
                             android:padding="10dp"
                             android:text="开始阅读"
                             android:textColor="@color/colorWhite" />

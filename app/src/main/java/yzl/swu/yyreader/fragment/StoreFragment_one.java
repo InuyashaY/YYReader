@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import yzl.swu.yyreader.R;
+import yzl.swu.yyreader.activity.StoreRankActivity;
 import yzl.swu.yyreader.adapter.StoreGroupBooksAdapter;
 import yzl.swu.yyreader.databinding.FragmentStore1Binding;
 import yzl.swu.yyreader.models.StoreGroupBookModel;
@@ -31,6 +32,44 @@ public class StoreFragment_one extends BaseFragment<FragmentStore1Binding> {
     protected void initWidget() {
         setupBanner();
         setupGroupBooks();
+        initEvents();
+    }
+
+    private void initEvents() {
+        viewBinding.l1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StoreRankActivity.show(getContext());
+            }
+        });
+
+        viewBinding.l2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        viewBinding.l3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        viewBinding.l4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        viewBinding.l5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     //配置banner

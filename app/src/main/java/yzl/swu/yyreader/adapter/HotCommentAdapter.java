@@ -23,6 +23,11 @@ public class HotCommentAdapter extends BaseListAdapter<BookComment>{
         return new ViewHolder();
     }
 
+    @Override
+    public void setOnItemClickListener() {
+
+    }
+
     //ViewHolder
     public class ViewHolder implements IViewHolder<BookComment> {
 

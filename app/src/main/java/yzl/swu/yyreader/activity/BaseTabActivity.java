@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewbinding.ViewBinding;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,16 +20,16 @@ import yzl.swu.yyreader.models.BookModel;
 import static yzl.swu.yyreader.common.Constants.FIELSELECTOR_RESULT_KEY;
 import static yzl.swu.yyreader.common.Constants.FILESELECTOR_RESULT_CODE;
 
-public class BaseTabActivity extends BaseActivity<ActivityBaseTabBinding> {
+public class BaseTabActivity<T extends ViewBinding> extends BaseActivity<T> {
     //tab的标题
     List<String> tabTitles;
     //对应的fragment
     List<Fragment> tabFragments;
 
-    public static void show(Context context){
-        Intent intent = new Intent(context,FileSelectorActivity.class);
-        context.startActivity(intent);
-    }
+//    public static void show(Context context){
+//        Intent intent = new Intent(context,FileSelectorActivity.class);
+//        context.startActivity(intent);
+//    }
 
 
     @Override
@@ -37,10 +38,10 @@ public class BaseTabActivity extends BaseActivity<ActivityBaseTabBinding> {
     }
 
     protected void setUpTabLayout(){
-        //设置适配器 绑定tab和viewPager
-        viewBinding.fileSelectViewpager.setAdapter(new TabFragmentPageAdapter(getSupportFragmentManager(),0,tabTitles,tabFragments));
-        viewBinding.fileSelectViewpager.setOffscreenPageLimit(3);
-        viewBinding.tabTlIndicator.setupWithViewPager(viewBinding.fileSelectViewpager);
+//        //设置适配器 绑定tab和viewPager
+//        viewBinding.fileSelectViewpager.setAdapter(new TabFragmentPageAdapter(getSupportFragmentManager(),0,tabTitles,tabFragments));
+//        viewBinding.fileSelectViewpager.setOffscreenPageLimit(3);
+//        viewBinding.tabTlIndicator.setupWithViewPager(viewBinding.fileSelectViewpager);
 
     }
 

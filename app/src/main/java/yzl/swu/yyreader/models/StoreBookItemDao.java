@@ -1,7 +1,6 @@
 package yzl.swu.yyreader.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class StoreBookItemDao implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -90,8 +89,9 @@ public class StoreBookItemDao implements Serializable {
 
 
     private BookModel mShelfBook;
-    public BookModel getBookModel(){
-        if (mShelfBook == null){
+
+    public BookModel getBookModel() {
+        if (mShelfBook == null) {
             mShelfBook = createShelfBook();
         }
         return mShelfBook;
@@ -99,7 +99,7 @@ public class StoreBookItemDao implements Serializable {
 
     private BookModel createShelfBook() {
         BookModel bean = new BookModel();
-        bean.setId(getId());
+        bean.setBookId(String.valueOf(getId()));
         bean.setBookTitle(getBookName());
         bean.setLocal(false);
         bean.setRecord("未读");
@@ -113,378 +113,441 @@ public class StoreBookItemDao implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
     /**
      * 获取：主键
      */
     public Long getId() {
         return id;
     }
+
     /**
      * 设置：作品方向，0：男频，1：女频'
      */
     public void setWorkDirection(Integer workDirection) {
         this.workDirection = workDirection;
     }
+
     /**
      * 获取：作品方向，0：男频，1：女频'
      */
     public Integer getWorkDirection() {
         return workDirection;
     }
+
     /**
      * 设置：分类ID
      */
     public void setCatId(Integer catId) {
         this.catId = catId;
     }
+
     /**
      * 获取：分类ID
      */
     public Integer getCatId() {
         return catId;
     }
+
     /**
      * 设置：分类名
      */
     public void setCatName(String catName) {
         this.catName = catName;
     }
+
     /**
      * 获取：分类名
      */
     public String getCatName() {
         return catName;
     }
+
     /**
      * 设置：子分类ID
      */
     public void setCatChildId(Integer catChildId) {
         this.catChildId = catChildId;
     }
+
     /**
      * 获取：子分类ID
      */
     public Integer getCatChildId() {
         return catChildId;
     }
+
     /**
      * 设置：子分类名
      */
     public void setCatChildName(String catChildName) {
         this.catChildName = catChildName;
     }
+
     /**
      * 获取：子分类名
      */
     public String getCatChildName() {
         return catChildName;
     }
+
     /**
      * 设置：小说封面
      */
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
     }
+
     /**
      * 获取：小说封面
      */
     public String getPicUrl() {
         return picUrl;
     }
+
     /**
      * 设置：小说名
      */
     public void setBookName(String bookName) {
         this.bookName = bookName;
     }
+
     /**
      * 获取：小说名
      */
     public String getBookName() {
         return bookName;
     }
+
     /**
      * 设置：男主角姓名
      */
     public void setHeroName(String heroName) {
         this.heroName = heroName;
     }
+
     /**
      * 获取：男主角姓名
      */
     public String getHeroName() {
         return heroName;
     }
+
     /**
      * 设置：女主角姓名
      */
     public void setLadyName(String ladyName) {
         this.ladyName = ladyName;
     }
+
     /**
      * 获取：女主角姓名
      */
     public String getLadyName() {
         return ladyName;
     }
+
     /**
      * 设置：作品风格，0：甜宠，1：虐恋，2：其他
      */
     public void setBookStyle(Integer bookStyle) {
         this.bookStyle = bookStyle;
     }
+
     /**
      * 获取：作品风格，0：甜宠，1：虐恋，2：其他
      */
     public Integer getBookStyle() {
         return bookStyle;
     }
+
     /**
      * 设置：作品标签
      */
     public void setBookLabel(String bookLabel) {
         this.bookLabel = bookLabel;
     }
+
     /**
      * 获取：作品标签
      */
     public String getBookLabel() {
         return bookLabel;
     }
+
     /**
      * 设置：作者id
      */
     public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
+
     /**
      * 获取：作者id
      */
     public Long getAuthorId() {
         return authorId;
     }
+
     /**
      * 设置：作者名
      */
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
+
     /**
      * 获取：作者名
      */
     public String getAuthorName() {
         return authorName;
     }
+
     /**
      * 设置：书籍描述
      */
     public void setBookDesc(String bookDesc) {
         this.bookDesc = bookDesc;
     }
+
     /**
      * 获取：书籍描述
      */
     public String getBookDesc() {
-        return bookDesc;
+        return bookDesc == null || bookDesc.isEmpty() ? "暂无简介" : bookDesc.replace("&nbsp", " ").replace("<br/>", " ").replace(";", " ");
     }
+
     /**
      * 设置：评分，预留字段
      */
     public void setScore(Float score) {
         this.score = score;
     }
+
     /**
      * 获取：评分，预留字段
      */
     public Float getScore() {
         return score;
     }
+
     /**
      * 设置：书籍状态，0：连载中，1：已完结
      */
     public void setBookStatus(Integer bookStatus) {
         this.bookStatus = bookStatus;
     }
+
     /**
      * 获取：书籍状态，0：连载中，1：已完结
      */
     public Integer getBookStatus() {
         return bookStatus;
     }
+
     /**
      * 设置：点击量
      */
     public void setVisitCount(Long visitCount) {
         this.visitCount = visitCount;
     }
+
     /**
      * 获取：点击量
      */
     public Long getVisitCount() {
         return visitCount;
     }
+
     /**
      * 设置：总字数
      */
     public void setWordCount(Integer wordCount) {
         this.wordCount = wordCount;
     }
+
     /**
      * 获取：总字数
      */
     public Integer getWordCount() {
         return wordCount;
     }
+
     /**
      * 设置：评论数
      */
     public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
     }
+
     /**
      * 获取：评论数
      */
     public Integer getCommentCount() {
         return commentCount;
     }
+
     /**
      * 设置：昨日订阅数
      */
     public void setYesterdayBuy(Integer yesterdayBuy) {
         this.yesterdayBuy = yesterdayBuy;
     }
+
     /**
      * 获取：昨日订阅数
      */
     public Integer getYesterdayBuy() {
         return yesterdayBuy;
     }
+
     /**
      * 设置：最新目录ID
      */
     public void setLastIndexId(Long lastIndexId) {
         this.lastIndexId = lastIndexId;
     }
+
     /**
      * 获取：最新目录ID
      */
     public Long getLastIndexId() {
         return lastIndexId;
     }
+
     /**
      * 设置：最新目录名
      */
     public void setLastIndexName(String lastIndexName) {
         this.lastIndexName = lastIndexName;
     }
+
     /**
      * 获取：最新目录名
      */
     public String getLastIndexName() {
         return lastIndexName;
     }
+
     /**
      * 设置：最新目录更新时间
      */
     public void setLastIndexUpdateTime(String lastIndexUpdateTime) {
         this.lastIndexUpdateTime = lastIndexUpdateTime;
     }
+
     /**
      * 获取：最新目录更新时间
      */
     public String getLastIndexUpdateTime() {
         return lastIndexUpdateTime;
     }
+
     /**
      * 设置：是否收费，1：收费，0：免费
      */
     public void setIsVip(Integer isVip) {
         this.isVip = isVip;
     }
+
     /**
      * 获取：是否收费，1：收费，0：免费
      */
     public Integer getIsVip() {
         return isVip;
     }
+
     /**
      * 设置：状态，0：入库，1：上架
      */
     public void setStatus(Integer status) {
         this.status = status;
     }
+
     /**
      * 获取：状态，0：入库，1：上架
      */
     public Integer getStatus() {
         return status;
     }
+
     /**
      * 设置：更新时间
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
+
     /**
      * 获取：更新时间
      */
     public String getUpdateTime() {
         return updateTime;
     }
+
     /**
      * 设置：创建时间
      */
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
     /**
      * 获取：创建时间
      */
     public String getCreateTime() {
         return createTime;
     }
+
     /**
      * 设置：爬虫源站ID
      */
     public void setCrawlSourceId(Integer crawlSourceId) {
         this.crawlSourceId = crawlSourceId;
     }
+
     /**
      * 获取：爬虫源站ID
      */
     public Integer getCrawlSourceId() {
         return crawlSourceId;
     }
+
     /**
      * 设置：抓取的源站小说ID
      */
     public void setCrawlBookId(String crawlBookId) {
         this.crawlBookId = crawlBookId;
     }
+
     /**
      * 获取：抓取的源站小说ID
      */
     public String getCrawlBookId() {
         return crawlBookId;
     }
+
     /**
      * 设置：最后一次的抓取时间
      */
     public void setCrawlLastTime(String crawlLastTime) {
         this.crawlLastTime = crawlLastTime;
     }
+
     /**
      * 获取：最后一次的抓取时间
      */
     public String getCrawlLastTime() {
         return crawlLastTime;
     }
+
     /**
      * 设置：是否已停止更新，0：未停止，1：已停止
      */
     public void setCrawlIsStop(Integer crawlIsStop) {
         this.crawlIsStop = crawlIsStop;
     }
+
     /**
      * 获取：是否已停止更新，0：未停止，1：已停止
      */
