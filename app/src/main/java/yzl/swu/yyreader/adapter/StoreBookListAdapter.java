@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -45,9 +46,10 @@ public class StoreBookListAdapter extends RecyclerView.Adapter<RecyclerView.View
         //显示数据
         Glide.with(context)
                 .load(bookModels.get(position).getPicUrl())
-                .placeholder(R.drawable.ic_book_loading)
-                .error(R.drawable.ic_load_error)
-                .centerCrop()
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.ic_book_loading)
+                        .error(R.drawable.ic_load_error)
+                        .centerCrop())
                 .into(viewHolder.cover);
 
         viewHolder.mTitle.setText(bookModels.get(position).getBookName());

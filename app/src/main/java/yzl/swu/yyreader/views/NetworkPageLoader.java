@@ -35,20 +35,27 @@ import yzl.swu.yyreader.utils.RxUtils;
 
 public class NetworkPageLoader extends PageLoader {
     private Subscription mChapterSub;
+    private boolean isSkip = false;
     public NetworkPageLoader(YPageView pageView, BookModel bookModel) {
         super(pageView, bookModel);
     }
 
     @Override
     public void initData() {
-        loadCurrentChapter();
+        loadCurrentChapter(curChapterIndex);
 //        super.initData();
     }
 
     @Override
     public BufferedReader getChapterReader(TxtChapterModel chapterModel) throws FileNotFoundException, IOException {
-        File file = new File(Constants.BOOK_CACHE_PATH + String.valueOf(bookModel.getBookId())
+        File file = new File(Constants.BOOK_CACHE_PATH + bookModel.getBookId()
                 + File.separator + chapterModel.title + FileUtils.SUFFIX_NB);
+//        Boolean rs = BookManager.isChapterCached(bookModel.getBookId(),chapterModel.title);
+//        int count = 0;
+//        while (!rs){
+//            rs = BookManager.isChapterCached(bookModel.getBookId(),chapterModel.title);
+//            Log.v("yzlll", String.valueOf(count++));
+//        }
         if (!file.exists()) return null;
 
 
@@ -97,20 +104,30 @@ public class NetworkPageLoader extends PageLoader {
 
     @Override
     public void preChapter() {
-        loadPrevChapter();
         super.preChapter();
+        loadPrevChapter();
     }
 
     @Override
     public void nextChapter() {
-        loadNextChapter();
         super.nextChapter();
+        loadNextChapter();
     }
 
     @Override
     public void skipToChapter(int pos) {
-        loadCurrentChapter();
+        if (Math.abs(pos-curChapterIndex) > 1){
+            curChapterIndex = pos;
+            isSkip = true;
+            loadCurrentChapter(pos);
+        }else {
+            skipToChapterReal(pos);
+        }
+    }
+
+    private void skipToChapterReal(int pos){
         super.skipToChapter(pos);
+        loadCurrentChapter(pos);
     }
 
     /**
@@ -131,10 +148,10 @@ public class NetworkPageLoader extends PageLoader {
     /**
      * 加载前一页，当前页，后一页。
      */
-    private void loadCurrentChapter() {
+    private void loadCurrentChapter(int cur) {
         if (chapterChangeListener != null) {
-            int begin = curChapterIndex;
-            int end = curChapterIndex;
+            int begin = cur;
+            int end = cur;
 
             // 是否当前不是最后一章
             if (end < mChapterList.size()) {
@@ -205,6 +222,7 @@ public class NetworkPageLoader extends PageLoader {
             chapterChangeListener.requestChapters(chapters);
             loadChapter(String.valueOf(bookModel.getBookId()),chapters);
         }else {
+            if (isSkip) isSkip = !isSkip;
             pageView.showContent();
         }
     }
@@ -228,6 +246,7 @@ public class NetworkPageLoader extends PageLoader {
         // 将要下载章节，转换成网络请求。
         for (int i = 0; i < size; ++i) {
             TxtChapterModel bookChapter = bookChapters.get(i);
+            Log.v("yzll","缓存章节："+bookChapter.getTitle());
             // 网络中获取数据
             Single<ChapterInfoBean> chapterInfoSingle = RemoteRepository.getInstance()
                     .getChapterInfo(String.valueOf(bookId),bookChapter.getChapterId());
@@ -256,10 +275,11 @@ public class NetworkPageLoader extends PageLoader {
                                 saveChapterInfo(
                                         bookId, title, chapterInfoBean.getBody()
                                 );
+
 //                                mView.finishChapter();
-                                pageView.showContent();
                                 //将获取到的数据进行存储
                                 title = titles.poll();
+
                             }
 
                             @Override
@@ -276,6 +296,13 @@ public class NetworkPageLoader extends PageLoader {
 
                             @Override
                             public void onComplete() {
+                                if (isSkip) {
+                                    isSkip = !isSkip;
+                                    skipToChapterReal(curChapterIndex);
+                                }else {
+                                    pageView.showContent();
+                                }
+
                             }
                         }
                 );

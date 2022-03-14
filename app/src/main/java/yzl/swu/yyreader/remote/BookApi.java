@@ -35,7 +35,10 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -45,6 +48,8 @@ import yzl.swu.yyreader.models.BookRankModel;
 import yzl.swu.yyreader.models.ChapterInfoBean;
 import yzl.swu.yyreader.models.StoreBookItemDao;
 import yzl.swu.yyreader.models.TxtChapterModel;
+import yzl.swu.yyreader.models.User;
+import yzl.swu.yyreader.models.UserEntity;
 import yzl.swu.yyreader.remote.packages.BookChapterPackage;
 import yzl.swu.yyreader.remote.packages.ChapterInfoPackage;
 
@@ -95,6 +100,12 @@ public interface BookApi {
     Single<List<BookCategory>> getListBookCategory();
 
     /**
+     * 首页强推
+     * */
+    @GET("/book/listBookSetting")
+    Single<List<BookRankModel>> getMainPageSettingBooks();
+
+    /**
      * 查询新书榜单
      * */
     @GET("/book/listNewRank")
@@ -136,6 +147,20 @@ public interface BookApi {
     @GET("/book/listRecBookByCatId")
     Single<List<StoreBookItemDao>> getRecommandBookListByCatId(@Query("catId") String catId);
 
+    /**
+     * 登录用户
+     *
+     * */
+    @FormUrlEncoded
+    @POST("/user/login")
+    Single<Map<String, String>> loginForToken(@Field("username") String userName, @Field("password") String password);
+
+
+    /**
+     * 获取用户信息
+     * */
+    @GET("/user/userInfo")
+    Single<User> getUserInfo();
 //    /*******************************Community *******************************************************/
 //    /**
 //     * 获取综合讨论区、原创区，女生区帖子列表

@@ -47,6 +47,7 @@ import yzl.swu.yyreader.models.BookRankModel;
 import yzl.swu.yyreader.models.StoreBookItemDao;
 import yzl.swu.yyreader.models.TxtChapterModel;
 import yzl.swu.yyreader.models.ChapterInfoBean;
+import yzl.swu.yyreader.models.User;
 
 public class RemoteRepository {
     private static final String TAG = "RemoteRepository";
@@ -137,10 +138,38 @@ public class RemoteRepository {
     }
 
     /**
+     * 首页强推
+     * */
+    public Single<List<BookRankModel>> getMainPageSettingBooks() {
+        return mBookApi.getMainPageSettingBooks();
+    }
+
+    /**
      * 点击排行榜
      * */
     public Single<List<BookRankModel>> getRankBookList(String type){
         return mBookApi.getListRank(type);
+    }
+
+    /**
+     * 查询新书榜单
+     * */
+    public Single<List<BookRankModel>> getListNewRank() {
+        return mBookApi.getListNewRank();
+    }
+
+    /**
+     * 查询点击榜单
+     * */
+    public Single<List<BookRankModel>> getListClickRank() {
+        return mBookApi.getListClickRank();
+    }
+
+    /**
+     * 查询更新榜单
+     * */
+    public Single<List<BookRankModel>> getListUpdateRank() {
+        return mBookApi.getListUpdateRank();
     }
 
     /**
@@ -162,6 +191,20 @@ public class RemoteRepository {
      **/
     public Single<List<StoreBookItemDao>> getRecommandBookListByCatId(String catId){
         return mBookApi.getRecommandBookListByCatId(catId);
+    }
+
+    /**
+     * 登录
+     * */
+    public Single<Map<String,String>> login(String userName, String password) {
+        return mBookApi.loginForToken(userName,password);
+    }
+
+    /**
+     * 获取用户信息
+     * */
+    public Single<User> getUserInfo(){
+        return mBookApi.getUserInfo();
     }
 //
 //    /***********************************************************************************/

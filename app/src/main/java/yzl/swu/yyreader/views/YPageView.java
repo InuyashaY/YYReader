@@ -4,11 +4,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -19,6 +24,7 @@ import yzl.swu.yyreader.anim.CoverAnim;
 import yzl.swu.yyreader.anim.PageAnim;
 import yzl.swu.yyreader.anim.SlideAnim;
 import yzl.swu.yyreader.models.BookModel;
+
 
 public class YPageView extends View implements SlideAnim.OnPageChangeListener {
     /** 属性*/
@@ -71,8 +77,6 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
 
     public void showContent(){
         mPageLoader.reloadPageList();
-        mPageLoader.drawPage(pageAnim.getmCurBitmap());
-        mPageLoader.drawPage(pageAnim.getmNextBitmap());
     }
 
     /*******************************自定义绘制方法***************************************/
@@ -233,7 +237,7 @@ public class YPageView extends View implements SlideAnim.OnPageChangeListener {
     //绘制下一页
     public void drawNextPage() {
         pageAnim.changePage();
-        mPageLoader.drawPage(pageAnim.getmNextBitmap());
+        drawCurPage();
     }
 
     //绘制当前页

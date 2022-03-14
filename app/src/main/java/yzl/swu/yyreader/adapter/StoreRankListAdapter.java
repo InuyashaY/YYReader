@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.models.BookRankModel;
@@ -65,9 +66,10 @@ public class StoreRankListAdapter extends BaseListAdapter<BookRankModel> {
             //显示数据
             Glide.with(context)
                     .load(value.getPicUrl())
-                    .placeholder(R.drawable.ic_book_loading)
-                    .error(R.drawable.ic_load_error)
-                    .centerCrop()
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_book_loading)
+                            .error(R.drawable.ic_load_error)
+                            .centerCrop())
                     .into(cover);
 
             mTitle.setText(value.getBookName());

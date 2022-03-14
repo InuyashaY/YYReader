@@ -20,7 +20,6 @@ public class StoreRankFragment extends BaseFragment<FragmentRefreshListBinding> 
     private static final String EXTRA_BILL_ID = "extra_bill_id";
     private StoreRankListAdapter mStoreRankAdapter;
     private String mRankType;
-    protected CompositeDisposable mDisposable;
 
     public static Fragment newInstance(String billId){
         Bundle bundle = new Bundle();
@@ -88,21 +87,7 @@ public class StoreRankFragment extends BaseFragment<FragmentRefreshListBinding> 
         addDisposable(remoteDisp);
     }
 
-    void addDisposable(Disposable subscription) {
-        if (mDisposable == null) {
-            mDisposable = new CompositeDisposable();
-        }
-        mDisposable.add(subscription);
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        if (mDisposable != null){
-            mDisposable.clear();
-        }
-    }
 
 
 }

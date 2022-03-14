@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -164,9 +165,11 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
         //封面
         Glide.with(this)
                 .load(bean.getPicUrl())
-                .placeholder(R.drawable.ic_book_loading)
-                .error(R.drawable.ic_load_error)
-                .centerCrop()
+                .apply(
+                        new RequestOptions().placeholder(R.drawable.ic_book_loading)
+                        .error(R.drawable.ic_load_error)
+                        .centerCrop()
+                )
                 .into(viewBinding.bookDetailIvCover);
         //书名
         viewBinding.bookDetailTvTitle.setText(bean.getBookName());
@@ -342,7 +345,7 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
 
                             //设置 id
                             for(TxtChapterModel bean :beans){
-                                bean.setChapterId(MD5Utils.strToMd5By16(bean.getLink()));
+                                bean.setChapterId(bean.getChapterId());
                             }
 
                             //设置目录

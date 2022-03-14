@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 import yzl.swu.yyreader.R;
@@ -40,7 +43,20 @@ public class BookShelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         //显示数据
-        viewHolder.cover.setImageResource(Utils.getImageid(mContext,bookModels.get(position).getCoverResource()));
+        String picUrl = bookModels.get(position).getCoverResource();
+        if (picUrl.startsWith("http")) {
+            Glide.with(mContext)
+                    .load(picUrl)
+                    .apply(
+                            new RequestOptions().placeholder(R.drawable.ic_book_loading)
+                                    .error(R.drawable.ic_load_error)
+                                    .centerCrop()
+                    )
+                    .into(viewHolder.cover);
+        } else {
+            viewHolder.cover.setImageResource(Utils.getImageid(mContext,bookModels.get(position).getCoverResource()));
+
+        }
         viewHolder.mTitle.setText(bookModels.get(position).getBookTitle());
         viewHolder.mRecord.setText(bookModels.get(position).getRecord());
 

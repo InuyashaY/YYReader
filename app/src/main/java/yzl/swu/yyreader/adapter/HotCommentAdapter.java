@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.common.Constants;
@@ -70,14 +71,16 @@ public class HotCommentAdapter extends BaseListAdapter<BookComment>{
             //头像
             Glide.with(context)
                     .load(value.getCreateUserPhoto())
-                    .placeholder(R.drawable.ic_default_portrait)
-                    .error(R.drawable.ic_load_error)
-                    .transform(new CircleTransformUtils(context))
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_default_portrait)
+                            .error(R.drawable.ic_load_error)
+                            .transform(new CircleTransformUtils(context)))
                     .into(mIvPortrait);
             //作者
             mTvAuthor.setText(value.getCreateUserName());
             //等级
-            mTvLv.setText(StringUtils.getString(context,R.string.user_lv,"5"));
+//            mTvLv.setText(StringUtils.getString(context,R.string.user_lv,"5"));
+            mTvLv.setText(" lv5");
             //标题
             mTvTitle.setText(value.getCommentContent());
             //评分

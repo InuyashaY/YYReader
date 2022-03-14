@@ -243,7 +243,7 @@ public class BookManager{
     //存储已收藏书籍
     public void saveCollBookWithAsync(BookModel bean){
         //启动异步存储
-        bean.saveOrUpdate();
+        boolean resuly = bean.save();
 //        mSession.startAsyncSession()
 //                .runInTx(
 //                        () -> {

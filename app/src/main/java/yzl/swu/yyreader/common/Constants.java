@@ -25,6 +25,8 @@ public class Constants {
     //SharedPreference
     public static final String IS_FIRST = "isFirst";
     public static final String FIRST_KEY = "firstKey";
+    public static final String COOKIE_DATA = "cookieData";
+    public static final String COOKIE_KEY = "Authorization";
 
     //BookCachePath (因为getCachePath引用了Context，所以必须是静态变量，不能够是静态常量)
     public static String BOOK_CACHE_PATH = FileUtils.getCachePath()+ File.separator
@@ -32,7 +34,7 @@ public class Constants {
 
     //URL_BASE
 //    public static final String API_BASE_URL = "http://api.zhuishushenqi.com";
-    public static final String API_BASE_URL = "http://192.168.0.107:8080";
+    public static final String API_BASE_URL = "http://192.168.1.4:8080";
 
     public static final String IMG_BASE_URL = "http://statics.zhuishushenqi.com";
 }

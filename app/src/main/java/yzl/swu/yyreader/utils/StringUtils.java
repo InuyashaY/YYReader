@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import yzl.swu.yyreader.App;
+
 public class StringUtils {
     private static final String TAG = "StringUtils";
     private static final int HOUR_OF_DAY = 24;
@@ -85,7 +87,7 @@ public class StringUtils {
     }
 
     public static String getString(Context context,@StringRes int id, Object... formatArgs){
-        return context.getResources().getString(id,formatArgs);
+        return App.getContext().getResources().getString(id,formatArgs);
     }
 
     /**

@@ -157,7 +157,7 @@ public abstract class PageLoader {
         if (curChapterIndex < mChapterList.size() - 1)
             mNextPageList = loadPageList(curChapterIndex + 1);
         mCurPage = mCurPageList.get(0);
-
+        updateCurPage();
     }
 
 
@@ -521,7 +521,6 @@ public abstract class PageLoader {
             chapterChangeListener.onChapterChange(curChapterIndex);
         }
         curPageIndex = 0;
-        updateCurPage();
     }
 
     //设置翻页模式
@@ -573,7 +572,6 @@ public abstract class PageLoader {
         initPaint();
         initDimens();
         reloadPageList();
-        updateCurPage();
     }
 
     private void updateCurPage() {

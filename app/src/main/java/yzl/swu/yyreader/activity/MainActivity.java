@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,8 +47,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         super.onCreate(savedInstanceState);
 
         initBottomBar();
-
-
 //        this.setSupportActionBar(viewBinding.mToolBar);
 
 

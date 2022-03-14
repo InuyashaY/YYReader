@@ -10,20 +10,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.models.BookModel;
+import yzl.swu.yyreader.models.BookRankModel;
+import yzl.swu.yyreader.models.StoreBookItemDao;
 import yzl.swu.yyreader.models.StoreGroupBookModel;
 import yzl.swu.yyreader.utils.Utils;
 
 public class StoreGroupBooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<StoreGroupBookModel> bookModels;
+    private List<BookRankModel> bookModels;
     private OnBookClickListener listener;
     private Context mContext;
 
-    public StoreGroupBooksAdapter(List<StoreGroupBookModel> values, Context context, OnBookClickListener listener) {
+    public StoreGroupBooksAdapter(List<BookRankModel> values, Context context, OnBookClickListener listener) {
         this.bookModels = values;
         this.listener = listener;
         this.mContext = context;
@@ -42,9 +47,18 @@ public class StoreGroupBooksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         //显示数据
-        viewHolder.cover.setImageResource(bookModels.get(position).getCoverResource());
-        viewHolder.mTitle.setText(bookModels.get(position).getTitle());
-        viewHolder.mAuthor.setText(bookModels.get(position).getAuthor());
+
+        //封面
+        Glide.with(mContext)
+                .load(bookModels.get(position).getPicUrl())
+                .apply(
+                        new RequestOptions().placeholder(R.drawable.ic_book_loading)
+                                .error(R.drawable.ic_load_error)
+                                .centerCrop()
+                )
+                .into(viewHolder.cover);
+        viewHolder.mTitle.setText(bookModels.get(position).getBookName());
+        viewHolder.mAuthor.setText(bookModels.get(position).getAuthorName());
 
         viewHolder.cover.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +71,7 @@ public class StoreGroupBooksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return bookModels.size();
+        return bookModels == null ? 0 : bookModels.size();
     }
 
 
@@ -79,8 +93,12 @@ public class StoreGroupBooksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         void onItemClick(int pos,View view);
     }
 
-    public void refreshModels(List<StoreGroupBookModel> models){
+    public void refreshModels(List<BookRankModel> models){
         this.bookModels = models;
         notifyDataSetChanged();
+    }
+
+    public BookRankModel getItem(int position){
+        return bookModels.get(position);
     }
 }

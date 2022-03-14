@@ -14,8 +14,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 public abstract class BaseFragment<T extends ViewBinding> extends Fragment {
     protected T viewBinding;
+    protected CompositeDisposable mDisposable;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,5 +42,21 @@ public abstract class BaseFragment<T extends ViewBinding> extends Fragment {
      * 逻辑使用区
      */
     protected void processLogic(){
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        if (mDisposable != null){
+            mDisposable.clear();
+        }
+    }
+
+    void addDisposable(Disposable subscription) {
+        if (mDisposable == null) {
+            mDisposable = new CompositeDisposable();
+        }
+        mDisposable.add(subscription);
     }
 }

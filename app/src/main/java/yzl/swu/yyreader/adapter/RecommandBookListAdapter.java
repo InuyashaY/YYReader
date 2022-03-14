@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.activity.BookDetailActivity;
@@ -61,9 +62,10 @@ public class RecommandBookListAdapter extends BaseListAdapter<StoreBookItemDao> 
             //显示数据
             Glide.with(context)
                     .load(data.getPicUrl())
-                    .placeholder(R.drawable.ic_book_loading)
-                    .error(R.drawable.ic_load_error)
-                    .centerCrop()
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_book_loading)
+                            .error(R.drawable.ic_load_error)
+                            .centerCrop())
                     .into(cover);
 
             mTitle.setText(data.getBookName());

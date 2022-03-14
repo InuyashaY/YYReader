@@ -3,6 +3,7 @@
     package="yzl.swu.yyreader">
     <!-- 外部存储权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,6 +20,9 @@
         <activity android:name=".activity.BookReaderActivity" />
         <activity android:name=".activity.StoreRankActivity"/>
         <activity android:name=".activity.BookDetailActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.ResultActivity"/>
+        <activity android:name=".activity.ScanActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

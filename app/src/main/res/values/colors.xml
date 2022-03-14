@@ -46,4 +46,20 @@
     <color name="header_second">#727272</color>
     <!--通用三级标题的颜色-->
     <color name="header_third">#B2B2B2</color>
+
+    <!--登录-->
+    <color name="colorTheme">#0080ff</color>
+    <color name="colorThemePale">#E9ECEF</color>
+    <color name="colorThemeLine">#589BEC</color>
+    <color name="colorDark">#000106</color>
+    <color name="colorLight">#FEFEFE</color>
+    <color name="colorBack">#F8F8F8</color>
+    <color name="colorBackPale">#FAFBFA</color>
+    <color name="colorText">#4C4C4C</color>
+    <color name="colorDarkText">#313131</color>
+    <color name="colorDefaultText">#A0A0A0</color>
+
+    <color name="colorBotBarBack">#F7F7F7</color>
+    <color name="colorBotLine">#E5E5E5</color>
+    <color name="colorTopLine">#B1B1B1</color>
 </resources>

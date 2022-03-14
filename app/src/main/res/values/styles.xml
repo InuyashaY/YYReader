@@ -13,6 +13,17 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorSkyBlue</item>
     </style>
+
+    <style name="FullTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 避免控件会顶到状态栏上 -->
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
     
     
     <!--阅读界面-->
