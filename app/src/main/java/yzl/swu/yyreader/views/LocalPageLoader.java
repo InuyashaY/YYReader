@@ -56,7 +56,11 @@ public class LocalPageLoader extends PageLoader {
         //先获取本地文件
         bookFile = FileManager.getInstance().getFileByFilePath(bookModel.getFilePath());
 
-        if (!mChapterList.isEmpty()) return;
+        if (!mChapterList.isEmpty()){
+            //回调加载目录完毕
+            chapterChangeListener.finishedLoadChapters(mChapterList);
+            return;
+        }
 
         //如果没有 就根据文件进行分章
         List<TxtChapterModel> chapters = new ArrayList<>();

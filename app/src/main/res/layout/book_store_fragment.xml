@@ -5,21 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <yzl.swu.yyreader.common.YToolBar
-        android:id="@+id/mToolBar"
+    <FrameLayout
+        android:id="@+id/store_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:background="@color/colorSkyBlue"
-        app:centerTitle="@string/book_store_toolbar_title"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <yzl.swu.yyreader.common.YToolBar
+            android:id="@+id/mToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="@color/colorSkyBlue"
+            app:centerTitle="@string/book_store_toolbar_title"
+            />
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+    </FrameLayout>
+
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_tl_indicator"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorWhite"
-        app:layout_constraintTop_toBottomOf="@+id/mToolBar"
+        app:layout_constraintTop_toBottomOf="@+id/store_header"
         app:tabIndicatorColor="@color/colorSkyBlue"
         app:tabSelectedTextColor="@color/colorSkyBlue"
         app:tabTextColor="@color/dark_gray" />

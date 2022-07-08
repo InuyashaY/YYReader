@@ -5,6 +5,7 @@ import java.io.File;
 import yzl.swu.yyreader.utils.FileUtils;
 
 public class Constants {
+    public static String IP_ADDRESS = "10.129.82.19";
 
     //阅读界面 默认字体大小
     public static int DEFAULT_TEXT_SIZE = 18;
@@ -27,6 +28,7 @@ public class Constants {
     public static final String FIRST_KEY = "firstKey";
     public static final String COOKIE_DATA = "cookieData";
     public static final String COOKIE_KEY = "Authorization";
+    public static final String CACHE_PATH_KEY = "cachePath";
 
     //BookCachePath (因为getCachePath引用了Context，所以必须是静态变量，不能够是静态常量)
     public static String BOOK_CACHE_PATH = FileUtils.getCachePath()+ File.separator
@@ -34,7 +36,7 @@ public class Constants {
 
     //URL_BASE
 //    public static final String API_BASE_URL = "http://api.zhuishushenqi.com";
-    public static final String API_BASE_URL = "http://192.168.1.4:8080";
+    public static final String API_BASE_URL = "http://" + IP_ADDRESS + ":8080";
 
     public static final String IMG_BASE_URL = "http://statics.zhuishushenqi.com";
 }

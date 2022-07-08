@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import yzl.swu.yyreader.R;
@@ -27,12 +28,16 @@ public class StoreGroupBooksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private List<BookRankModel> bookModels;
     private OnBookClickListener listener;
     private Context mContext;
+    private List<StoreGroupBookModel> defaultModels;
 
     public StoreGroupBooksAdapter(List<BookRankModel> values, Context context, OnBookClickListener listener) {
         this.bookModels = values;
         this.listener = listener;
         this.mContext = context;
+        initDefaultData();
     }
+
+
 
     @NonNull
     @Override
@@ -47,31 +52,39 @@ public class StoreGroupBooksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         //显示数据
+        if (bookModels == null || bookModels.isEmpty()) {
+            StoreGroupBookModel model = defaultModels.get(position);
+            viewHolder.cover.setImageResource(model.getCoverResource());
+            viewHolder.mTitle.setText(model.getTitle());
+            viewHolder.mAuthor.setText(model.getAuthor());
+        } else {
+            //封面
+            Glide.with(mContext)
+                    .load(bookModels.get(position).getPicUrl())
+                    .apply(
+                            new RequestOptions().placeholder(R.drawable.ic_book_loading)
+                                    .error(R.drawable.ic_load_error)
+                                    .centerCrop()
+                    )
+                    .into(viewHolder.cover);
+            viewHolder.mTitle.setText(bookModels.get(position).getBookName());
+            viewHolder.mAuthor.setText(bookModels.get(position).getAuthorName());
 
-        //封面
-        Glide.with(mContext)
-                .load(bookModels.get(position).getPicUrl())
-                .apply(
-                        new RequestOptions().placeholder(R.drawable.ic_book_loading)
-                                .error(R.drawable.ic_load_error)
-                                .centerCrop()
-                )
-                .into(viewHolder.cover);
-        viewHolder.mTitle.setText(bookModels.get(position).getBookName());
-        viewHolder.mAuthor.setText(bookModels.get(position).getAuthorName());
+            viewHolder.cover.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(viewHolder.getAdapterPosition(),viewHolder.cover);
+                }
+            });
+        }
 
-        viewHolder.cover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(viewHolder.getAdapterPosition(),viewHolder.cover);
-            }
-        });
+
     }
 
 
     @Override
     public int getItemCount() {
-        return bookModels == null ? 0 : bookModels.size();
+        return bookModels == null || bookModels.isEmpty() ? defaultModels.size() : bookModels.size();
     }
 
 
@@ -100,5 +113,24 @@ public class StoreGroupBooksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public BookRankModel getItem(int position){
         return bookModels.get(position);
+    }
+
+
+    private void initDefaultData() {
+        defaultModels = new ArrayList<>();
+
+        StoreGroupBookModel model1 = new StoreGroupBookModel(R.drawable.tgsw,"太古神王","净无痕");
+        StoreGroupBookModel model2 = new StoreGroupBookModel(R.drawable.dldl,"斗罗大陆","唐家三少");
+        StoreGroupBookModel model3 = new StoreGroupBookModel(R.drawable.dzz,"大主宰","天蚕土豆");
+        StoreGroupBookModel model4 = new StoreGroupBookModel(R.drawable.jl,"捡漏","净无痕");
+        StoreGroupBookModel model5 = new StoreGroupBookModel(R.drawable.jswh,"绝世武魂","天逆");
+        StoreGroupBookModel model6 = new StoreGroupBookModel(R.drawable.dpcq,"斗破苍穹","天蚕土豆");
+
+        defaultModels.add(model1);
+        defaultModels.add(model2);
+        defaultModels.add(model3);
+        defaultModels.add(model4);
+        defaultModels.add(model5);
+        defaultModels.add(model6);
     }
 }

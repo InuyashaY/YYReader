@@ -134,7 +134,7 @@ public class MyToolbar extends LinearLayout implements AppBarLayout.OnOffsetChan
 
 
     private View findAvatar() {
-        View avatar = this.findViewById(R.id.cat_avatar);
+        View avatar = this.findViewById(R.id.user_icon);
         if (avatar == null) {
             throw new IllegalStateException("View with id ta_avatar not found");
         }
@@ -143,7 +143,7 @@ public class MyToolbar extends LinearLayout implements AppBarLayout.OnOffsetChan
 
 
     private TextView findTitle() {
-        TextView title = (TextView) this.findViewById(R.id.cat_title);
+        TextView title = (TextView) this.findViewById(R.id.user_name);
         if (title == null) {
             throw new IllegalStateException("TextView with id ta_title not found");
         }

@@ -151,6 +151,16 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
                         .putExtra(READBOOK_KEY, mCollBookBean), REQUEST_READ)
         );
 
+        viewBinding.bookDetailTvMoreComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BookDetailActivity.this, CommentActivity.class);
+                intent.putExtra("bookId",mCollBookBean.getBookId());
+                startActivity(intent);
+            }
+        });
+
+
 
     }
 
@@ -184,10 +194,10 @@ public class BookDetailActivity extends BaseActivity<ActivityBookDetailBinding> 
         viewBinding.bookDetailTvLatelyUpdate.setText(StringUtils.dateConvert(bean.getUpdateTime(), Constants.FORMAT_BOOK_DATE));
         //追书人数
         viewBinding.bookDetailTvFollowerCount.setText(bean.getVisitCount() + "");
-        //存留率
-        viewBinding.bookDetailTvRetention.setText(bean.getVisitCount() + "%");
+        //点击率
+        viewBinding.bookDetailTvRetention.setText(bean.getVisitCount()+"");
         //日更字数
-        viewBinding.bookDetailTvDayWordCount.setText(bean.getWordCount() / 10000 + "");
+        viewBinding.bookDetailTvDayWordCount.setText(bean.getWordCount() / 1000 + "");
         //简介
         viewBinding.bookDetailTvBrief.setText(bean.getBookDesc());
         //社区

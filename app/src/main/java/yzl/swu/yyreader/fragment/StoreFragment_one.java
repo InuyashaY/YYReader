@@ -1,15 +1,21 @@
 package yzl.swu.yyreader.fragment;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.bean.BuildBean;
+import com.dou361.dialogui.listener.DialogUIListener;
+import com.hedgehog.ratingbar.RatingBar;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -23,6 +29,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import yzl.swu.yyreader.R;
 import yzl.swu.yyreader.activity.BookDetailActivity;
+import yzl.swu.yyreader.activity.RecommendActivity;
 import yzl.swu.yyreader.activity.StoreRankActivity;
 import yzl.swu.yyreader.adapter.StoreGroupBooksAdapter;
 import yzl.swu.yyreader.databinding.FragmentStore1Binding;
@@ -40,6 +47,8 @@ public class StoreFragment_one extends BaseFragment<FragmentStore1Binding> {
     private List<BookRankModel> highCommentBookList;
     private StoreGroupBooksAdapter mHighCommentAdapter;
 
+
+
     @Override
     protected void initWidget() {
         setupBanner();
@@ -51,13 +60,17 @@ public class StoreFragment_one extends BaseFragment<FragmentStore1Binding> {
         viewBinding.l1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //排行榜
                 StoreRankActivity.show(getContext());
             }
         });
 
+
+
         viewBinding.l2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //分类
 
             }
         });
@@ -65,23 +78,22 @@ public class StoreFragment_one extends BaseFragment<FragmentStore1Binding> {
         viewBinding.l3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //推荐
+                startActivity(new Intent(getContext(), RecommendActivity.class));
             }
         });
 
+        MaterialSearchView searchView = getActivity().findViewById(R.id.searchView);
         viewBinding.l4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //搜索
+                if (searchView != null) searchView.showSearch();
             }
         });
 
-        viewBinding.l5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+
     }
 
     //配置banner
@@ -144,22 +156,6 @@ public class StoreFragment_one extends BaseFragment<FragmentStore1Binding> {
         highCommentBookList = new ArrayList<>();
         //加载
         refreshBookBookList();
-
-//        models = new ArrayList<>();
-//
-//        StoreGroupBookModel model1 = new StoreGroupBookModel(R.drawable.tgsw,"太古神王","净无痕");
-//        StoreGroupBookModel model2 = new StoreGroupBookModel(R.drawable.dldl,"斗罗大陆","唐家三少");
-//        StoreGroupBookModel model3 = new StoreGroupBookModel(R.drawable.dzz,"大主宰","天蚕土豆");
-//        StoreGroupBookModel model4 = new StoreGroupBookModel(R.drawable.jl,"捡漏","净无痕");
-//        StoreGroupBookModel model5 = new StoreGroupBookModel(R.drawable.jswh,"绝世武魂","天逆");
-//        StoreGroupBookModel model6 = new StoreGroupBookModel(R.drawable.dpcq,"斗破苍穹","天蚕土豆");
-//
-//        models.add(model1);
-//        models.add(model2);
-//        models.add(model3);
-//        models.add(model4);
-//        models.add(model5);
-//        models.add(model6);
 
     }
 

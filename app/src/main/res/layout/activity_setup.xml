@@ -91,7 +91,7 @@
         <ImageView
             android:padding="2dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_qq"
+            android:src="@drawable/ic_night"
             android:contentDescription="@null"
             android:layout_width="25dp"
             android:layout_height="25dp" />
@@ -100,7 +100,7 @@
             android:layout_marginLeft="35dp"
             android:textSize="15sp"
             android:textColor="@color/colorText"
-            android:text="QQ"
+            android:text="夜间模式"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -126,14 +126,14 @@
             android:layout_centerVertical="true"
             android:contentDescription="@null"
             android:padding="2dp"
-            android:src="@mipmap/ic_wechat" />
+            android:src="@drawable/ic_brightness" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginLeft="35dp"
-            android:text="微信"
+            android:text="推送通知"
             android:textColor="@color/colorText"
             android:textSize="15sp" />
         <com.suke.widget.SwitchButton
@@ -143,45 +143,14 @@
             android:layout_width="58dp"
             android:layout_height="36dp" />
     </RelativeLayout>
-    <RelativeLayout
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="@drawable/line_bot"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:padding="2dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_linkedin"
-            android:contentDescription="@null"
-            android:layout_width="25dp"
-            android:layout_height="25dp" />
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="35dp"
-            android:textSize="15sp"
-            android:textColor="@color/colorText"
-            android:text="领英"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.suke.widget.SwitchButton
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            app:sb_checked_color="@color/colorTheme"
-            android:layout_width="58dp"
-            android:layout_height="36dp" />
-    </RelativeLayout>
+
     <Button
         android:id="@+id/setupAccountExit"
         android:text="退出或切换账号"
         android:textSize="15sp"
         android:gravity="center"
         android:textColor="@color/colorLight"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/bg_btn_theme_circle"

@@ -15,11 +15,16 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.listener.DialogUIListener;
+import com.hedgehog.ratingbar.RatingBar;
 
 import org.litepal.LitePal;
 
@@ -63,6 +68,12 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
     private boolean isOpenBook = false;
     //选中的书籍
     private int selectedIndex = 0;
+
+    RatingBar mRatingBar;
+    View view;
+    int score = 0;
+    Dialog tipDialog;
+    Dialog ratingDialog;
 
 
     protected void initWidget() {
@@ -145,7 +156,81 @@ public class BookShelfFragment extends BaseFragment<BookShelfFragmentBinding> im
             viewBinding.bookContent.startAnimation(scaleAnimation);
             getActivity().findViewById(R.id.mToolBar).setVisibility(View.VISIBLE);
             getActivity().findViewById(R.id.mBottomBar).setVisibility(View.VISIBLE);
+
+            if(!bookModels.get(selectedIndex).isLocal()){
+                //评分
+                prepareRating();
+
+                //上传
+            }
         }
+    }
+
+    private void prepareRating(){
+        view=View.inflate(getContext(),R.layout.dialog_rating,null);
+        mRatingBar = (RatingBar) view.findViewById(R.id.rat_test);
+        //设置是否可点击，在需要评分的地方要设置为可点击
+        mRatingBar.setmClickable(true);
+        //设置星星总数
+        mRatingBar.setStarCount(5);
+        //设置星星的宽度
+        mRatingBar.setStarImageWidth(40f);
+        //设置星星的高度
+        mRatingBar.setStarImageHeight(40f);
+        //设置星星之间的距离
+        mRatingBar.setImagePadding(5f);
+        //设置空星星
+        mRatingBar.setStarEmptyDrawable(getResources()
+                .getDrawable(R.drawable.ic_rating_empty));
+        //设置填充的星星
+        mRatingBar.setStarFillDrawable(getResources()
+                .getDrawable(R.drawable.ic_rating_full));
+        //设置半颗星
+        mRatingBar.setStarHalfDrawable(getResources()
+                .getDrawable(R.drawable.ic_rating_half));
+        //设置显示的星星个数
+        mRatingBar.setStar(4.5f);
+        //设置评分的监听
+        mRatingBar.setOnRatingChangeListener(
+                new RatingBar.OnRatingChangeListener() {
+                    @Override
+                    public void onRatingChange(float RatingCount) {
+                        score = (int)(RatingCount/5*10);
+
+                        Toast.makeText(getContext(), "你给出了"+
+                                        score +"分",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        //提交
+        view.findViewById(R.id.rating_sure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipDialog = DialogUIUtils.showMdAlert(getActivity(),"感谢您的评价","您的评分是："+score+"分", new DialogUIListener() {
+                    @Override
+                    public void onPositive() {
+                        if (tipDialog != null) tipDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onNegative() {
+                        if (tipDialog != null) tipDialog.dismiss();
+                    }
+                }).show();
+                if (ratingDialog != null) ratingDialog.dismiss();
+            }
+        });
+        //q取消
+        view.findViewById(R.id.rating_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ratingDialog != null) ratingDialog.dismiss();
+            }
+        });
+
+        //弹窗
+        ratingDialog = DialogUIUtils.showCustomAlert(getContext(),view).show();
     }
 
     @Override

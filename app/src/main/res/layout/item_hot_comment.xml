@@ -73,18 +73,18 @@
         android:textSize="13sp"
         tools:text="本人试毒500，前面还好后面真是" />
 
-    <TextView
-        android:id="@+id/hot_comment_tv_helpful"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/hot_comment_tv_content"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/hot_comment_iv_cover"
-        android:drawableLeft="@drawable/post_item_like"
-        android:drawablePadding="5dp"
-        android:textColor="@color/header_third"
-        android:textSize="13sp"
-        tools:text="308" />
+<!--    <TextView-->
+<!--        android:id="@+id/hot_comment_tv_helpful"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/hot_comment_tv_content"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_toRightOf="@id/hot_comment_iv_cover"-->
+<!--        android:drawableLeft="@drawable/post_item_like"-->
+<!--        android:drawablePadding="5dp"-->
+<!--        android:textColor="@color/header_third"-->
+<!--        android:textSize="13sp"-->
+<!--        tools:text="308" />-->
 
     <TextView
         android:id="@+id/hot_comment_tv_time"

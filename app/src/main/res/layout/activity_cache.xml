@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/colorBack"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SetupActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/cache_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorSkyBlue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="缓存管理"
+        app:titleTextColor="@color/colorWhite" />
+    <ImageView
+        android:id="@+id/setupUAvatar"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:src="@drawable/head_icon"
+        android:layout_width="65dp"
+        android:layout_height="65dp" />
+    <TextView
+        android:id="@+id/setupUName"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="缓存管理"
+        android:textSize="15sp"
+        android:textColor="@color/colorDarkText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/line_both"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/colorText"
+            android:text="默认缓存地址"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.suke.widget.SwitchButton
+            android:id="@+id/defaultPathSwitch"
+            app:sb_checked="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:sb_checked_color="@color/colorTheme"
+            android:layout_width="58dp"
+            android:layout_height="36dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/line_both"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/colorText"
+            android:text="缓存路径"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:background="@drawable/line_bot"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/cachePathEditText"
+            android:layout_marginLeft="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入"
+            android:enabled="false"
+            android:background="@color/colorWhite"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+
+        android:gravity="center"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+
+            android:id="@+id/sureBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/colorSkyBlue"
+            android:background="@color/light_gray"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="200dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="保存"
+                    android:textColor="@color/color_black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+
+        android:gravity="center"
+        android:layout_marginTop="270dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+
+            android:id="@+id/clearBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/light_red"
+            android:background="@color/light_gray"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="300dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="清除缓存"
+                    android:textColor="@color/color_black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</LinearLayout>

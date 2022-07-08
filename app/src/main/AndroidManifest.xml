@@ -21,6 +21,14 @@
         <activity android:name=".activity.StoreRankActivity"/>
         <activity android:name=".activity.BookDetailActivity" />
         <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.CacheActivity" />
+        <activity android:name=".activity.SelfCenterActivity" />
+        <activity android:name=".activity.FeedBackActivity" />
+        <activity android:name=".activity.SetupActivity" />
+        <activity android:name=".activity.RecommendActivity" />
+        <activity android:name=".activity.SearchDetailActivity" />
+        <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.ResultActivity"/>
         <activity android:name=".activity.ScanActivity" />
         <activity android:name=".activity.MainActivity">

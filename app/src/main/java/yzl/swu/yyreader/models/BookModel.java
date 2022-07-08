@@ -13,7 +13,7 @@ import org.litepal.crud.LitePalSupport;
  * */
 public class BookModel extends LitePalSupport implements Parcelable {
     //LitePal自动生成id
-    private Long id;
+    private Long id = 0l;
     private String bookId;
     private String bookTitle;
     private String coverResource;

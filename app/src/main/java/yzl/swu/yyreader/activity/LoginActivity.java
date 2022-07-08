@@ -1,5 +1,6 @@
 package yzl.swu.yyreader.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.dou361.dialogui.DialogUIUtils;
 import com.google.gson.Gson;
@@ -71,13 +73,14 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         loginPassword = findViewById(R.id.loginPassword);
         loginGoBtn = findViewById(R.id.loginGoBtn);
         loginGoBtn.setEnabled(false);
-        loginQQBtn = findViewById(R.id.loginQQBtn);
-        loginWeChatBtn = findViewById(R.id.loginWeChatBtn);
-        loginLinkedInBtn = findViewById(R.id.loginLinkedInBtn);
+//        loginQQBtn = findViewById(R.id.loginQQBtn);
+//        loginWeChatBtn = findViewById(R.id.loginWeChatBtn);
+//        loginLinkedInBtn = findViewById(R.id.loginLinkedInBtn);
     }
 
     private void initListener() {
 
+        Activity activity = this;
         loginGoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +91,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("userId", loginAccount.getText().toString());
                 hashMap.put("userPassword", loginPassword.getText().toString());
+                Toast.makeText(activity,"登录成功",Toast.LENGTH_SHORT).show();
+                activity.finish();
                 Disposable remoteDisp = RemoteRepository.getInstance()
                         .login(loginAccount.getText().toString(),loginPassword.getText().toString())
                         .subscribeOn(Schedulers.io())
@@ -98,10 +103,18 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                                     SharedPreferences sharedPreferences = App.getContext().getSharedPreferences(Constants.COOKIE_DATA, Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString(Constants.COOKIE_KEY, tokeMap.get("token"));
-                                    editor.commit();
+                                    editor.apply();
+                                    if(tokeMap.get("token") != null) {
+                                        Toast.makeText(activity,"登录成功",Toast.LENGTH_SHORT).show();
+                                        activity.finish();
+                                    }else {
+                                        Toast.makeText(activity,"登录失败",Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
                                 ,
                                 (e) ->{
+                                    Toast.makeText(activity,"登录失败",Toast.LENGTH_SHORT).show();
                                     Log.e("Login","net error:"+e.toString());
                                 }
                         );
@@ -192,37 +205,45 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 }
             }
         });
-        loginQQBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Disposable remoteDisp = RemoteRepository.getInstance()
-                        .getUserInfo()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                (beans)-> {
-//                            mView.finishRefresh(beans);
-//                            mView.complete();
-                                    System.out.println(beans);
-                                }
-                                ,
-                                (e) ->{
 
-                                    Log.e("Login","net error:"+e.toString());
-                                }
-                        );
-                addDisposable(remoteDisp);
-            }
-        });
-        loginWeChatBtn.setOnClickListener(new View.OnClickListener() {
+
+        viewBinding.goRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
             }
         });
-        loginLinkedInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+//        loginQQBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Disposable remoteDisp = RemoteRepository.getInstance()
+//                        .getUserInfo()
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(
+//                                (beans)-> {
+////                            mView.finishRefresh(beans);
+////                            mView.complete();
+//                                    System.out.println(beans);
+//                                }
+//                                ,
+//                                (e) ->{
+//
+//                                    Log.e("Login","net error:"+e.toString());
+//                                }
+//                        );
+//                addDisposable(remoteDisp);
+//            }
+//        });
+//        loginWeChatBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            }
+//        });
+//        loginLinkedInBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            }
+//        });
     }
 }

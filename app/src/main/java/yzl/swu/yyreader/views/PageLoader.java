@@ -195,6 +195,10 @@ public abstract class PageLoader {
                 //一行的字数
                 int wordCount = 0;
                 //一行的内容
+                paragraph = paragraph.replace("&nbsp", " ")
+                        .replace("<br/>", " ")
+                        .replace("<br />", " ")
+                        .replace(";", " ");
                 String lineContent = null;
                 while (paragraph.length() > 0) {
                     //检查是否能一行的高度
@@ -521,6 +525,7 @@ public abstract class PageLoader {
             chapterChangeListener.onChapterChange(curChapterIndex);
         }
         curPageIndex = 0;
+        reloadPageList();
     }
 
     //设置翻页模式

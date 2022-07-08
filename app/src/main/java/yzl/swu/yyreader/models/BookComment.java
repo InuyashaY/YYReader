@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -35,8 +37,18 @@ public class BookComment {
 
     private String createUserPhoto;
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
+
+    private List<CommentReply> replies;
+
+    public List<CommentReply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<CommentReply> replies) {
+        this.replies = replies;
+    }
 
     @Override
     public String toString() {

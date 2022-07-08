@@ -130,10 +130,29 @@ public interface BookApi {
     Single<List<BookRankModel>> getListRank(@Query("type") String rankId);
 
     /**
+     * 搜索书籍
+     * */
+    @GET("/book/searchByPage")
+    Single<List<StoreBookItemDao>> searchByPage(@Query("keyword") String keyword);
+
+    /**
      * 获取评论
      * */
     @GET("/book/listCommentByPage")
     Single<List<BookComment>> getBookCommentList(@Query("bookId") String bookId);
+
+    /**
+     * 新增评论
+     * */
+    @POST("/book/addBookComment")
+    Single<Map<String, String>> addBookComment(@Query("bookId") String bookId,@Query("commentContent")String commentContent);
+
+    /**
+     * 新增评论回复
+     * */
+    @POST("/book/addBookCommentReply")
+    Single<Map<String, String>> addBookCommentReply(@Query("commentId") String commentId,@Query("replyContent")String replyContent);
+
 
     /**
      * 获取书籍详情
@@ -142,10 +161,22 @@ public interface BookApi {
     Single<StoreBookItemDao> getBookDetail(@Path("id") String bookId);
 
     /**
+     * 上传阅读记录和评分
+     * */
+    @POST("/book/addToBookShelf")
+    Single<Map<String, String>> addBookRecord(@Query("bookId") Long bookId,@Query("preContentId") Long preContentId, @Query("score") String score);
+
+    /**
      * 获取推荐书籍
      **/
     @GET("/book/listRecBookByCatId")
     Single<List<StoreBookItemDao>> getRecommandBookListByCatId(@Query("catId") String catId);
+
+    /**
+     * 获取推荐书籍
+     **/
+    @GET("/user/listRecommend")
+    Single<List<BookRankModel>> getRecommendBooks();
 
     /**
      * 登录用户
@@ -157,10 +188,21 @@ public interface BookApi {
 
 
     /**
+     * 注册用户
+     *
+     * */
+    @FormUrlEncoded
+    @POST("/user/register")
+    Single<Map<String, String>> register(@Field("username") String userName, @Field("password") String password);
+
+
+    /**
      * 获取用户信息
      * */
     @GET("/user/userInfo")
     Single<User> getUserInfo();
+
+
 //    /*******************************Community *******************************************************/
 //    /**
 //     * 获取综合讨论区、原创区，女生区帖子列表

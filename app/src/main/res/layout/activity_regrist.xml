@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorBack"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity">
+    <LinearLayout
+        android:layout_marginTop="55dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:gravity="center"
+            android:textSize="26sp"
+            android:text="注册"
+            android:textColor="@color/colorDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_margin="30dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/loginAccount"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="15sp"
+                android:hint="请输入用户名"
+                android:background="@drawable/bg_edit_circle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/sex"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="15sp"
+                android:hint="您的性别：男（女）"
+                android:background="@drawable/bg_edit_circle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/iphoneNumber"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="15sp"
+                android:hint="请输入手机号"
+                android:background="@drawable/bg_edit_circle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/loginPassword"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="15sp"
+                android:inputType="textPassword"
+                android:hint="请输入不少于6位密码"
+                android:background="@drawable/bg_edit_circle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/loginPasswordAgain"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="15sp"
+                android:inputType="textPassword"
+                android:hint="请再次输入确认密码"
+                android:background="@drawable/bg_edit_circle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我已阅读并同意"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:buttonTint="@color/colorSkyBlue"
+                    android:textSize="13sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《用户服务协议》"
+                    android:textSize="13sp"
+                    android:textColor="@color/colorSkyBlue"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/loginGoBtn"
+                android:text="注 册"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@color/colorLight"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_theme_pale_circle"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

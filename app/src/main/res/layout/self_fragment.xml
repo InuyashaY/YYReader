@@ -35,7 +35,7 @@
                 android:layout_height="?attr/actionBarSize">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/cat_avatar"
+                    android:id="@+id/user_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -49,11 +49,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/cat_title"
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:text="泪无痕"
+                        android:text="登录/注册"
                         android:textColor="@android:color/white"
                         android:textSize="18dp"/>
                 </LinearLayout>
@@ -85,6 +85,7 @@
                     style="@style/top_layout">
 
                     <TextView
+                        android:id="@+id/helpAndFeedBackBtn"
                         style="@style/usertext"
                         android:text="@string/me_reflect"/>
 
@@ -99,6 +100,7 @@
                     style="@style/mid_layout">
 
                     <TextView
+                        android:id="@+id/cacheBtn"
                         style="@style/usertext"
                         android:text="@string/me_cache"/>
 
@@ -112,6 +114,7 @@
                     style="@style/bottom_layout">
 
                     <TextView
+                        android:id="@+id/selfCenterBtn"
                         style="@style/usertext"
                         android:text="@string/me_self"/>
 
@@ -125,7 +128,7 @@
             <LinearLayout style="@style/wrap_layout">
 
                 <LinearLayout
-                    android:id="@+id/menu_about"
+                    android:id="@+id/recommend_btn"
                     style="@style/single_layout">
 
                     <TextView

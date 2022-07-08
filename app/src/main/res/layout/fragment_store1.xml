@@ -74,7 +74,7 @@
                         android:id="@+id/imageView2"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        app:srcCompat="@drawable/collect"
+                        app:srcCompat="@drawable/finished"
                         tools:layout_editor_absoluteX="77dp"
                         tools:layout_editor_absoluteY="443dp" />
 
@@ -125,7 +125,7 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="@+id/l3"
-                    app:layout_constraintEnd_toStartOf="@+id/l5"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/l3"
                     app:layout_constraintTop_toTopOf="@+id/l3">
@@ -134,7 +134,7 @@
                         android:id="@+id/imageView4"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        app:srcCompat="@drawable/finished"
+                        app:srcCompat="@drawable/ic_search"
                         tools:layout_editor_absoluteX="77dp"
                         tools:layout_editor_absoluteY="443dp" />
 
@@ -148,35 +148,7 @@
                         tools:layout_editor_absoluteY="546dp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/l5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="@+id/l4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/l4"
-                    app:layout_constraintTop_toTopOf="@+id/l4">
 
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/hot"
-                        tools:layout_editor_absoluteX="77dp"
-                        tools:layout_editor_absoluteY="443dp" />
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:text="@string/title5"
-                        tools:layout_editor_absoluteX="85dp"
-                        tools:layout_editor_absoluteY="546dp" />
-                </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/hot_group"
@@ -205,15 +177,6 @@
                         android:textSize="18sp"
                         app:layout_constraintTop_toTopOf="parent"/>
 
-                    <TextView
-                        android:id="@+id/more_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:text="更多>"
-                        android:textColor="@color/light_gray"
-                        android:textSize="15sp"
-                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/books_rv"
@@ -249,16 +212,6 @@
                         android:text="高分神作"
                         android:textColor="@color/color_black"
                         android:textSize="18sp"
-                        app:layout_constraintTop_toTopOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/more_tv2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:text="更多>"
-                        android:textColor="@color/light_gray"
-                        android:textSize="15sp"
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <androidx.recyclerview.widget.RecyclerView

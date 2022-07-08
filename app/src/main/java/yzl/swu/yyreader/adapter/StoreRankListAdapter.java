@@ -74,7 +74,7 @@ public class StoreRankListAdapter extends BaseListAdapter<BookRankModel> {
 
             mTitle.setText(value.getBookName());
             mDescribe.setText(value.getBookDesc());
-            mTags.setText(String.format("%s · %s · %s万人气",value.getAuthorName(),value.getCatName(),value.getVisitCount()));
+            mTags.setText(String.format("%s · %s · %s万人气",value.getAuthorName(),value.getCatName(),value.getVisitCount() == null ? 0 : value.getVisitCount()/1000));
             mScores.setText(value.getScore()+"分");
             mRank.setText(String.valueOf(pos+1));
         }

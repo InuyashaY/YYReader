@@ -41,7 +41,7 @@ public class HotCommentAdapter extends BaseListAdapter<BookComment>{
         private TextView mTvTitle;
         private EasyRatingBar mErbRate;
         private TextView mTvContent;
-        private TextView mTvHelpful;
+//        private TextView mTvHelpful;
         private TextView mTvTime;
 
         @Override
@@ -60,7 +60,7 @@ public class HotCommentAdapter extends BaseListAdapter<BookComment>{
             mTvTitle = itemView.findViewById(R.id.hot_comment_title);
             mErbRate = itemView.findViewById(R.id.hot_comment_erb_rate);
             mTvContent = itemView.findViewById(R.id.hot_comment_tv_content);
-            mTvHelpful = itemView.findViewById(R.id.hot_comment_tv_helpful);
+//            mTvHelpful = itemView.findViewById(R.id.hot_comment_tv_helpful);
             mTvTime = itemView.findViewById(R.id.hot_comment_tv_time);
         }
 
@@ -88,7 +88,7 @@ public class HotCommentAdapter extends BaseListAdapter<BookComment>{
             //内容
             mTvContent.setText(value.getCommentContent());
             //点赞数
-            mTvHelpful.setText(value.getReplyCount()+"");
+//            mTvHelpful.setText(value.getReplyCount()+"");
             //时间
             mTvTime.setText(StringUtils.dateConvert(value.getCreateTime().toString(), Constants.FORMAT_BOOK_DATE));
         }

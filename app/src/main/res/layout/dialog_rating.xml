@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rating_container"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <TextView
+            android:textColor="@color/color_black"
+            android:textSize="16sp"
+            android:text="客观，请您对当前书籍评分"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+        <!--各项属性根据字面可以理解-->
+        <com.hedgehog.ratingbar.RatingBar
+            android:id="@+id/rat_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:clickable="false"
+            app:halfstart="true"
+            app:starCount="5"
+            app:starEmpty="@drawable/ic_rating_empty"
+            app:starFill="@drawable/ic_rating_full"
+            app:starHalf="@drawable/ic_rating_half"
+            app:starImageHeight="40dp"
+            app:starImagePadding="5dp"
+            app:starImageWidth="40dp" />
+           </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/rating_sure"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="确认评分"
+            android:textColor="@color/colorSkyBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/rating_cancel"
+            android:layout_weight="1"
+            android:textColor="@color/light_red"
+            android:gravity="center"
+            android:text="不了，下次"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</LinearLayout>

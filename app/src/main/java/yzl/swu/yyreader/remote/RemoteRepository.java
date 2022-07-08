@@ -39,7 +39,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import yzl.swu.yyreader.models.BookCategory;
 import yzl.swu.yyreader.models.BookComment;
@@ -152,6 +154,13 @@ public class RemoteRepository {
     }
 
     /**
+     * 关键字搜书
+     * */
+    public Single<List<StoreBookItemDao>> searchByPage(String keyword){
+        return mBookApi.searchByPage(keyword);
+    }
+
+    /**
      * 查询新书榜单
      * */
     public Single<List<BookRankModel>> getListNewRank() {
@@ -173,10 +182,32 @@ public class RemoteRepository {
     }
 
     /**
+     * 查询推荐书籍
+     * */
+    public Single<List<BookRankModel>> getRecommendBooks() {
+        return mBookApi.getRecommendBooks();
+    }
+
+
+    /**
      * 获取评论
      * */
     public Single<List<BookComment>> getBookCommentList(String bookId){
         return mBookApi.getBookCommentList(bookId);
+    }
+
+    /**
+     * 新增评论
+     * */
+    public Single<Map<String, String>> addBookComment(String bookId,String content){
+        return mBookApi.addBookComment(bookId,content);
+    }
+
+    /**
+     * 新增评论
+     * */
+    public Single<Map<String, String>> addBookCommentReply(String commentInd,String content){
+        return mBookApi.addBookCommentReply(commentInd,content);
     }
 
     /**
@@ -185,6 +216,14 @@ public class RemoteRepository {
     public Single<StoreBookItemDao> getBookDetail(String bookId){
         return mBookApi.getBookDetail(bookId);
     }
+
+    /**
+     * 上传阅读记录和评分
+     * */
+    public Single<Map<String, String>> addBookRecord(Long bookId,Long preContentId, String score){
+        return mBookApi.addBookRecord(bookId,preContentId,score);
+    }
+
 
     /**
      * 获取推荐书籍
@@ -198,6 +237,13 @@ public class RemoteRepository {
      * */
     public Single<Map<String,String>> login(String userName, String password) {
         return mBookApi.loginForToken(userName,password);
+    }
+
+    /**
+     * 注册
+     * */
+    public Single<Map<String,String>> register(String userName, String password,String nickName) {
+        return mBookApi.register(userName,password);
     }
 
     /**

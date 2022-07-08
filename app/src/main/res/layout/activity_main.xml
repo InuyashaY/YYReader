@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:itemIconTint="@color/bottom_color_selector"
         app:itemTextColor="@color/bottom_color_selector"
-        android:background="#eeeeee"
+        android:background="#ffffff"
         app:menu="@menu/bottom_menu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
